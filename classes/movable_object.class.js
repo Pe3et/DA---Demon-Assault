@@ -8,6 +8,8 @@ class MovableObject {
     sY = 0;
     sWidth;
     speed;
+    movingInterval;
+    animationInterval;
 
     constructor(x, y, width, height) {
         this.x = x;
@@ -22,17 +24,21 @@ class MovableObject {
     }
 
     animate(sprite) {
-        setInterval( () => {
+        clearInterval(this.animationInterval);
+        this.loadImage(sprite.src);
+        this.animationInterval = setInterval( () => {
             this.sX += sprite.frameWidth;
             if(this.sX == sprite.spriteWidth) this.sX = 0; 
         }, 1000 / 6);
     }
 
     moveRight() {
-        this.x += 1;
+        clearInterval(this.movingInterval);
+        this.movingInterval = setInterval(() => this.x += this.speed, 1000 / 60);
     }
 
     moveLeft() {
-        setInterval(() => this.x -= this.speed, 1000 / 60);
+        clearInterval(this.movingInterval);
+        this.movingInterval = setInterval(() => this.x -= this.speed, 1000 / 60);
     }
 }

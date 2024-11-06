@@ -15,13 +15,11 @@ class Zombie extends MovableObject{
     }
 
     walk() {
-        this.loadImage(this.walkSprite.src);
         this.animate(this.walkSprite);
         this.moveLeft();
     }
 
     run() {
-        this.loadImage(this.runSprite.src);
         this.animate(this.runSprite);
         this.moveLeft();
     }
