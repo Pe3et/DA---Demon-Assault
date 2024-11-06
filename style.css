@@ -1,0 +1,18 @@
+html, body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+    background-image: url('assets/sprites/background_page.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+canvas {
+    width: 100%;
+    max-width: 1280px;
+    height: 576px;
+    background-color: black;
+}
