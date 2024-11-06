@@ -3,6 +3,7 @@ class Magician extends MovableObject{
     height = 128;
     x = 120;
     y = 100;
+    sWidth = 128;
     idleSprite = new SpriteSheet('assets/sprites/wanderer_magician/Idle.png', 896, 128);
     walkSprite = new SpriteSheet('assets/sprites/wanderer_magician/Walk.png', 896, 128);
 

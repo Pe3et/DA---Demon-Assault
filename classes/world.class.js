@@ -30,13 +30,14 @@ class World {
         requestAnimationFrame(() => this.draw());
     }
 
+    /**The zombie sprites have to be flipped, to go towards the magicican. */
     drawFlippedObj(obj) {
         this.ctx.save();
         this.ctx.translate(obj.x + obj.width/2, obj.y + obj.height/2);
         this.ctx.scale(-1, 1);
         this.ctx.drawImage(
             obj.img,
-            obj.sX, 0, 128, 128,
+            obj.sX, 0, obj.sWidth, obj.height,
             -obj.width/2, -obj.height/2, obj.width, obj.height);
         this.ctx.restore();
     }

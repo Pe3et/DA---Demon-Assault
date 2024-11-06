@@ -6,6 +6,8 @@ class MovableObject {
     height;
     sX = 0;
     sY = 0;
+    sWidth;
+    speed;
 
     constructor(x, y, width, height) {
         this.x = x;
@@ -31,6 +33,6 @@ class MovableObject {
     }
 
     moveLeft() {
-
+        setInterval(() => this.x -= this.speed, 1000 / 60);
     }
 }
