@@ -25,7 +25,7 @@ class World {
     draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         this.drawObjects(this.backgroundObjects);
-        this.ctx.drawImage(this.magician.img, 0, 0, 128, 128, this.magician.x, this.magician.y, this.magician.width, this.magician.height);
+        this.ctx.drawImage(this.magician.img, this.magician.sX, this.magician.sY, 128, 128, this.magician.x, this.magician.y, this.magician.width, this.magician.height);
         this.zombies.forEach(zombie => this.drawFlippedObj(zombie, 180));
         requestAnimationFrame(() => this.draw());
     }
