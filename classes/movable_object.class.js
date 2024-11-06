@@ -1,9 +1,11 @@
 class MovableObject {
     x;
-    y = 100;
+    y;
     img;
     width;
     height;
+    sX = 0;
+    sY = 0;
 
     constructor(x, y, width, height) {
         this.x = x;
@@ -15,6 +17,13 @@ class MovableObject {
     loadImage(path) {
         this.img = new Image();
         this.img.src = path;
+    }
+
+    animate(sprite) {
+        setInterval( () => {
+            this.sX += sprite.frameWidth;
+            if(this.sX == sprite.spriteWidth) this.sX = 0; 
+        }, 1000 / 6);
     }
 
     moveRight() {
