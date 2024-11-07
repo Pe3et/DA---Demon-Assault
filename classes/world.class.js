@@ -1,7 +1,8 @@
 class World {
-    magician = new Magician(10);
-    zombies = level1.enemies;
-    backgroundObjects = level1.backgroundObjects;
+    magician = new Magician();
+    level = level1;
+    zombies = this.level.enemies;
+    backgroundObjects = this.level.backgroundObjects;
     canvas;
     ctx;
 
