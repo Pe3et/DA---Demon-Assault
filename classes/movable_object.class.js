@@ -10,6 +10,7 @@ class MovableObject {
     speed;
     movingInterval;
     animationInterval;
+    interruptableAnimation = true;
 
     constructor(x, y, width, height) {
         this.x = x;
@@ -23,27 +24,52 @@ class MovableObject {
         this.img.src = path;
     }
 
-    animate(sprite) {
-        clearInterval(this.animationInterval);
+    animate(sprite, animationSpeed, interruptable = true) {
+        if (interruptable == false && this.interruptableAnimation == true) {
+            this.interruptableAnimation = false;
+            this.playAnimation(sprite, animationSpeed);
+            setTimeout(()=> {
+                this.interruptableAnimation = true;
+                this.resetAnimation();
+                this.idle();
+                keyboard.keyAction();
+            }, 1000)
+        } else if (this.interruptableAnimation){
+            this.playAnimation(sprite, animationSpeed);
+        }
+    }
+
+    playAnimation(sprite, animationSpeed = 1000 / 6) {
+        this.resetAnimation();
         this.loadImage(sprite.src);
         this.animationInterval = setInterval(() => {
             this.sX += sprite.frameWidth;
             if (this.sX == sprite.spriteWidth) this.sX = 0;
-        }, 1000 / 6);
+        }, animationSpeed);
+    }
+
+    resetAnimation(){
+        clearInterval(this.animationInterval);
+        this.sX = 0;
+        this.sY = 0;
+    }
+
+    stopMoving() {
+        clearInterval(this.movingInterval);
     }
 
     moveRight(scrollX = false) {
-        clearInterval(this.movingInterval);
+        this.stopMoving();
         this.movingInterval = setInterval(() => {
             let walkAllowed = this.checkIfWalkingRightIsAllowed();
             let scrollAllowed = this.checkIfScrollingRightIsAllowed();
-            if(walkAllowed) this.x += this.speed;
+            if (walkAllowed) this.x += this.speed;
             if (scrollX && this.x > this.startPosition && scrollAllowed) world.cameraScroll();
         }, 1000 / 60);
     }
 
     moveLeft(scrollX = false) {
-        clearInterval(this.movingInterval);
+        this.stopMoving();
         this.movingInterval = setInterval(() => {
             let walkAllowed = this.checkIfWalkingLeftIsAllowed();
             let scrollAllowed = this.checkIfScrollingLeftIsAllowed();
@@ -61,13 +87,13 @@ class MovableObject {
     }
 
     checkIfScrollingLeftIsAllowed() {
-        if (this.x > this.startPosition ) {
+        if (this.x > this.startPosition) {
             return true
         }
     }
 
     checkIfWalkingRightIsAllowed() {
-        if (this.x >= world.level.endPosX - (this.startPosition + this.width)){
+        if (this.x >= world.level.endPosX - (this.startPosition + this.width)) {
             return false
         } else {
             return true

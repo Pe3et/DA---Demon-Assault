@@ -8,7 +8,7 @@ function init(){
 }
 
 window.addEventListener('keydown', (e) => {
-    if(e.code == 'ArrowUp' || e.code == 'KeyW') keyboard.UP = true;
+    if(e.code == 'ArrowUp' || e.code == 'KeyW') world.magician.jump();
     if(e.code == 'ArrowRight' || e.code == 'KeyD') keyboard.keyPressed('RIGHT');
     if(e.code == 'ArrowDown' || e.code == 'KeyS') keyboard.DOWN = true;
     if(e.code == 'ArrowLeft' || e.code == 'KeyA') keyboard.keyPressed('LEFT');

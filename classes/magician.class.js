@@ -6,10 +6,11 @@ class Magician extends MovableObject{
     y = 100;
     sWidth = 128;
     world;
-    speed = 10;
+    speed = 2;
     direction = 'right';
     idleSprite = new SpriteSheet('assets/sprites/wanderer_magician/Idle.png', 896, 128);
     walkSprite = new SpriteSheet('assets/sprites/wanderer_magician/Walk.png', 896, 128);
+    jumpSprite = new SpriteSheet('assets/sprites/wanderer_magician/Jump.png', 1024, 128);
 
     constructor(){
         super().loadImage('assets/sprites/wanderer_magician/Idle.png');
@@ -17,7 +18,7 @@ class Magician extends MovableObject{
     }
 
     idle(){
-        clearInterval(this.movingInterval);
+        this.stopMoving();
         this.animate(this.idleSprite);
     }
 
@@ -29,7 +30,16 @@ class Magician extends MovableObject{
     }
     
     jump(){
-
+        this.animate(this.jumpSprite, 1000 / 8, false);
+        let jumpfactor = 20;
+        let jumpY = [-jumpfactor, -jumpfactor, -jumpfactor, 0, +jumpfactor, +jumpfactor, +jumpfactor, 0];
+        let i = 0;
+        //TODO:
+        let jumpInterval = setInterval(() => {
+            this.y += jumpY[i];
+            i++;
+            if(i == 7) clearInterval(jumpInterval);
+        },1000/8)
     }
 
     sleep(){

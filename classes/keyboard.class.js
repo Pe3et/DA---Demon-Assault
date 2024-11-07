@@ -20,5 +20,6 @@ class Keyboard {
     keyAction() {
         if(this.RIGHT) world.magician.walk('right');
         if(this.LEFT) world.magician.walk('left');
+        if(this.UP) world.magician.jump();
     }
 }
