@@ -32,13 +32,19 @@ class MovableObject {
         }, 1000 / 6);
     }
 
-    moveRight() {
+    moveRight(scrollX = false) {
         clearInterval(this.movingInterval);
-        this.movingInterval = setInterval(() => this.x += this.speed, 1000 / 60);
+        this.movingInterval = setInterval(() => {
+            this.x += this.speed;
+            if(scrollX) world.cameraScroll();
+        }, 1000 / 60);
     }
 
-    moveLeft() {
+    moveLeft(scrollX = false) {
         clearInterval(this.movingInterval);
-        this.movingInterval = setInterval(() => this.x -= this.speed, 1000 / 60);
+        this.movingInterval = setInterval(() => {
+            this.x -= this.speed;
+            if(scrollX) world.cameraScroll();
+        }, 1000 / 60);
     }
 }

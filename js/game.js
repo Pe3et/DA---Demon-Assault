@@ -4,7 +4,7 @@ let keyboard = new Keyboard();
 
 function init(){
     canvas = document.getElementById('canvas');
-    world = new World(canvas, keyboard);
+    world = new World(canvas);
 }
 
 window.addEventListener('keydown', (e) => {
@@ -16,7 +16,7 @@ window.addEventListener('keydown', (e) => {
 });
 
 window.addEventListener('keyup', (e) => {
-    if(e.code == 'ArrowUp' || e.code == 'KeyW') keyboard.UP = fadlse;
+    if(e.code == 'ArrowUp' || e.code == 'KeyW') keyboard.UP = false;
     if(e.code == 'ArrowRight' || e.code == 'KeyD') keyboard.keyReleased('RIGHT');
     if(e.code == 'ArrowDown' || e.code == 'KeyS') keyboard.DOWN = false;
     if(e.code == 'ArrowLeft' || e.code == 'KeyA') keyboard.keyReleased('LEFT');
