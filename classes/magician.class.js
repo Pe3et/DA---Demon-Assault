@@ -37,10 +37,6 @@ class Magician extends MovableObject {
         let goingUpwards = true;
         let jumpTime = setInterval(() => {
             goingUpwards == true ? (this.y -= this.jumpYFactor) : (this.y += this.jumpYFactor);
-
-            let d = new Date;
-            console.log(d.getMilliseconds());
-
             if (this.y <= this.startPositionY - this.jumpMaxHeight) goingUpwards = false;
             if (this.y == this.startPositionY) {
                 clearInterval(jumpTime);

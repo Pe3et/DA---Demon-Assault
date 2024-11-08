@@ -16,6 +16,7 @@ class Keyboard {
     keyReleased(key) {
         this[key] = false;
         world.magician.idle();
+        this.keyAction();
     }
 
     keyAction() {
