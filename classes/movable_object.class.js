@@ -11,6 +11,7 @@ class MovableObject {
     movingInterval;
     animationInterval;
     interruptableAnimation = true;
+    currentSprite;
 
     constructor(x, y, width, height) {
         this.x = x;
@@ -24,34 +25,58 @@ class MovableObject {
         this.img.src = path;
     }
 
+    loadSprite(sprite) {
+        this.img = new Image();
+        this.img.src = sprite.src;
+        this.currentSprite = sprite;
+        sprite.reset();
+    }
+
     animate(sprite, animationSpeed, interruptable = true, animationDuration = 1000) {
         if (interruptable == false && this.interruptableAnimation == true) {
             this.interruptableAnimation = false;
-            this.playAnimation(sprite, animationSpeed);
-            setTimeout(()=> {
+            this.loopAnimation(sprite, animationSpeed);
+            setTimeout(() => {
                 this.interruptableAnimation = true;
                 this.resetAnimation();
                 this.idle();
                 keyboard.keyAction();
             }, animationDuration)
-        } else if (this.interruptableAnimation){
-            this.playAnimation(sprite, animationSpeed);
+        } else if (this.interruptableAnimation) {
+            this.loopAnimation(sprite, animationSpeed);
         }
     }
 
-    playAnimation(sprite, animationSpeed = 1000 / 6) {
+    loopAnimation(sprite, animationSpeed = 1000 / 6) {
         this.resetAnimation();
-        this.loadImage(sprite.src);
+        this.loadSprite(sprite);
         this.animationInterval = setInterval(() => {
             this.sX += sprite.frameWidth;
             if (this.sX == sprite.spriteWidth) this.sX = 0;
         }, animationSpeed);
     }
 
-    resetAnimation(){
+    resetAnimation() {
         clearInterval(this.animationInterval);
+        this.interruptableAnimation = true;
         this.sX = 0;
         this.sY = 0;
+    }
+
+    playDeathAnimation(sprite, timeBetweenFrames) {
+        if(this.interruptableAnimation == true) {
+            this.resetAnimation();
+            this.interruptableAnimation = false;
+            this.loadSprite(sprite);
+            let frameCount = 1;
+            this.animationInterval = setInterval(()=> {
+                this.sX = sprite.x;
+                sprite.getNextFrameX();
+                console.log(frameCount);
+                frameCount++;
+                frameCount > sprite.totalFrames && clearInterval(this.animationInterval);
+            }, timeBetweenFrames)
+        }
     }
 
     stopMoving() {
@@ -79,32 +104,18 @@ class MovableObject {
     }
 
     checkIfGoingLeftIsAllowed() {
-        if (this.x == -40) {
-            return false;
-        } else {
-            return true;
-        };
+        return this.x > -40;
     }
 
     checkIfScrollingLeftIsAllowed() {
-        if (this.x > this.startPositionX) {
-            return true
-        }
+        return this.x > this.startPositionX;
     }
 
     checkIfGoingRightIsAllowed() {
-        if (this.x >= world.level.endPosX - (this.startPositionX + this.width)) {
-            return false
-        } else {
-            return true
-        }
+        return this.x < world.level.endPosX - (this.startPositionX + this.width);
     }
 
     checkIfScrollingRightIsAllowed() {
-        if (this.x >= (world.level.endPosX - world.canvas.width)) {
-            return false
-        } else {
-            return true
-        }
+        return this.x < world.level.endPosX - world.canvas.width;
     }
 }

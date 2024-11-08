@@ -5,9 +5,10 @@ class Keyboard {
     LEFT = false
     SPACE = false
     keyblock = false
+    keyboardBlock = false
 
     keyPressed(key) {
-        if (!this[key]) {
+        if (!this[key] && !this.keyboardBlock) {
             this[key] = true;
             this.keyAction();
         }

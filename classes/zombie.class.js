@@ -7,26 +7,27 @@ class Zombie extends MovableObject {
     sWidth = 96;
     walkSprite = new SpriteSheet('assets/sprites/zombies/Zombie Man/Walk.png', 768, 96);
     runSprite = new SpriteSheet('assets/sprites/zombies/Zombie Man/Run.png', 672, 96);
-    deadSprite = new SpriteSheet('assets/sprites/zombies/Zombie Man/Dead.png', 480, 96);
+    deadSprite = new SpriteSheet('assets/sprites/zombies/Zombie Man/Dead.png', 480, 96, false);
+    currentSprite;
 
     constructor(x) {
         super(x);
-        super.loadImage('assets/sprites/zombies/Zombie Man/Walk.png');
         this.speed > this.runningThreshhold ? this.run() : this.walk();
     }
 
     walk() {
         this.animate(this.walkSprite);
-        // this.moveLeft();
+        this.moveLeft();
     }
 
     run() {
         this.animate(this.runSprite);
-        // this.moveLeft();
+        this.moveLeft();
     }
 
     dies() {
-        this.animate(this.deadSprite);
+        this.stopMoving();
+        this.playDeathAnimation(this.deadSprite, 100);
     }
 
     /**

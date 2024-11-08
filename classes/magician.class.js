@@ -11,13 +11,15 @@ class Magician extends MovableObject {
     direction = 'right';
     goingDownwards = false;
     jumpYFactor = 5;
-    jumpMaxHeight = 120
+    jumpMaxHeight = 120;
     idleSprite = new SpriteSheet('assets/sprites/wanderer_magician/Idle.png', 896, 128);
     runSprite = new SpriteSheet('assets/sprites/wanderer_magician/Run.png', 896, 128);
-    jumpSprite = new SpriteSheet('assets/sprites/wanderer_magician/Jump.png', 1024, 128);
+    jumpSprite = new SpriteSheet('assets/sprites/wanderer_magician/Jump.png', 1024, 128, false);
+    deadSprite = new SpriteSheet('assets/sprites/wanderer_magician/Dead.png', 512, 128);
+    currentSprite = this.idleSprite;
 
     constructor() {
-        super().loadImage('assets/sprites/wanderer_magician/Idle.png');
+        super().loadSprite(this.idleSprite);
         this.idle();
     }
 
@@ -35,7 +37,6 @@ class Magician extends MovableObject {
 
     jump() {
         this.animate(this.jumpSprite, 752 / 8, false, 752);
-        // let goingDownwards = false;
         let jumpTime = setInterval(() => {
             this.goingDownwards == false ? (this.y -= this.jumpYFactor) : (this.y += this.jumpYFactor);
             if (this.y <= this.startPositionY - this.jumpMaxHeight) this.goingDownwards = true;
@@ -49,6 +50,12 @@ class Magician extends MovableObject {
 
     sleep() {
 
+    }
+
+    dies() {
+        this.stopMoving();
+        this.playDeathAnimation(this.deadSprite, 300);
+        keyboard.keyboardBlock = true;
     }
 
     /**
