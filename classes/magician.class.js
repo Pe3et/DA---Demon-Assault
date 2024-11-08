@@ -9,6 +9,7 @@ class Magician extends MovableObject {
     world;
     speed = 5;
     direction = 'right';
+    goingDownwards = false;
     jumpYFactor = 5;
     jumpMaxHeight = 120
     idleSprite = new SpriteSheet('assets/sprites/wanderer_magician/Idle.png', 896, 128);
@@ -34,18 +35,30 @@ class Magician extends MovableObject {
 
     jump() {
         this.animate(this.jumpSprite, 752 / 8, false, 752);
-        let goingUpwards = true;
+        // let goingDownwards = false;
         let jumpTime = setInterval(() => {
-            goingUpwards == true ? (this.y -= this.jumpYFactor) : (this.y += this.jumpYFactor);
-            if (this.y <= this.startPositionY - this.jumpMaxHeight) goingUpwards = false;
+            this.goingDownwards == false ? (this.y -= this.jumpYFactor) : (this.y += this.jumpYFactor);
+            if (this.y <= this.startPositionY - this.jumpMaxHeight) this.goingDownwards = true;
             if (this.y == this.startPositionY) {
                 clearInterval(jumpTime);
                 keyboard.keyblock = false;
+                this.goingDownwards = false;
             }
         }, 1000 / 60)
     }
 
     sleep() {
 
+    }
+
+    /**
+     * Returns the hitbox of the Magician object.
+     * 
+     * The hitbox is a rectangle that represents the area of the object that can collide with other objects.
+     * 
+     * @returns {Hitbox} A new Hitbox object representing the hitbox of the Magician.
+     */
+    getHitbox() {
+        return new Hitbox(this.x + this.width / 3, this.y + this.height / 2, this.width / 4, this.height / 2)
     }
 }
