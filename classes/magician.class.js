@@ -11,7 +11,6 @@ class Magician extends MovableObject {
     direction = 'right';
     jumpYFactor = 5;
     jumpMaxHeight = 120
-    jumpspeedFactor = 1.2;
     idleSprite = new SpriteSheet('assets/sprites/wanderer_magician/Idle.png', 896, 128);
     runSprite = new SpriteSheet('assets/sprites/wanderer_magician/Run.png', 896, 128);
     jumpSprite = new SpriteSheet('assets/sprites/wanderer_magician/Jump.png', 1024, 128);
@@ -35,14 +34,16 @@ class Magician extends MovableObject {
 
     jump() {
         this.animate(this.jumpSprite, 752 / 8, false, 752);
-        this.speed = this.speed * this.jumpspeedFactor;
         let goingUpwards = true;
         let jumpTime = setInterval(() => {
             goingUpwards == true ? (this.y -= this.jumpYFactor) : (this.y += this.jumpYFactor);
+
+            let d = new Date;
+            console.log(d.getMilliseconds());
+
             if (this.y <= this.startPositionY - this.jumpMaxHeight) goingUpwards = false;
             if (this.y == this.startPositionY) {
                 clearInterval(jumpTime);
-                this.speed = this.speed / this.jumpspeedFactor;
                 keyboard.keyblock = false;
             }
         }, 1000 / 60)

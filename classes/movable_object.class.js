@@ -61,7 +61,7 @@ class MovableObject {
     moveRight(scrollX = false) {
         this.stopMoving();
         this.movingInterval = setInterval(() => {
-            let walkAllowed = this.checkIfWalkingRightIsAllowed();
+            let walkAllowed = this.checkIfGoingRightIsAllowed();
             let scrollAllowed = this.checkIfScrollingRightIsAllowed();
             if (walkAllowed) this.x += this.speed;
             if (scrollX && this.x > this.startPositionX && scrollAllowed) world.cameraScroll();
@@ -71,14 +71,14 @@ class MovableObject {
     moveLeft(scrollX = false) {
         this.stopMoving();
         this.movingInterval = setInterval(() => {
-            let walkAllowed = this.checkIfWalkingLeftIsAllowed();
+            let movingAllowed = this.checkIfGoingLeftIsAllowed();
             let scrollAllowed = this.checkIfScrollingLeftIsAllowed();
-            if (walkAllowed) this.x -= this.speed;
+            if (movingAllowed) this.x -= this.speed;
             if (scrollX && this.x < (world.level.endPosX - canvas.width) && scrollAllowed) world.cameraScroll();
         }, 1000 / 60);
     }
 
-    checkIfWalkingLeftIsAllowed() {
+    checkIfGoingLeftIsAllowed() {
         if (this.x == -40) {
             return false;
         } else {
@@ -92,7 +92,7 @@ class MovableObject {
         }
     }
 
-    checkIfWalkingRightIsAllowed() {
+    checkIfGoingRightIsAllowed() {
         if (this.x >= world.level.endPosX - (this.startPositionX + this.width)) {
             return false
         } else {
