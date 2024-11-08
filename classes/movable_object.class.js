@@ -24,7 +24,7 @@ class MovableObject {
         this.img.src = path;
     }
 
-    animate(sprite, animationSpeed, interruptable = true) {
+    animate(sprite, animationSpeed, interruptable = true, animationDuration = 1000) {
         if (interruptable == false && this.interruptableAnimation == true) {
             this.interruptableAnimation = false;
             this.playAnimation(sprite, animationSpeed);
@@ -33,7 +33,7 @@ class MovableObject {
                 this.resetAnimation();
                 this.idle();
                 keyboard.keyAction();
-            }, 1000)
+            }, animationDuration)
         } else if (this.interruptableAnimation){
             this.playAnimation(sprite, animationSpeed);
         }
@@ -64,7 +64,7 @@ class MovableObject {
             let walkAllowed = this.checkIfWalkingRightIsAllowed();
             let scrollAllowed = this.checkIfScrollingRightIsAllowed();
             if (walkAllowed) this.x += this.speed;
-            if (scrollX && this.x > this.startPosition && scrollAllowed) world.cameraScroll();
+            if (scrollX && this.x > this.startPositionX && scrollAllowed) world.cameraScroll();
         }, 1000 / 60);
     }
 
@@ -87,13 +87,13 @@ class MovableObject {
     }
 
     checkIfScrollingLeftIsAllowed() {
-        if (this.x > this.startPosition) {
+        if (this.x > this.startPositionX) {
             return true
         }
     }
 
     checkIfWalkingRightIsAllowed() {
-        if (this.x >= world.level.endPosX - (this.startPosition + this.width)) {
+        if (this.x >= world.level.endPosX - (this.startPositionX + this.width)) {
             return false
         } else {
             return true

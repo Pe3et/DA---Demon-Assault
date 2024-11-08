@@ -33,7 +33,6 @@ class World {
         }
     }
 
-    /**The zombie sprites have to be flipped, to go towards the magicican. */
     drawFlippedObj(obj) {
         this.ctx.save();
         this.ctx.translate(obj.x + obj.width/2, obj.y + obj.height/2);
