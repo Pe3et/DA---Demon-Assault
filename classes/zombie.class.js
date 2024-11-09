@@ -32,17 +32,21 @@ class Zombie extends MovableObject {
     }
 
     bite() {
-        const timeBetweenFrames = 200;
-        this.stopMoving();
-        this.currentSprite != this.biteSprite && this.animate(this.biteSprite, timeBetweenFrames);
-        setTimeout(()=> {
-            this.moveTowardsPlayer();
-        }, this.biteSprite.totalFrames * timeBetweenFrames)
+        console.log('bite!');
+        if(this.currentSprite != this.biteSprite) {
+            const timeBetweenFrames = 200;
+            this.stopMoving();
+            this.animate(this.biteSprite, timeBetweenFrames);
+            setTimeout(()=> {
+                this.moveTowardsPlayer();
+            }, this.biteSprite.totalFrames * timeBetweenFrames)
+        }
     }
 
     die() {
         this.stopMoving();
         this.animate(this.deadSprite, 100);
+        //TODO: dead zombie handling, as of now, corpses still move and bite
     }
 
     /**
