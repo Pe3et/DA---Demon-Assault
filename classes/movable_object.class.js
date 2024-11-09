@@ -10,7 +10,7 @@ class MovableObject {
     speed;
     movingInterval;
     animationInterval;
-    interruptableAnimation = true;
+    animationBlocker = false;
     currentSprite;
 
     constructor(x, y, width, height) {
@@ -32,51 +32,59 @@ class MovableObject {
         sprite.reset();
     }
 
-    animate(sprite, animationSpeed, interruptable = true, animationDuration = 1000) {
-        if (interruptable == false && this.interruptableAnimation == true) {
-            this.interruptableAnimation = false;
-            this.loopAnimation(sprite, animationSpeed);
-            setTimeout(() => {
-                this.interruptableAnimation = true;
-                this.resetAnimation();
-                this.idle();
-                keyboard.keyAction();
-            }, animationDuration)
-        } else if (this.interruptableAnimation) {
-            this.loopAnimation(sprite, animationSpeed);
+    /**
+     * Animation-handler for all animation. It checks if it's a loop, a single animation and if
+     * it is interrptable or not.
+     * If the animationBlocker will be set to true, when the sprite is not interruptable,
+     * the calling function has to set the animationBlocker to false manually again if wished.
+     */
+    animate(sprite, timeBetweenFrames) {
+        if (this.animationBlocker == false) {
+            this.animationBlocker = !sprite.isInterruptable;
+            this.currentSprite = sprite;
+            if (sprite.isLoop) {
+                this.loopAnimation(sprite, timeBetweenFrames)
+            } else {
+                this.playSingleAnimation(sprite, timeBetweenFrames)
+            }
         }
     }
 
-    loopAnimation(sprite, animationSpeed = 1000 / 6) {
+    /**
+     * Loops an animation.
+     */
+    loopAnimation(sprite, timeBetweenFrames) {
         this.resetAnimation();
         this.loadSprite(sprite);
         this.animationInterval = setInterval(() => {
             this.sX += sprite.frameWidth;
-            if (this.sX == sprite.spriteWidth) this.sX = 0;
-        }, animationSpeed);
+            if (this.sX >= sprite.spriteWidth) this.sX = 0;
+        }, timeBetweenFrames);
     }
-
+  
+    /**
+     * Plays a single animation.
+     */
+    playSingleAnimation(sprite, timeBetweenFrames) {
+        this.resetAnimation();
+        this.interruptableAnimation = sprite.isInterruptable;
+        this.loadSprite(sprite);
+        let frameCount = 1;
+        this.animationInterval = setInterval(() => {
+            this.sX = sprite.x;
+            sprite.getNextFrameX();
+            frameCount++;
+            if (frameCount > sprite.totalFrames) {
+                clearInterval(this.animationInterval);
+                this.sX = sprite.spriteWidth - sprite.frameWidth;
+            }
+        }, timeBetweenFrames)
+    }
+    
     resetAnimation() {
         clearInterval(this.animationInterval);
-        this.interruptableAnimation = true;
         this.sX = 0;
         this.sY = 0;
-    }
-
-    playDeathAnimation(sprite, timeBetweenFrames) {
-        if(this.interruptableAnimation == true) {
-            this.resetAnimation();
-            this.interruptableAnimation = false;
-            this.loadSprite(sprite);
-            let frameCount = 1;
-            this.animationInterval = setInterval(()=> {
-                this.sX = sprite.x;
-                sprite.getNextFrameX();
-                console.log(frameCount);
-                frameCount++;
-                frameCount > sprite.totalFrames && clearInterval(this.animationInterval);
-            }, timeBetweenFrames)
-        }
     }
 
     stopMoving() {

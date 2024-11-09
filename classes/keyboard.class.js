@@ -4,7 +4,6 @@ class Keyboard {
     DOWN = false
     LEFT = false
     SPACE = false
-    keyblock = false
     keyboardBlock = false
 
     keyPressed(key) {
@@ -23,9 +22,6 @@ class Keyboard {
     keyAction() {
         if(this.RIGHT) world.magician.run('right');
         if(this.LEFT) world.magician.run('left');
-        if(this.UP && this.keyblock == false) {
-            this.keyblock = true;
-            world.magician.jump();
-        }
+        if(this.UP) world.magician.jump();
     }
 }

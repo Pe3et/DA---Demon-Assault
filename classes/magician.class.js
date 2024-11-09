@@ -6,7 +6,6 @@ class Magician extends MovableObject {
     x = this.startPositionX;
     y = this.startPositionY;
     sWidth = 128;
-    world;
     speed = 5;
     direction = 'right';
     goingDownwards = false;
@@ -14,8 +13,8 @@ class Magician extends MovableObject {
     jumpMaxHeight = 120;
     idleSprite = new SpriteSheet('assets/sprites/wanderer_magician/Idle.png', 896, 128);
     runSprite = new SpriteSheet('assets/sprites/wanderer_magician/Run.png', 896, 128);
-    jumpSprite = new SpriteSheet('assets/sprites/wanderer_magician/Jump.png', 1024, 128, false);
-    deadSprite = new SpriteSheet('assets/sprites/wanderer_magician/Dead.png', 512, 128);
+    jumpSprite = new SpriteSheet('assets/sprites/wanderer_magician/Jump_short.png', 640, 128, false, false);
+    deadSprite = new SpriteSheet('assets/sprites/wanderer_magician/Dead.png', 512, 128, false, false);
     currentSprite = this.idleSprite;
 
     constructor() {
@@ -25,27 +24,35 @@ class Magician extends MovableObject {
 
     idle() {
         this.stopMoving();
-        this.animate(this.idleSprite);
+        this.animate(this.idleSprite, 200);
     }
 
     run(direction) {
-        this.animate(this.runSprite);
+        this.animate(this.runSprite, 100);
         if (direction == 'right') this.moveRight(true);
         if (direction == 'left') this.moveLeft(true);
         this.direction = direction;
     }
 
+    /**
+     * The magician jumps. The duration of the magician being "in the air" is 784ms 
+     */
     jump() {
-        this.animate(this.jumpSprite, 752 / 8, false, 752);
-        let jumpTime = setInterval(() => {
-            this.goingDownwards == false ? (this.y -= this.jumpYFactor) : (this.y += this.jumpYFactor);
-            if (this.y <= this.startPositionY - this.jumpMaxHeight) this.goingDownwards = true;
-            if (this.y == this.startPositionY) {
-                clearInterval(jumpTime);
-                keyboard.keyblock = false;
-                this.goingDownwards = false;
-            }
-        }, 1000 / 60)
+        const timeBetweenFrames = 157;
+        if (this.animationBlocker == false) {
+            this.animate(this.jumpSprite, timeBetweenFrames);
+            let jumpTime = setInterval(() => {
+                this.goingDownwards == false ? (this.y -= this.jumpYFactor) : (this.y += this.jumpYFactor);
+                if (this.y <= this.startPositionY - this.jumpMaxHeight) this.goingDownwards = true;
+                if (this.y == this.startPositionY) {
+                    clearInterval(jumpTime);
+                    this.goingDownwards = false;
+                    this.animationBlocker = false;
+                    this.idle();
+                    keyboard.keyAction();
+                }
+            }, 1000 / 60)        
+        }
     }
 
     sleep() {
@@ -54,7 +61,7 @@ class Magician extends MovableObject {
 
     dies() {
         this.stopMoving();
-        this.playDeathAnimation(this.deadSprite, 300);
+        this.animate(this.deadSprite, 300);
         keyboard.keyboardBlock = true;
     }
 

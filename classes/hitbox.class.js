@@ -33,4 +33,15 @@ class Hitbox {
         }
         return false;
     }
+
+    checkHorizontalCollide(leftLine1, rightLine1, leftLine2, rightLine2) {
+        if ((leftLine1.x1 < rightLine2.x2 + 1 && leftLine1.x2 > rightLine2.x1 - 1 && leftLine1.y1 < rightLine2.y2 + 1 && leftLine1.y2 > rightLine2.y1 - 1) ||
+            (leftLine1.x1 < leftLine2.x2 + 1 && leftLine1.x2 > leftLine2.x1 - 1 && leftLine1.y1 < leftLine2.y2 + 1 && leftLine1.y2 > leftLine2.y1 - 1) ||
+            (rightLine1.x1 < rightLine2.x2 + 1 && rightLine1.x2 > rightLine2.x1 - 1 && rightLine1.y1 < rightLine2.y2 + 1 && rightLine1.y2 > rightLine2.y1 - 1) ||
+            (rightLine1.x1 < leftLine2.x2 + 1 && rightLine1.x2 > leftLine2.x1 - 1 && rightLine1.y1 < leftLine2.y2 + 1 && rightLine1.y2 > leftLine2.y1 - 1)) {
+            return true;
+        }
+        return false;
+    }
+
 }

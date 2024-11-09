@@ -7,8 +7,9 @@ class Zombie extends MovableObject {
     sWidth = 96;
     walkSprite = new SpriteSheet('assets/sprites/zombies/Zombie Man/Walk.png', 768, 96);
     runSprite = new SpriteSheet('assets/sprites/zombies/Zombie Man/Run.png', 672, 96);
-    deadSprite = new SpriteSheet('assets/sprites/zombies/Zombie Man/Dead.png', 480, 96, false);
-    currentSprite;
+    deadSprite = new SpriteSheet('assets/sprites/zombies/Zombie Man/Dead.png', 480, 96, false, false);
+    biteSprite = new SpriteSheet('assets/sprites/zombies/Zombie Man/Bite.png', 1056, 96, false, true);
+    currentSprite = this.walkSprite;
 
     constructor(x) {
         super(x);
@@ -16,18 +17,32 @@ class Zombie extends MovableObject {
     }
 
     walk() {
-        this.animate(this.walkSprite);
+        this.animate(this.walkSprite, 200);
         this.moveLeft();
     }
 
     run() {
-        this.animate(this.runSprite);
+        this.animate(this.runSprite, 150);
         this.moveLeft();
     }
 
-    dies() {
+    moveTowardsPlayer() {
+        this.speed > this.runningThreshhold ? this.run() : this.walk();
+        //TODO:
+    }
+
+    bite() {
+        const timeBetweenFrames = 200;
         this.stopMoving();
-        this.playDeathAnimation(this.deadSprite, 100);
+        this.currentSprite != this.biteSprite && this.animate(this.biteSprite, timeBetweenFrames);
+        setTimeout(()=> {
+            this.moveTowardsPlayer();
+        }, this.biteSprite.totalFrames * timeBetweenFrames)
+    }
+
+    die() {
+        this.stopMoving();
+        this.animate(this.deadSprite, 100);
     }
 
     /**

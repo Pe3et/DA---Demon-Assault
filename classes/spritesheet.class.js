@@ -5,14 +5,16 @@ class SpriteSheet {
     totalFrames;
     x = 0;
     y = 0;
-    isLoopSprite;
+    isLoop;
+    isInterruptable;
 
-    constructor(src, spriteWidth, frameWidth, isLoopSprite = true) {
+    constructor(src, spriteWidth, frameWidth, isLoop = true, isInterruptable = true) {
         this.src = src;
         this.spriteWidth = spriteWidth;
         this.frameWidth = frameWidth;
         this.totalFrames = this.spriteWidth / this.frameWidth;
-        this.isLoopSprite = isLoopSprite;
+        this.isLoop = isLoop;
+        this.isInterruptable = isInterruptable;
     }
 
     getNextFrameX() {

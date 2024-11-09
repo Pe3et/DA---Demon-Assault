@@ -56,7 +56,9 @@ class World {
         zombieHitboxArray.forEach((zh, index) => {
             if (this.magician.goingDownwards == true
                 && magicianHitbox.magicianJumpedOnZombieHead(magicianHitbox.bottomLine, zh.topLine, this.magician.jumpYFactor)) {
-                this.zombies[index].dies();
+                this.zombies[index].die();
+            } else if (zh.checkHorizontalCollide(zh.leftLine, zh.rightLine, magicianHitbox.leftLine, magicianHitbox.rightLine)) {
+                this.zombies[index].bite();
             }
         });
 
