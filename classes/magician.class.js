@@ -17,16 +17,22 @@ class Magician extends MovableObject {
     deadSprite = new SpriteSheet('assets/sprites/wanderer_magician/Dead.png', 512, 128, false, false);
     currentSprite = this.idleSprite;
 
+    /** Initializes a new instance of the Magician class. Loads the idle sprite and sets the magician to an idle state. */
     constructor() {
         super().loadSprite(this.idleSprite);
         this.idle();
     }
 
+    /** Puts the magician in an idle state, stopping any movement and animating the idle sprite. */
     idle() {
         this.stopMoving();
         this.animate(this.idleSprite, 200);
     }
 
+    /**
+     * Makes the magician run in the specified direction.
+     * @param {string} direction - The direction to run in. Can be either 'right' or 'left'.
+     */
     run(direction) {
         this.animate(this.runSprite, 100);
         if (direction == 'right') this.moveRight(true);
@@ -34,9 +40,7 @@ class Magician extends MovableObject {
         this.direction = direction;
     }
 
-    /**
-     * The magician jumps. The duration of the magician being "in the air" is 784ms 
-     */
+    /** The magician jumps. With a jumpYFactor of 5, the duration of the magician being "in the air" is 783.333ms */
     jump() {
         const timeBetweenFrames = 157;
         if (this.animationBlocker == false) {
@@ -51,7 +55,7 @@ class Magician extends MovableObject {
                     this.idle();
                     keyboard.keyAction();
                 }
-            }, 1000 / 60)        
+            }, 1000 / 60)
         }
     }
 
@@ -66,10 +70,7 @@ class Magician extends MovableObject {
     }
 
     /**
-     * Returns the hitbox of the Magician object.
-     * 
      * The hitbox is a rectangle that represents the area of the object that can collide with other objects.
-     * 
      * @returns {Hitbox} A new Hitbox object representing the hitbox of the Magician.
      */
     getHitbox() {

@@ -20,14 +20,15 @@ class MovableObject {
         this.height = height;
     }
 
+    /** To load a new image for the object. */
     loadImage(path) {
         this.img = new Image();
         this.img.src = path;
     }
 
+    /** To load a new spritesheet for the object. */
     loadSprite(sprite) {
-        this.img = new Image();
-        this.img.src = sprite.src;
+        this.loadImage(sprite.src);
         this.currentSprite = sprite;
         sprite.reset();
     }
@@ -81,16 +82,22 @@ class MovableObject {
         }, timeBetweenFrames)
     }
     
+    /** Resets an animation. */
     resetAnimation() {
         clearInterval(this.animationInterval);
         this.sX = 0;
         this.sY = 0;
     }
 
+    /** Stop the movement of an Object. */
     stopMoving() {
         clearInterval(this.movingInterval);
     }
 
+    /**
+     * Makes an object move to the right with the speed of that object.
+     * @param {Boolean} scrollX - to call the camera scroll, when magician is moving
+     */
     moveRight(scrollX = false) {
         this.stopMoving();
         this.movingInterval = setInterval(() => {
@@ -101,6 +108,10 @@ class MovableObject {
         }, 1000 / 60);
     }
 
+    /**
+     * Makes an object move to the left with the speed of that object.
+     * @param {Boolean} scrollX - to call the camera scroll, when magician is moving
+     */
     moveLeft(scrollX = false) {
         this.stopMoving();
         this.movingInterval = setInterval(() => {
@@ -111,18 +122,22 @@ class MovableObject {
         }, 1000 / 60);
     }
 
+    /** To check if going left on the map is allowed */
     checkIfGoingLeftIsAllowed() {
         return this.x > -40;
     }
 
+    /** To check if scrolling left on the map is allowed */
     checkIfScrollingLeftIsAllowed() {
         return this.x > this.startPositionX;
     }
 
+    /** To check if going right on the map is allowed */
     checkIfGoingRightIsAllowed() {
-        return this.x < world.level.endPosX - (this.startPositionX + this.width);
+        return this.x < world.level.endPosX - this.width*2;
     }
 
+    /** To check if scrolling right on the map is allowed */
     checkIfScrollingRightIsAllowed() {
         return this.x < world.level.endPosX - world.canvas.width;
     }

@@ -5,6 +5,7 @@ class Zombie extends MovableObject {
     speed = 0.5 + Math.random(0.5);
     runningThreshhold = 0.9;
     sWidth = 96;
+    direction = 'left';
     walkSprite = new SpriteSheet('assets/sprites/zombies/Zombie Man/Walk.png', 768, 96);
     runSprite = new SpriteSheet('assets/sprites/zombies/Zombie Man/Run.png', 672, 96);
     deadSprite = new SpriteSheet('assets/sprites/zombies/Zombie Man/Dead.png', 480, 96, false, false);
@@ -18,17 +19,24 @@ class Zombie extends MovableObject {
 
     walk() {
         this.animate(this.walkSprite, 200);
-        this.moveLeft();
+        this.direction == 'left' ? this.moveLeft() : this.moveRight();
     }
 
     run() {
         this.animate(this.runSprite, 150);
-        this.moveLeft();
+        this.direction == 'left' ? this.moveLeft() : this.moveRight();
     }
 
     moveTowardsPlayer() {
+        const zombieMidX = this.x + this.width / 2;
+        const magicianMidX = world.magician.x + world.magician.width / 2;
+        if (zombieMidX > magicianMidX) {
+            this.direction = 'left';
+        } else {
+            this.direction = 'right';
+        }
         this.speed > this.runningThreshhold ? this.run() : this.walk();
-        //TODO:
+        //TODO: flip draw
     }
 
     bite() {

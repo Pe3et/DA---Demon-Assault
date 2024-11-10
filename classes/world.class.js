@@ -12,20 +12,23 @@ class World {
         this.draw();
     }
 
+    /** The main draw method to continuously draw on the world on the canvas */
     draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-        this.drawObjects(this.backgroundObjects);
+        this.backgroundObjects.forEach(obj => this.drawObject(obj));
         this.drawMagicican();
-        this.zombies.forEach(zombie => this.drawFlippedObj(zombie));
+        this.drawZombies();
         this.collisionDetection();
         requestAnimationFrame(() => this.draw());
     }
 
+    /** For scrolling the camera. */
     cameraScroll() {
         let xScroll = this.magician.direction == 'right' ? -this.magician.speed : this.magician.speed;
         this.ctx.translate(xScroll, 0);
     }
 
+    /** Draws the magician on the canvas */
     drawMagicican() {
         if (this.magician.direction == 'right') {
             this.ctx.drawImage(this.magician.img, this.magician.sX, this.magician.sY, this.magician.width, this.magician.height, this.magician.x, this.magician.y, this.magician.width, this.magician.height);
@@ -34,6 +37,14 @@ class World {
         }
     }
 
+    /** Draws the zombies on the canvas */
+    drawZombies() {
+        this.zombies.forEach(zombie => {
+            zombie.direction == 'left' ? this.drawFlippedObj(zombie) : this.drawObject(zombie)
+        });
+    }
+
+    /** Draws an object on the canvas flipped in the other direction, than it is on the spritesheet */
     drawFlippedObj(obj) {
         this.ctx.save();
         this.ctx.translate(obj.x + obj.width / 2, obj.y + obj.height / 2);
@@ -45,10 +56,16 @@ class World {
         this.ctx.restore();
     }
 
-    drawObjects(objects) {
-        objects.forEach(obj => this.ctx.drawImage(obj.img, obj.x, obj.y, obj.width, obj.height))
+    /** Draws an object on the canvas. Works for spritesheets and single images. */
+    drawObject(obj) {
+        if (obj instanceof Magician || obj instanceof Zombie) {
+            this.ctx.drawImage(obj.img, obj.sX, obj.sY, obj.currentSprite.frameWidth, obj.height, obj.x, obj.y, obj.width, obj.height)
+        } else {
+            this.ctx.drawImage(obj.img, obj.x, obj.y, obj.width, obj.height)
+        }
     }
 
+    /** Detects collision of hitboxes and 'produces' events like biting, dying, etc. */
     collisionDetection() {
         const magicianHitbox = this.magician.getHitbox();
         let zombieHitboxArray = [];
@@ -72,9 +89,5 @@ class World {
         this.ctx.beginPath();
         this.ctx.rect(hitbox.x, hitbox.y, hitbox.width, hitbox.height);
         this.ctx.stroke();
-    }
-
-    checkJumpingOnZombie() {
-
     }
 }
