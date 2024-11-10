@@ -6,6 +6,8 @@ class Zombie extends MovableObject {
     runningThreshhold = 0.9;
     sWidth = 96;
     direction = 'left';
+    isMoving = true;
+    isAttacking = false;
     walkSprite = new SpriteSheet('assets/sprites/zombies/Zombie Man/Walk.png', 768, 96);
     runSprite = new SpriteSheet('assets/sprites/zombies/Zombie Man/Run.png', 672, 96);
     deadSprite = new SpriteSheet('assets/sprites/zombies/Zombie Man/Dead.png', 480, 96, false, false);
@@ -14,39 +16,48 @@ class Zombie extends MovableObject {
 
     constructor(x) {
         super(x);
+        this.move();
+    }
+
+    /** Zombie starts walking/running in the direction it has. */
+    move() {
         this.speed > this.runningThreshhold ? this.run() : this.walk();
+        this.direction == 'left' ? this.moveLeft() : this.moveRight();
     }
 
     walk() {
         this.animate(this.walkSprite, 200);
-        this.direction == 'left' ? this.moveLeft() : this.moveRight();
     }
 
     run() {
         this.animate(this.runSprite, 150);
-        this.direction == 'left' ? this.moveLeft() : this.moveRight();
     }
 
     moveTowardsPlayer() {
-        const zombieMidX = this.x + this.width / 2;
-        const magicianMidX = world.magician.x + world.magician.width / 2;
-        if (zombieMidX > magicianMidX) {
-            this.direction = 'left';
-        } else {
-            this.direction = 'right';
+        if(this.isAttacking == false) {
+            const zombieMidX = this.x + this.width / 2;
+            const magicianMidX = world.magician.x + world.magician.width / 2;
+            let directionChange = false;
+            if (zombieMidX > magicianMidX) {
+                if (this.direction == 'right') directionChange = true;
+                this.direction = 'left';
+            } else if (zombieMidX <= magicianMidX) {
+                if (this.direction == 'left') directionChange = true;
+                this.direction = 'right';
+            }
+            if (directionChange == true) this.move();
         }
-        this.speed > this.runningThreshhold ? this.run() : this.walk();
-        //TODO: flip draw
     }
 
     bite() {
-        console.log('bite!');
-        if(this.currentSprite != this.biteSprite) {
+        if (this.isAttacking == false) {
+            this.isAttacking = true; 
             const timeBetweenFrames = 200;
             this.stopMoving();
             this.animate(this.biteSprite, timeBetweenFrames);
-            setTimeout(()=> {
-                this.moveTowardsPlayer();
+            setTimeout(() => {
+                this.isAttacking = false
+                this.move();
             }, this.biteSprite.totalFrames * timeBetweenFrames)
         }
     }

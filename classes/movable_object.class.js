@@ -8,6 +8,7 @@ class MovableObject {
     sY = 0;
     sWidth;
     speed;
+    isMoving;
     movingInterval;
     animationInterval;
     animationBlocker = false;
@@ -92,6 +93,7 @@ class MovableObject {
     /** Stop the movement of an Object. */
     stopMoving() {
         clearInterval(this.movingInterval);
+        this.isMoving = false;
     }
 
     /**
@@ -100,6 +102,7 @@ class MovableObject {
      */
     moveRight(scrollX = false) {
         this.stopMoving();
+        this.isMoving = true;
         this.movingInterval = setInterval(() => {
             let walkAllowed = this.checkIfGoingRightIsAllowed();
             let scrollAllowed = this.checkIfScrollingRightIsAllowed();
@@ -114,6 +117,7 @@ class MovableObject {
      */
     moveLeft(scrollX = false) {
         this.stopMoving();
+        this.isMoving = true;
         this.movingInterval = setInterval(() => {
             let movingAllowed = this.checkIfGoingLeftIsAllowed();
             let scrollAllowed = this.checkIfScrollingLeftIsAllowed();

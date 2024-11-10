@@ -65,7 +65,8 @@ class World {
         }
     }
 
-    /** Detects collision of hitboxes and 'produces' events like biting, dying, etc. */
+    /** Detects collision of hitboxes and 'produces' the following event:
+     * biting, dying, zombies moving towerds player (the sX-if, so it only run's as soon as magician is loaded) */
     collisionDetection() {
         const magicianHitbox = this.magician.getHitbox();
         let zombieHitboxArray = [];
@@ -76,6 +77,8 @@ class World {
                 this.zombies[index].die();
             } else if (zh.checkHorizontalCollide(zh.leftLine, zh.rightLine, magicianHitbox.leftLine, magicianHitbox.rightLine)) {
                 this.zombies[index].bite();
+            } else if(this.magician.sX){
+                this.zombies[index].moveTowardsPlayer();
             }
         });
 
