@@ -41,13 +41,16 @@ class Zombie extends MovableObject {
 
     moveTowardsPlayer() {
         if(this.isAttacking == false && this.isDead == false) {
-            const zombieMidX = this.x + this.width / 2;
-            const magicianMidX = world.magician.x + world.magician.width / 2;
+
+            const zH = this.getHitbox();
+            const mH = world.magician.getHitbox();
+            // const zombieMidX = this.x + this.width / 2;
+            // const magicianMidX = world.magician.x + world.magician.width /2;
             let directionChange = false;
-            if (zombieMidX > magicianMidX) {
+            if (zH.leftLine.x1 > mH.rightLine.x1) {
                 if (this.direction == 'right') directionChange = true;
                 this.direction = 'left';
-            } else if (zombieMidX <= magicianMidX) {
+            } else if (zH.rightLine.x1 < mH.leftLine.x1) {
                 if (this.direction == 'left') directionChange = true;
                 this.direction = 'right';
             }
