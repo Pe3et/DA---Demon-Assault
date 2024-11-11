@@ -35,14 +35,18 @@ class Dropable {
     isCollected() {
         switch (this.type.name) {
             case 'heart':
-                world.magicican.takesDamage(-20);
+                world.magician.takeDamage(-20);
                 break;
             case 'mana':
-                world.magicican.gainsMana(20);
+                world.magician.gainMana(20);
                 break;
             case 'progress':
-                world.magician.gainsProgress(20);
+                world.magician.gainProgress(20);
                 break;
         }
+    }
+
+    getHitbox() {
+        return new Hitbox(this.x + this.width/4, this.y + this.height/4, this.width/2, this.height/2)
     }
 }

@@ -86,12 +86,12 @@ class Magician extends MovableObject {
         updateStatusBar('healthBar', this.health)
     }
 
-    gainsMana(percent) {
+    gainMana(percent) {
         this.mana += percent;
         updateStatusBar('manaBar', this.mana)
     }
 
-    gainsProgress(percent) {
+    gainProgress(percent) {
         this.progress += percent;
         updateStatusBar('progressBar', this.progress)
     }

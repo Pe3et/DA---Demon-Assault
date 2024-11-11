@@ -27,7 +27,7 @@ class Hitbox {
      * @param {number} offset - The offset to consider for the collision.
      * @returns {boolean} True if the magician's jump has landed on the zombie's head, false otherwise.
      */
-    magicianJumpedOnZombieHead(botLine, topLine, offset) {
+    magicianJumpedOnSomething(botLine, topLine, offset) {
         if (botLine.x1 < topLine.x2 + offset && botLine.x2 > topLine.x1 - offset && botLine.y1 < topLine.y2 + offset && botLine.y2 > topLine.y1 - offset) {
             return true;
         }

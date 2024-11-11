@@ -71,18 +71,22 @@ class World {
      * biting, dying, zombies moving towerds player (the sX-if, so it only run's as soon as magician is loaded) */
     collisionDetection() {
         const magicianHitbox = this.magician.getHitbox();
-        let zombieHitboxArray = [];
+        const zombieHitboxArray = [];
+        const dropableHitboxArray = [];
         this.zombies.forEach(zombie => zombieHitboxArray.push(zombie.getHitbox()));
         zombieHitboxArray.forEach((zH, index) => this.zombieCollisionBehaviour(zH, index, magicianHitbox));
+        this.dropables.forEach(drop => dropableHitboxArray.push(drop.getHitbox()));
+        dropableHitboxArray.forEach((dH, index) => this.dropableCollisionBehaviour(dH, index, magicianHitbox));
 
         //for debugging
         this.drawHitboxForDebugging(magicianHitbox)
         zombieHitboxArray.forEach(z => this.drawHitboxForDebugging(z));
+        dropableHitboxArray.forEach(d => this.drawHitboxForDebugging(d));
     }
 
     zombieCollisionBehaviour(zH, index, mH) {
         if (this.magician.goingDownwards == true
-            && mH.magicianJumpedOnZombieHead(mH.bottomLine, zH.topLine, this.magician.jumpYFactor)) {
+            && mH.magicianJumpedOnSomething(mH.bottomLine, zH.topLine, this.magician.jumpYFactor)) {
             this.zombies[index].die();
         } else if (
             (this.zombies[index].direction == 'left' && zH.checkHorizontalCollide(zH.leftLine, zH.leftLine, mH.rightLine, mH.rightLine))
@@ -91,6 +95,13 @@ class World {
             this.zombies[index].attack();
         } else if (this.magician.sX) {
             this.zombies[index].moveTowardsPlayer();
+        }
+    }
+
+    dropableCollisionBehaviour(dH, index, mH) {
+        if (mH.magicianJumpedOnSomething(mH.bottomLine, dH.topLine, this.magician.jumpYFactor) || dH.checkHorizontalCollide(dH.leftLine, dH.rightLine, mH.leftLine, mH.rightLine)) {
+            this.dropables[index].isCollected();
+            this.dropables.splice(index, 1);
         }
     }
 
