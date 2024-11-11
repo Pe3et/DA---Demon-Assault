@@ -11,6 +11,7 @@ class Magician extends MovableObject {
     goingDownwards = false;
     jumpYFactor = 5;
     jumpMaxHeight = 120;
+    health = 100;
     idleSprite = new SpriteSheet('assets/sprites/wanderer_magician/Idle.png', 896, 128);
     runSprite = new SpriteSheet('assets/sprites/wanderer_magician/Run.png', 896, 128);
     jumpSprite = new SpriteSheet('assets/sprites/wanderer_magician/Jump_short.png', 640, 128, false, false);
@@ -75,5 +76,11 @@ class Magician extends MovableObject {
      */
     getHitbox() {
         return new Hitbox(this.x + this.width / 3, this.y + this.height / 2, this.width / 4, this.height / 2)
+    }
+
+    getsDamage(dmgPercent) {
+        this.health -= dmgPercent;
+        if (this.health <= 0) this.dies();
+        updateStatusBar('healthBar', this.health)
     }
 }

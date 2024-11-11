@@ -22,3 +22,10 @@ window.addEventListener('keyup', (e) => {
     if(e.code == 'ArrowLeft' || e.code == 'KeyA') keyboard.keyReleased('LEFT');
     if(e.code == 'Space') keyboard.SPACE = false;
 });
+
+
+/** Updates the referenced status bar's innerBar witdh to the given percent value. */
+function updateStatusBar(refID, percent) {
+    const barRef = document.getElementById(refID);
+    barRef.querySelector('.innerBar').style.width = `${percent}%`
+}
