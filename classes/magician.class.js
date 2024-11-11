@@ -78,7 +78,7 @@ class Magician extends MovableObject {
         return new Hitbox(this.x + this.width / 3, this.y + this.height / 2, this.width / 4, this.height / 2)
     }
 
-    getsDamage(dmgPercent) {
+    takeDamage(dmgPercent) {
         this.health -= dmgPercent;
         if (this.health <= 0) this.dies();
         updateStatusBar('healthBar', this.health)
