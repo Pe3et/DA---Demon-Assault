@@ -34,12 +34,15 @@ class Hitbox {
         return false;
     }
 
-    /** Return true if any of the 2 side-lines of a hitbox collide with any of the 2 side-lines of the second hitbox. */
+    /** Return true if any of the 2 side-lines of a hitbox collide with any of the 2 side-lines of the second hitbox.
+    *   There is a tolerance to prevent weird behaviour.
+    */
     checkHorizontalCollide(leftLine1, rightLine1, leftLine2, rightLine2) {
-        if ((leftLine1.x1 < rightLine2.x2 + 1 && leftLine1.x2 > rightLine2.x1 - 1 && leftLine1.y1 < rightLine2.y2 + 1 && leftLine1.y2 > rightLine2.y1 - 1) ||
-            (leftLine1.x1 < leftLine2.x2 + 1 && leftLine1.x2 > leftLine2.x1 - 1 && leftLine1.y1 < leftLine2.y2 + 1 && leftLine1.y2 > leftLine2.y1 - 1) ||
-            (rightLine1.x1 < rightLine2.x2 + 1 && rightLine1.x2 > rightLine2.x1 - 1 && rightLine1.y1 < rightLine2.y2 + 1 && rightLine1.y2 > rightLine2.y1 - 1) ||
-            (rightLine1.x1 < leftLine2.x2 + 1 && rightLine1.x2 > leftLine2.x1 - 1 && rightLine1.y1 < leftLine2.y2 + 1 && rightLine1.y2 > leftLine2.y1 - 1)) {
+        const tolerance = 5;
+        if ((leftLine1.x1 < rightLine2.x2 + tolerance && leftLine1.x2 > rightLine2.x1 - tolerance && leftLine1.y1 < rightLine2.y2 + tolerance && leftLine1.y2 > rightLine2.y1 - tolerance) ||
+            (leftLine1.x1 < leftLine2.x2 + tolerance && leftLine1.x2 > leftLine2.x1 - tolerance && leftLine1.y1 < leftLine2.y2 + tolerance && leftLine1.y2 > leftLine2.y1 - tolerance) ||
+            (rightLine1.x1 < rightLine2.x2 + tolerance && rightLine1.x2 > rightLine2.x1 - tolerance && rightLine1.y1 < rightLine2.y2 + tolerance && rightLine1.y2 > rightLine2.y1 - tolerance) ||
+            (rightLine1.x1 < leftLine2.x2 + tolerance && rightLine1.x2 > leftLine2.x1 - tolerance && rightLine1.y1 < leftLine2.y2 + tolerance && rightLine1.y2 > leftLine2.y1 - tolerance)) {
             return true;
         }
         return false;

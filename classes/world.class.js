@@ -88,6 +88,7 @@ class World {
         if (this.magician.goingDownwards == true
             && mH.magicianJumpedOnSomething(mH.bottomLine, zH.topLine, this.magician.jumpYFactor)) {
             this.zombies[index].die();
+            setTimeout(() => this.zombies.splice(index, 1), 1000);
         } else if (
             (this.zombies[index].direction == 'left' && zH.checkHorizontalCollide(zH.leftLine, zH.leftLine, mH.rightLine, mH.rightLine))
             || (this.zombies[index].direction == 'right' && zH.checkHorizontalCollide(zH.rightLine, zH.rightLine, mH.leftLine, mH.leftLine))
@@ -99,7 +100,8 @@ class World {
     }
 
     dropableCollisionBehaviour(dH, index, mH) {
-        if (mH.magicianJumpedOnSomething(mH.bottomLine, dH.topLine, this.magician.jumpYFactor) || dH.checkHorizontalCollide(dH.leftLine, dH.rightLine, mH.leftLine, mH.rightLine)) {
+        if (mH.magicianJumpedOnSomething(mH.bottomLine, dH.topLine, this.magician.jumpYFactor) ||
+            (dH.checkHorizontalCollide(dH.leftLine, dH.rightLine, mH.leftLine, mH.rightLine))) {
             this.dropables[index].isCollected();
             this.dropables.splice(index, 1);
         }
