@@ -3,6 +3,7 @@ class World {
     level = level1;
     zombies = this.level.enemies;
     backgroundObjects = this.level.backgroundObjects;
+    dropables = [];
     canvas;
     ctx;
 
@@ -18,6 +19,7 @@ class World {
         this.backgroundObjects.forEach(obj => this.drawObject(obj));
         this.drawMagicican();
         this.drawZombies();
+        this.dropables.forEach(obj => this.drawObject(obj));
         this.collisionDetection();
         requestAnimationFrame(() => this.draw());
     }
@@ -78,9 +80,9 @@ class World {
             } else if (
                 (this.zombies[index].direction == 'left' && zh.checkHorizontalCollide(zh.leftLine, zh.leftLine, magicianHitbox.rightLine, magicianHitbox.rightLine))
                 || (this.zombies[index].direction == 'right' && zh.checkHorizontalCollide(zh.rightLine, zh.rightLine, magicianHitbox.leftLine, magicianHitbox.leftLine))
-                ) {
+            ) {
                 this.zombies[index].attack();
-            } else if(this.magician.sX){
+            } else if (this.magician.sX) {
                 this.zombies[index].moveTowardsPlayer();
             }
         });

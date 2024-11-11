@@ -76,9 +76,8 @@ class Zombie extends MovableObject {
         const zH = this.getHitbox();
         const mH = world.magician.getHitbox();
         const magicianMidX = mH.leftLine.x1 + (mH.width / 2);
-        const attackRange = this.attackRange;
         const attackLeftX = this.direction == 'left' ? zH.leftLine.x1 - attackRange : zH.rightLine.x1;
-        const attackRightX = this.direction == 'left' ? zH.leftLine.x1 : zH.rightLine.x1 + attackRange;
+        const attackRightX = this.direction == 'left' ? zH.leftLine.x1 : zH.rightLine.x1 + this.attackRange;
         if (magicianMidX < attackRightX && magicianMidX > attackLeftX && mH.bottomLine.y1 > zH.topLine.y1) {
             world.magician.takeDamage(this.attackDamage);
         }
@@ -90,9 +89,18 @@ class Zombie extends MovableObject {
     }
 
     die() {
-        this.stopMoving();
-        this.animate(this.deadSprite, 100);
-        this.isDead = true;
+        if (this.isDead == false) {
+            this.stopMoving();
+            this.animate(this.deadSprite, 100);
+            this.isDead = true;
+            setTimeout(() => this.dropItem(), 1000);
+        }
+    }
+
+    dropItem() {
+        const zH = this.getHitbox();
+        const dropX = zH.bottomLine.x1 - zH.width / 4;
+        const droppedItem = new Dropable(dropX)
     }
 
     /**

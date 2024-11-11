@@ -12,6 +12,8 @@ class Magician extends MovableObject {
     jumpYFactor = 5;
     jumpMaxHeight = 120;
     health = 100;
+    mana = 0;
+    progress = 0;
     idleSprite = new SpriteSheet('assets/sprites/wanderer_magician/Idle.png', 896, 128);
     runSprite = new SpriteSheet('assets/sprites/wanderer_magician/Run.png', 896, 128);
     jumpSprite = new SpriteSheet('assets/sprites/wanderer_magician/Jump_short.png', 640, 128, false, false);
@@ -82,5 +84,15 @@ class Magician extends MovableObject {
         this.health -= dmgPercent;
         if (this.health <= 0) this.dies();
         updateStatusBar('healthBar', this.health)
+    }
+
+    gainsMana(percent) {
+        this.mana += percent;
+        updateStatusBar('manaBar', this.mana)
+    }
+
+    gainsProgress(percent) {
+        this.progress += percent;
+        updateStatusBar('progressBar', this.progress)
     }
 }
