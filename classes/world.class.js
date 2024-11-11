@@ -73,23 +73,25 @@ class World {
         const magicianHitbox = this.magician.getHitbox();
         let zombieHitboxArray = [];
         this.zombies.forEach(zombie => zombieHitboxArray.push(zombie.getHitbox()));
-        zombieHitboxArray.forEach((zh, index) => {
-            if (this.magician.goingDownwards == true
-                && magicianHitbox.magicianJumpedOnZombieHead(magicianHitbox.bottomLine, zh.topLine, this.magician.jumpYFactor)) {
-                this.zombies[index].die();
-            } else if (
-                (this.zombies[index].direction == 'left' && zh.checkHorizontalCollide(zh.leftLine, zh.leftLine, magicianHitbox.rightLine, magicianHitbox.rightLine))
-                || (this.zombies[index].direction == 'right' && zh.checkHorizontalCollide(zh.rightLine, zh.rightLine, magicianHitbox.leftLine, magicianHitbox.leftLine))
-            ) {
-                this.zombies[index].attack();
-            } else if (this.magician.sX) {
-                this.zombies[index].moveTowardsPlayer();
-            }
-        });
+        zombieHitboxArray.forEach((zH, index) => this.zombieCollisionBehaviour(zH, index, magicianHitbox));
 
         //for debugging
         this.drawHitboxForDebugging(magicianHitbox)
         zombieHitboxArray.forEach(z => this.drawHitboxForDebugging(z));
+    }
+
+    zombieCollisionBehaviour(zH, index, mH) {
+        if (this.magician.goingDownwards == true
+            && mH.magicianJumpedOnZombieHead(mH.bottomLine, zH.topLine, this.magician.jumpYFactor)) {
+            this.zombies[index].die();
+        } else if (
+            (this.zombies[index].direction == 'left' && zH.checkHorizontalCollide(zH.leftLine, zH.leftLine, mH.rightLine, mH.rightLine))
+            || (this.zombies[index].direction == 'right' && zH.checkHorizontalCollide(zH.rightLine, zH.rightLine, mH.leftLine, mH.leftLine))
+        ) {
+            this.zombies[index].attack();
+        } else if (this.magician.sX) {
+            this.zombies[index].moveTowardsPlayer();
+        }
     }
 
     //for debugging

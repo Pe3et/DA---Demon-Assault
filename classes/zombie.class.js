@@ -67,7 +67,7 @@ class Zombie extends MovableObject {
             setTimeout(() => this.hitCheck(), this.biteSprite.totalFrames * timeBetweenFrames / 2);
             setTimeout(() => {
                 this.isAttacking = false;
-                this.move();
+                this.isDead == false && this.move();
             }, this.biteSprite.totalFrames * timeBetweenFrames)
         }
     }
@@ -76,7 +76,7 @@ class Zombie extends MovableObject {
         const zH = this.getHitbox();
         const mH = world.magician.getHitbox();
         const magicianMidX = mH.leftLine.x1 + (mH.width / 2);
-        const attackLeftX = this.direction == 'left' ? zH.leftLine.x1 - attackRange : zH.rightLine.x1;
+        const attackLeftX = this.direction == 'left' ? zH.leftLine.x1 - this.attackRange : zH.rightLine.x1;
         const attackRightX = this.direction == 'left' ? zH.leftLine.x1 : zH.rightLine.x1 + this.attackRange;
         if (magicianMidX < attackRightX && magicianMidX > attackLeftX && mH.bottomLine.y1 > zH.topLine.y1) {
             world.magician.takeDamage(this.attackDamage);
