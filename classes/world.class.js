@@ -75,8 +75,11 @@ class World {
             if (this.magician.goingDownwards == true
                 && magicianHitbox.magicianJumpedOnZombieHead(magicianHitbox.bottomLine, zh.topLine, this.magician.jumpYFactor)) {
                 this.zombies[index].die();
-            } else if (zh.checkHorizontalCollide(zh.leftLine, zh.rightLine, magicianHitbox.leftLine, magicianHitbox.rightLine)) {
-                this.zombies[index].bite();
+            } else if (
+                zh.checkHorizontalCollide(zh.leftLine, zh.leftLine, magicianHitbox.rightLine, magicianHitbox.rightLine)
+                || zh.checkHorizontalCollide(zh.rightLine, zh.rightLine, magicianHitbox.leftLine, magicianHitbox.leftLine)
+                ) {
+                this.zombies[index].attack();
             } else if(this.magician.sX){
                 this.zombies[index].moveTowardsPlayer();
             }
