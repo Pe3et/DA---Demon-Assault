@@ -8,6 +8,7 @@ class Zombie extends MovableObject {
     direction = 'left';
     isMoving = true;
     isAttacking = false;
+    isDead = false;
     walkSprite = new SpriteSheet('assets/sprites/zombies/Zombie Man/Walk.png', 768, 96);
     runSprite = new SpriteSheet('assets/sprites/zombies/Zombie Man/Run.png', 672, 96);
     deadSprite = new SpriteSheet('assets/sprites/zombies/Zombie Man/Dead.png', 480, 96, false, false);
@@ -34,7 +35,7 @@ class Zombie extends MovableObject {
     }
 
     moveTowardsPlayer() {
-        if(this.isAttacking == false) {
+        if(this.isAttacking == false && this.isDead == false) {
             const zombieMidX = this.x + this.width / 2;
             const magicianMidX = world.magician.x + world.magician.width / 2;
             let directionChange = false;
@@ -50,7 +51,7 @@ class Zombie extends MovableObject {
     }
 
     bite() {
-        if (this.isAttacking == false) {
+        if (this.isAttacking == false && this.isDead == false) {
             this.isAttacking = true; 
             const timeBetweenFrames = 200;
             this.stopMoving();
@@ -65,7 +66,7 @@ class Zombie extends MovableObject {
     die() {
         this.stopMoving();
         this.animate(this.deadSprite, 100);
-        //TODO: dead zombie handling, as of now, corpses still move and bite
+        this.isDead = true;
     }
 
     /**
