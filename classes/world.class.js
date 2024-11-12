@@ -68,7 +68,8 @@ class World {
     }
 
     /** Detects collision of hitboxes and 'produces' the following event:
-     * biting, dying, zombies moving towerds player (the sX-if, so it only run's as soon as magician is loaded) */
+     * biting, dying, zombies moving towerds player (the sX-if, so it only run's as soon as magician is loaded).
+     */
     collisionDetection() {
         const magicianHitbox = this.magician.getHitbox();
         const zombieHitboxArray = [];
@@ -77,6 +78,7 @@ class World {
         zombieHitboxArray.forEach((zH, index) => this.zombieCollisionBehaviour(zH, index, magicianHitbox));
         this.dropables.forEach(drop => dropableHitboxArray.push(drop.getHitbox()));
         dropableHitboxArray.forEach((dH, index) => this.dropableCollisionBehaviour(dH, index, magicianHitbox));
+        this.cleanDropablesArray();
 
         //for debugging
         this.drawHitboxForDebugging(magicianHitbox)
@@ -84,11 +86,16 @@ class World {
         dropableHitboxArray.forEach(d => this.drawHitboxForDebugging(d));
     }
 
+    /** Cleans the dropables-Array to get rid of the collected drop, which have the removeFlag set to true. */
+    cleanDropablesArray() {
+        this.dropables = this.dropables.filter(drop => !drop.removalFlag)
+    }
+
     zombieCollisionBehaviour(zH, index, mH) {
         if (this.magician.goingDownwards == true
             && mH.magicianJumpedOnSomething(mH.bottomLine, zH.topLine, this.magician.jumpYFactor)) {
             this.zombies[index].die();
-            setTimeout(() => this.zombies.splice(index, 1), 1000);
+            setTimeout(() => this.zombies[index].removalFlag = true, 1000);
         } else if (
             (this.zombies[index].direction == 'left' && zH.checkHorizontalCollide(zH.leftLine, zH.leftLine, mH.rightLine, mH.rightLine))
             || (this.zombies[index].direction == 'right' && zH.checkHorizontalCollide(zH.rightLine, zH.rightLine, mH.leftLine, mH.leftLine))
@@ -103,7 +110,6 @@ class World {
         if (mH.magicianJumpedOnSomething(mH.bottomLine, dH.topLine, this.magician.jumpYFactor) ||
             (dH.checkHorizontalCollide(dH.leftLine, dH.rightLine, mH.leftLine, mH.rightLine))) {
             this.dropables[index].isCollected();
-            this.dropables.splice(index, 1);
         }
     }
 

@@ -10,6 +10,7 @@ class Dropable {
     height = 50
     type
     img
+    removalFlag = false;
 
     constructor(x) {
         this.x = x;
@@ -44,6 +45,7 @@ class Dropable {
                 world.magician.gainProgress(20);
                 break;
         }
+        this.removalFlag = true;
     }
 
     getHitbox() {
