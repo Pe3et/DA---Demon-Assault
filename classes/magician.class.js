@@ -11,13 +11,16 @@ class Magician extends MovableObject {
     goingDownwards = false;
     jumpYFactor = 5;
     jumpMaxHeight = 120;
+    isJumping = false;
     health = 100;
     mana = 0;
     progress = 0;
+    jumpInterval;
     idleSprite = new SpriteSheet('assets/sprites/wanderer_magician/Idle.png', 896, 128);
     runSprite = new SpriteSheet('assets/sprites/wanderer_magician/Run.png', 896, 128);
     jumpSprite = new SpriteSheet('assets/sprites/wanderer_magician/Jump_short.png', 640, 128, false, false);
     deadSprite = new SpriteSheet('assets/sprites/wanderer_magician/Dead.png', 512, 128, false, false);
+    hurtSprite = new SpriteSheet('assets/sprites/wanderer_magician/Hurt.png', 512, 128, false, false);
     currentSprite = this.idleSprite;
 
     /** Initializes a new instance of the Magician class. Loads the idle sprite and sets the magician to an idle state. */
@@ -43,22 +46,39 @@ class Magician extends MovableObject {
         this.direction = direction;
     }
 
-    /** The magician jumps. With a jumpYFactor of 5, the duration of the magician being "in the air" is 783.333ms */
     jump() {
         const timeBetweenFrames = 157;
-        if (this.animationBlocker == false) {
+        if (this.animationBlocker == false && this.isJumping == false) {
             this.animate(this.jumpSprite, timeBetweenFrames);
-            let jumpTime = setInterval(() => {
-                this.goingDownwards == false ? (this.y -= this.jumpYFactor) : (this.y += this.jumpYFactor);
-                if (this.y <= this.startPositionY - this.jumpMaxHeight) this.goingDownwards = true;
-                if (this.y == this.startPositionY) {
-                    clearInterval(jumpTime);
-                    this.goingDownwards = false;
-                    this.animationBlocker = false;
-                    this.idle();
-                    keyboard.keyAction();
-                }
-            }, 1000 / 60)
+            this.isJumping = true;
+            this.jumpAnimation();
+        }
+    }
+
+    jumpAnimation() {
+        if (this.goingDownwards == false) this.y -= this.jumpYFactor;
+        if (this.y <= this.startPositionY - this.jumpMaxHeight) {
+            this.fallToGround();
+        } else {
+            requestAnimationFrame(() => this.jumpAnimation());
+        }
+    }
+
+    fallToGround() {
+        this.goingDownwards = true;
+        this.fallAnimation();
+    }
+
+    fallAnimation() {
+        if (this.y == this.startPositionY) {
+            this.goingDownwards = false;
+            this.animationBlocker = false;
+            this.isJumping = false;
+            this.idle();
+            keyboard.keyAction();
+        } else {
+            this.y += this.jumpYFactor;
+            requestAnimationFrame(() => this.fallAnimation());
         }
     }
 
@@ -82,8 +102,21 @@ class Magician extends MovableObject {
 
     takeDamage(dmgPercent) {
         this.health -= dmgPercent;
+        if (this.health > 100) this.health = 100;
         if (this.health <= 0) this.dies();
+        if (this.health > 0 && dmgPercent > 0) this.hurt();
         updateStatusBar('healthBar', this.health)
+    }
+
+    hurt() {
+        this.stopMoving();
+        keyboard.keyboardBlock = true;
+        this.animate(this.hurtSprite, 50);
+        setTimeout(() => {
+            this.animationBlocker = false;
+            keyboard.keyboardBlock = false;
+            keyboard.keyAction();
+        }, 500)
     }
 
     gainMana(percent) {

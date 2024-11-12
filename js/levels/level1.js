@@ -29,6 +29,10 @@ const backgroundObjects = [
 
 const enemies = [
     // new Zombie(300),
+    // new Zombie(300),
+
+    // new Zombie(300),
+
     new Zombie(400)
 ];
 
