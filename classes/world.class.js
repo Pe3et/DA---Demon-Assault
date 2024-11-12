@@ -6,6 +6,7 @@ class World {
     dropables = [];
     canvas;
     ctx;
+    wave = 1;
 
     constructor(canvas) {
         this.canvas = canvas;
@@ -21,7 +22,27 @@ class World {
         this.drawZombies();
         this.dropables.forEach(obj => this.drawObject(obj));
         this.collisionDetection();
+        this.areAllZombiesDead() && this.nextWave();
         requestAnimationFrame(() => this.draw());
+    }
+
+    /** Checks if all zombies in the current wave are dead. */
+    areAllZombiesDead() {
+        return this.zombies.every(zombie => zombie.isDead);
+    }
+
+    nextWave() {
+        this.wave++;
+        this.spawnNewZombies()
+    }
+
+    spawnNewZombies() {
+        for (let i = 0; i < this.wave * 5; i++) {
+            const zombie = new Zombie();
+            const side = Math.random() < 0.5 ? 'left' : 'right';
+            zombie.x = side === 'left' ? -zombie.width : this.canvas.width + this.magician.x;
+            this.zombies.push(zombie);
+        }
     }
 
     /** For scrolling the camera. */

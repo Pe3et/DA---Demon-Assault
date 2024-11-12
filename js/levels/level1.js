@@ -28,12 +28,8 @@ const backgroundObjects = [
 ];
 
 const enemies = [
-    new Zombie(300),
-    new Zombie(300),
-
-    new Zombie(300),
-
-    new Zombie(400)
+    new Zombie(700),
+    new Zombie(800)
 ];
 
 const endPosX = 1920;
