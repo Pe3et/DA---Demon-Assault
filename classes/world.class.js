@@ -4,6 +4,7 @@ class World {
     zombies = this.level.enemies;
     backgroundObjects = this.level.backgroundObjects;
     dropables = [];
+    lightnings = [];
     canvas;
     ctx;
     wave = 1;
@@ -20,7 +21,8 @@ class World {
         this.backgroundObjects.forEach(obj => this.drawObject(obj));
         this.drawMagicican();
         this.drawZombies();
-        this.dropables.forEach(obj => this.drawObject(obj));
+        this.drawDropables();
+        this.drawLightnings();
         this.collisionDetection();
         this.areAllZombiesDead() && this.nextWave();
         requestAnimationFrame(() => this.draw());
@@ -31,16 +33,18 @@ class World {
         return this.zombies.every(zombie => zombie.isDead);
     }
 
+    /** Proceeds to the next wave of zombies, incrementing the wave number and spawning new zombies. */
     nextWave() {
         this.wave++;
         this.spawnNewZombies()
     }
 
+    /** Spawns a new wave of zombies, with the number of zombies increasing with each wave. */
     spawnNewZombies() {
-        for (let i = 0; i < this.wave * 5; i++) {
+        for (let i = 0; i < this.wave * 3; i++) {
             const zombie = new Zombie();
             const side = Math.random() < 0.5 ? 'left' : 'right';
-            zombie.x = side === 'left' ? -zombie.width : this.canvas.width + this.magician.x;
+            zombie.x = side == 'left' ? -zombie.width : this.canvas.width + this.magician.x;
             this.zombies.push(zombie);
         }
     }
@@ -53,18 +57,27 @@ class World {
 
     /** Draws the magician on the canvas */
     drawMagicican() {
-        if (this.magician.direction == 'right') {
-            this.ctx.drawImage(this.magician.img, this.magician.sX, this.magician.sY, this.magician.width, this.magician.height, this.magician.x, this.magician.y, this.magician.width, this.magician.height);
-        } else {
-            this.drawFlippedObj(this.magician)
-        }
+        this.drawInDirection(this.magician)
     }
 
     /** Draws the zombies on the canvas */
     drawZombies() {
-        this.zombies.forEach(zombie => {
-            zombie.direction == 'left' ? this.drawFlippedObj(zombie) : this.drawObject(zombie)
-        });
+        this.zombies.forEach(z => this.drawInDirection(z))
+    }
+
+    /** Draws all dropped objects on the canvas. */
+    drawDropables() {
+        this.dropables.forEach(d => this.drawObject(d));
+    }
+
+    /** Draws the lightnings on the canvas. */
+    drawLightnings() {
+        this.lightnings.forEach(l => this.drawInDirection(l))
+    }
+
+    /** Draws an object on the canvas in the direction it is facing. */
+    drawInDirection(obj) {
+        obj.direction == 'left' ? this.drawFlippedObj(obj) : this.drawObject(obj)
     }
 
     /** Draws an object on the canvas flipped in the other direction, than it is on the spritesheet */
@@ -74,44 +87,55 @@ class World {
         this.ctx.scale(-1, 1);
         this.ctx.drawImage(
             obj.img,
-            obj.sX, 0, obj.sWidth, obj.height,
+            obj.sX, 0, obj.currentSprite.frameWidth, obj.height,
             -obj.width / 2, -obj.height / 2, obj.width, obj.height);
         this.ctx.restore();
     }
 
     /** Draws an object on the canvas. Works for spritesheets and single images. */
     drawObject(obj) {
-        if (obj instanceof Magician || obj instanceof Zombie) {
+        if (obj instanceof Magician || obj instanceof Zombie || obj instanceof Lightning) {
             this.ctx.drawImage(obj.img, obj.sX, obj.sY, obj.currentSprite.frameWidth, obj.height, obj.x, obj.y, obj.width, obj.height)
         } else {
             this.ctx.drawImage(obj.img, obj.x, obj.y, obj.width, obj.height)
         }
     }
 
-    /** Detects collision of hitboxes and 'produces' the following event:
-     * biting, dying, zombies moving towerds player (the sX-if, so it only run's as soon as magician is loaded).
-     */
     collisionDetection() {
         const magicianHitbox = this.magician.getHitbox();
         const zombieHitboxArray = [];
         const dropableHitboxArray = [];
+        const lightningHitboxArray = [];
         this.zombies.forEach(zombie => zombieHitboxArray.push(zombie.getHitbox()));
         zombieHitboxArray.forEach((zH, index) => this.zombieCollisionBehaviour(zH, index, magicianHitbox));
         this.dropables.forEach(drop => dropableHitboxArray.push(drop.getHitbox()));
         dropableHitboxArray.forEach((dH, index) => this.dropableCollisionBehaviour(dH, index, magicianHitbox));
         this.cleanDropablesArray();
+        this.lightnings.forEach(lightning => lightningHitboxArray.push(lightning.getHitbox()));
+        lightningHitboxArray.forEach(lH => this.lightningCollisionBehaviour(lH, zombieHitboxArray));
 
         //for debugging
         this.drawHitboxForDebugging(magicianHitbox)
         zombieHitboxArray.forEach(z => this.drawHitboxForDebugging(z));
         dropableHitboxArray.forEach(d => this.drawHitboxForDebugging(d));
+        lightningHitboxArray.forEach(l => this.drawHitboxForDebugging(l));
     }
 
-    /** Cleans the dropables-Array to get rid of the collected drop, which have the removeFlag set to true. */
+    /** Removes dropables with the removalFlag set to true from the dropables array. */
     cleanDropablesArray() {
         this.dropables = this.dropables.filter(drop => !drop.removalFlag)
     }
 
+    lightningCollisionBehaviour(lH, zHArray) {
+        zHArray.forEach((zH, index) => {
+            if (lH.checkHorizontalCollide(lH.leftLine, lH.rightLine, zH.leftLine, zH.rightLine)) {
+                this.zombies[index].die();
+                setTimeout(() => this.zombies[index].removalFlag = true, 1000);
+            }
+        });
+    }
+
+    /** Handles zombie collision behaviour with the magician. */
     zombieCollisionBehaviour(zH, index, mH) {
         if (this.magician.goingDownwards == true
             && mH.magicianJumpedOnSomething(mH.bottomLine, zH.topLine, this.magician.jumpYFactor)) {
@@ -127,6 +151,7 @@ class World {
         }
     }
 
+    /** Handles dropable collision behaviour with the magician. */
     dropableCollisionBehaviour(dH, index, mH) {
         if (mH.magicianJumpedOnSomething(mH.bottomLine, dH.topLine, this.magician.jumpYFactor) ||
             (dH.checkHorizontalCollide(dH.leftLine, dH.rightLine, mH.leftLine, mH.rightLine))) {

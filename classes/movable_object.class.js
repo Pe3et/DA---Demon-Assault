@@ -34,12 +34,7 @@ class MovableObject {
         sprite.reset();
     }
 
-    /**
-     * Animation-handler for all animation. It checks if it's a loop, a single animation and if
-     * it is interrptable or not.
-     * If the animationBlocker will be set to true, when the sprite is not interruptable,
-     * the calling function has to set the animationBlocker to false manually again if wished.
-     */
+    /** Animates a sprite, handling looping and single animations with interruptability. */
     animate(sprite, timeBetweenFrames) {
         if (this.animationBlocker == false) {
             this.animationBlocker = !sprite.isInterruptable;
@@ -52,9 +47,7 @@ class MovableObject {
         }
     }
 
-    /**
-     * Loops an animation.
-     */
+    /** Loops an animation. */
     loopAnimation(sprite, timeBetweenFrames) {
         this.resetAnimation();
         this.loadSprite(sprite);
@@ -63,10 +56,8 @@ class MovableObject {
             if (this.sX >= sprite.spriteWidth) this.sX = 0;
         }, timeBetweenFrames);
     }
-  
-    /**
-     * Plays a single animation.
-     */
+
+    /** Plays a single animation.*/
     playSingleAnimation(sprite, timeBetweenFrames) {
         this.resetAnimation();
         this.interruptableAnimation = sprite.isInterruptable;
@@ -82,7 +73,7 @@ class MovableObject {
             }
         }, timeBetweenFrames)
     }
-    
+
     /** Resets an animation. */
     resetAnimation() {
         clearInterval(this.animationInterval);
@@ -138,7 +129,7 @@ class MovableObject {
 
     /** To check if going right on the map is allowed */
     checkIfGoingRightIsAllowed() {
-        return this.x < world.level.endPosX - this.width*2;
+        return this.x < world.level.endPosX - this.width * 2;
     }
 
     /** To check if scrolling right on the map is allowed */

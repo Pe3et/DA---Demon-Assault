@@ -16,17 +16,21 @@ class Magician extends MovableObject {
     mana = 0;
     progress = 0;
     jumpInterval;
+    isChargingAttack = false;
+    attackChargeTimeout;
     idleSprite = new SpriteSheet('assets/sprites/wanderer_magician/Idle.png', 896, 128);
     runSprite = new SpriteSheet('assets/sprites/wanderer_magician/Run.png', 896, 128);
     jumpSprite = new SpriteSheet('assets/sprites/wanderer_magician/Jump_short.png', 640, 128, false, false);
     deadSprite = new SpriteSheet('assets/sprites/wanderer_magician/Dead.png', 512, 128, false, false);
     hurtSprite = new SpriteSheet('assets/sprites/wanderer_magician/Hurt.png', 512, 128, false, false);
+    attackSprite = new SpriteSheet('assets/sprites/wanderer_magician/Attack_2.png', 1152, 128, false, true);
     currentSprite = this.idleSprite;
 
     /** Initializes a new instance of the Magician class. Loads the idle sprite and sets the magician to an idle state. */
     constructor() {
         super().loadSprite(this.idleSprite);
         this.idle();
+        this.godmode();
     }
 
     /** Puts the magician in an idle state, stopping any movement and animating the idle sprite. */
@@ -82,6 +86,29 @@ class Magician extends MovableObject {
         }
     }
 
+    attack() {
+        if(!this.isJumping) {
+            const castDelay = 700;
+            const castFrame = 7;
+            this.isChargingAttack = true;
+            this.stopMoving();
+            this.animate(this.attackSprite, castDelay / castFrame);
+            this.attackChargeTimeout = setTimeout(() => {
+                this.isChargingAttack && this.castLightning()
+            }, castDelay);
+        }
+    }
+
+    castLightning() {
+        const lightning = new Lightning(this.x, this.direction);
+        world.lightnings.push(lightning);
+    }
+
+    resetAttackCharge() {
+        this.isChargingAttack = false;
+        clearTimeout(this.attackChargeTimeout);
+    }
+
     sleep() {
 
     }
@@ -110,6 +137,7 @@ class Magician extends MovableObject {
 
     hurt() {
         this.stopMoving();
+        this.resetAttackCharge();
         keyboard.keyboardBlock = true;
         this.animate(this.hurtSprite, 50);
         setTimeout(() => {
@@ -127,5 +155,11 @@ class Magician extends MovableObject {
     gainProgress(percent) {
         this.progress += percent;
         updateStatusBar('progressBar', this.progress)
+    }
+
+    godmode() {
+        this.health = 100;
+        updateStatusBar('healthBar', this.health)
+        requestAnimationFrame(()=>this.godmode())
     }
 }

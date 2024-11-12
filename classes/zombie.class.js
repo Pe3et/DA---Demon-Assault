@@ -2,8 +2,8 @@ class Zombie extends MovableObject {
     width = 128;
     height = 128;
     y = 132;
-    speed = 0.5 + Math.random(0.5);
-    runningThreshhold = 0.9;
+    speed = 2 + Math.random()*2;
+    runningThreshhold = 2.25;
     sWidth = 96;
     direction = 'left';
     isMoving = true;
@@ -34,7 +34,7 @@ class Zombie extends MovableObject {
     }
 
     walk() {
-        this.animate(this.walkSprite, 200);
+        this.animate(this.walkSprite, 100);
     }
 
     run() {

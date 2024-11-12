@@ -15,13 +15,19 @@ class Keyboard {
 
     keyReleased(key) {
         this[key] = false;
-        world.magician.idle();
+        if(!this.SPACE) {
+            world.magician.resetAttackCharge();
+            world.magician.idle();
+        } 
         this.keyAction();
     }
 
     keyAction() {
-        if(this.RIGHT) world.magician.run('right');
-        if(this.LEFT) world.magician.run('left');
-        if(this.UP) world.magician.jump();
+        if(this.SPACE && !world.magician.isChargingAttack) world.magician.attack();
+        if(!this.SPACE) {
+            if(this.RIGHT) world.magician.run('right');
+            if(this.LEFT) world.magician.run('left');
+            if(this.UP) world.magician.jump();
+        }
     }
 }
