@@ -131,6 +131,7 @@ class World {
         const zombieHitboxArray = [];
         const dropableHitboxArray = [];
         const lightningHitboxArray = [];
+        this.bossCollision(magicianHitbox);
         this.zombies.forEach(zombie => zombieHitboxArray.push(zombie.getHitbox()));
         zombieHitboxArray.forEach((zH, index) => this.zombieCollisionBehaviour(zH, index, magicianHitbox));
         this.dropables.forEach(drop => dropableHitboxArray.push(drop.getHitbox()));
@@ -139,11 +140,19 @@ class World {
         this.lightnings.forEach(lightning => lightningHitboxArray.push(lightning.getHitbox()));
         lightningHitboxArray.forEach(lH => this.lightningCollisionBehaviour(lH, zombieHitboxArray));
 
+
         //for debugging
         this.drawHitboxForDebugging(magicianHitbox)
         zombieHitboxArray.forEach(z => this.drawHitboxForDebugging(z));
         dropableHitboxArray.forEach(d => this.drawHitboxForDebugging(d));
         lightningHitboxArray.forEach(l => this.drawHitboxForDebugging(l));
+    }
+
+    bossCollision(mH) {
+        if(this.boss) {
+            const bossHitbox = this.boss.getHitbox(); 
+            this.drawHitboxForDebugging(bossHitbox)
+        }
     }
 
     /** Removes dropables with the removalFlag set to true from the dropables array. */
