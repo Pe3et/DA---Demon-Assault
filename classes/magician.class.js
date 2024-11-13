@@ -106,6 +106,9 @@ class Magician extends MovableObject {
         this.updateMana(-20);
         const lightning = new Lightning(this.x, this.direction);
         world.lightnings.push(lightning);
+        setTimeout(()=> {
+            this.currentSprite == this.attackSprite && this.resetAnimation()
+        }, 200); 
     }
 
     /** Resets the magician's attack charge state and clears the attack timeout. */

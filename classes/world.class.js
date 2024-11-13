@@ -8,6 +8,7 @@ class World {
     canvas;
     ctx;
     wave = 1;
+    boss;
 
     /** Initializes the World class with a given canvas element. */
     constructor(canvas) {
@@ -24,6 +25,7 @@ class World {
         this.drawZombies();
         this.drawDropables();
         this.drawLightnings();
+        if (this.boss) this.drawBoss();
         this.collisionDetection();
         this.areAllZombiesDead() && this.nextWave();
         requestAnimationFrame(() => this.draw());
@@ -38,6 +40,8 @@ class World {
     nextWave() {
         this.wave++;
         this.spawnNewZombies()
+
+        this.summonBoss()
     }
 
     /** Spawns a new wave of zombies, with the number of zombies increasing with each wave. */
@@ -76,9 +80,16 @@ class World {
         this.lightnings.forEach(l => this.drawInDirection(l))
     }
 
+    /** Draws the boss on the canvas in the direction it is facing. */
+    drawBoss() {
+        this.drawInDirection(this.boss)
+    }
+
     /** Draws an object on the canvas in the direction it is facing. */
     drawInDirection(obj) {
-        obj.direction == 'left' ? this.drawFlippedObj(obj) : this.drawObject(obj)
+        obj instanceof Demonboss ?
+            (obj.direction == 'right' ? this.drawFlippedObj(obj) : this.drawObject(obj)) :
+            (obj.direction == 'left' ? this.drawFlippedObj(obj) : this.drawObject(obj))
     }
 
     /** Draws an object on the canvas flipped in the other direction, than it is on the spritesheet */
@@ -95,11 +106,24 @@ class World {
 
     /** Draws an object on the canvas. Works for spritesheets and single images. */
     drawObject(obj) {
-        if (obj instanceof Magician || obj instanceof Zombie || obj instanceof Lightning) {
+        if (this.objWithSpriteSheet(obj)) {
             this.ctx.drawImage(obj.img, obj.sX, obj.sY, obj.currentSprite.frameWidth, obj.height, obj.x, obj.y, obj.width, obj.height)
         } else {
             this.ctx.drawImage(obj.img, obj.x, obj.y, obj.width, obj.height)
         }
+    }
+
+    /** Checks if an object uses a sprite sheet. */
+    objWithSpriteSheet(obj) {
+        return obj instanceof Magician ||
+            obj instanceof Zombie ||
+            obj instanceof Lightning ||
+            obj instanceof Demonboss
+    }
+
+    /** Summons the boss in the game world. */
+    summonBoss() {
+        this.boss = new Demonboss();
     }
 
     collisionDetection() {

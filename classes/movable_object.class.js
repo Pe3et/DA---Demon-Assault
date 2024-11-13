@@ -91,6 +91,7 @@ class MovableObject {
     /** Moves the object to the right with the specified speed and optional camera scrolling. */
     moveRight(scrollX = false) {
         this.stopMoving();
+        this.direction = 'right';
         this.isMoving = true;
         this.movingInterval = setInterval(() => {
             let walkAllowed = this.checkIfGoingRightIsAllowed();
@@ -103,6 +104,7 @@ class MovableObject {
     /** Moves the object to the left with the specified speed and optional camera scrolling. */
     moveLeft(scrollX = false) {
         this.stopMoving();
+        this.direction = 'left';
         this.isMoving = true;
         this.movingInterval = setInterval(() => {
             let movingAllowed = this.checkIfGoingLeftIsAllowed();
