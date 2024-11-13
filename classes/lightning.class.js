@@ -7,6 +7,7 @@ class Lightning extends MovableObject {
     speed = 10
     direction
 
+    /** Initializes a new Lightning object with the specified x position and direction. */
     constructor(x, direction) {
         super();
         this.x = x;
@@ -15,6 +16,7 @@ class Lightning extends MovableObject {
         this.travel();
     }
 
+    /** Updates the lightning object's position based on its direction and speed. */
     travel() {
         if (this.direction == 'right') {
             this.x += this.speed;
@@ -24,6 +26,7 @@ class Lightning extends MovableObject {
         requestAnimationFrame(() => this.travel())
     }
 
+    /** Returns the hitbox of the lightning object. */
     getHitbox() {
         return new Hitbox(this.x + this.width / 3, this.y + this.height / 2 - 4, this.width / 2 - 10, this.height / 16)
     }

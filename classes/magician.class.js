@@ -39,10 +39,7 @@ class Magician extends MovableObject {
         this.animate(this.idleSprite, 200);
     }
 
-    /**
-     * Makes the magician run in the specified direction.
-     * @param {string} direction - The direction to run in. Can be either 'right' or 'left'.
-     */
+    /** Makes the magician run in the specified direction. */
     run(direction) {
         this.animate(this.runSprite, 100);
         if (direction == 'right') this.moveRight(true);
@@ -50,6 +47,7 @@ class Magician extends MovableObject {
         this.direction = direction;
     }
 
+    /** Initiates the magician's jump action, animating the jump sprite and updating the jump state. */
     jump() {
         const timeBetweenFrames = 157;
         if (this.animationBlocker == false && this.isJumping == false) {
@@ -59,6 +57,7 @@ class Magician extends MovableObject {
         }
     }
 
+    /** Animates the magician's jump action, updating the position and state. */
     jumpAnimation() {
         if (this.goingDownwards == false) this.y -= this.jumpYFactor;
         if (this.y <= this.startPositionY - this.jumpMaxHeight) {
@@ -68,11 +67,13 @@ class Magician extends MovableObject {
         }
     }
 
+    /** Initiates the magician's falling action, setting the downwards direction and starting the fall animation. */
     fallToGround() {
         this.goingDownwards = true;
         this.fallAnimation();
     }
 
+    /** Animates the magician's falling action, updating the position and state. */
     fallAnimation() {
         if (this.y == this.startPositionY) {
             this.goingDownwards = false;
@@ -86,8 +87,9 @@ class Magician extends MovableObject {
         }
     }
 
+    /** Initiates the magician's attack action, animating the attack sprite and casting lightning after a delay. */
     attack() {
-        if(!this.isJumping && this.mana >= 20) {
+        if (!this.isJumping && this.mana >= 20) {
             const castDelay = 700;
             const castFrame = 7;
             this.isChargingAttack = true;
@@ -99,19 +101,21 @@ class Magician extends MovableObject {
         }
     }
 
+    /** Casts a lightning bolt, reducing the magician's mana by 20. */
     castLightning() {
         this.updateMana(-20);
         const lightning = new Lightning(this.x, this.direction);
         world.lightnings.push(lightning);
     }
 
+    /** Resets the magician's attack charge state and clears the attack timeout. */
     resetAttackCharge() {
         this.isChargingAttack = false;
         clearTimeout(this.attackChargeTimeout);
     }
 
     sleep() {
-
+        //TODO:
     }
 
     dies() {
@@ -120,14 +124,12 @@ class Magician extends MovableObject {
         keyboard.keyboardBlock = true;
     }
 
-    /**
-     * The hitbox is a rectangle that represents the area of the object that can collide with other objects.
-     * @returns {Hitbox} A new Hitbox object representing the hitbox of the Magician.
-     */
+    /** Returns the hitbox of the Magician, a rectangle representing the area that can collide with other objects. */
     getHitbox() {
         return new Hitbox(this.x + this.width / 3, this.y + this.height / 2, this.width / 4, this.height / 2)
     }
 
+    /** Updates the magician's health by the specified percentage, handling death and hurt states. */
     updateHealth(percent) {
         this.health += percent;
         if (this.health > 100) this.health = 100;
@@ -136,6 +138,7 @@ class Magician extends MovableObject {
         updateStatusBar('healthBar', this.health)
     }
 
+    /** Handles the magician's hurt state, stopping movement, resetting attack charge, and animating the hurt sprite. */
     hurt() {
         this.stopMoving();
         this.resetAttackCharge();
@@ -148,12 +151,14 @@ class Magician extends MovableObject {
         }, 500)
     }
 
+    /** Updates the magician's mana by the specified percentage, capping at 100. */
     updateMana(percent) {
         this.mana += percent;
         if (this.mana > 100) this.mana = 100;
         updateStatusBar('manaBar', this.mana)
     }
 
+    /** Updates the magician's progress by the specified percentage. */
     gainProgress(percent) {
         this.progress += percent;
         updateStatusBar('progressBar', this.progress)
@@ -164,6 +169,6 @@ class Magician extends MovableObject {
         this.mana = 50;
         updateStatusBar('healthBar', this.health);
         updateStatusBar('manaBar', this.mana);
-        requestAnimationFrame(()=>this.godmode())
+        requestAnimationFrame(() => this.godmode())
     }
 }

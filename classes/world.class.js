@@ -9,6 +9,7 @@ class World {
     ctx;
     wave = 1;
 
+    /** Initializes the World class with a given canvas element. */
     constructor(canvas) {
         this.canvas = canvas;
         this.ctx = canvas.getContext('2d');
@@ -126,6 +127,7 @@ class World {
         this.dropables = this.dropables.filter(drop => !drop.removalFlag)
     }
 
+    /** Handles lightning collision behaviour with zombies. */
     lightningCollisionBehaviour(lH, zHArray) {
         zHArray.forEach((zH, index) => {
             if (lH.checkHorizontalCollide(lH.leftLine, lH.rightLine, zH.leftLine, zH.rightLine)) {

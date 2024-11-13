@@ -8,6 +8,7 @@ class Hitbox {
     bottomLine;
     leftLine;
 
+    /** Initializes a new Hitbox instance with the specified coordinates and dimensions. */
     constructor(x, y, width, height) {
         this.x = x;
         this.y = y;
@@ -19,14 +20,8 @@ class Hitbox {
         this.leftLine = { x1: this.x, y1: this.y, x2: this.x, y2: this.y + this.height };
     }
 
-    /**
-     * Checks if the magician's jump has landed on the zombie's head.
-     * 
-     * @param {Object} botLine - The line representing the magician's jump.
-     * @param {Object} topLine - The line representing the zombie's head.
-     * @param {number} offset - The offset to consider for the collision.
-     * @returns {boolean} True if the magician's jump has landed on the zombie's head, false otherwise.
-     */
+
+    /** Checks if the magician's jump has landed on the zombie's head or dropable within a given offset. */
     magicianJumpedOnSomething(botLine, topLine, offset) {
         if (botLine.x1 < topLine.x2 + offset && botLine.x2 > topLine.x1 - offset && botLine.y1 < topLine.y2 + offset && botLine.y2 > topLine.y1 - offset) {
             return true;
@@ -34,9 +29,8 @@ class Hitbox {
         return false;
     }
 
-    /** Return true if any of the 2 side-lines of a hitbox collide with any of the 2 side-lines of the second hitbox.
-    *   There is a tolerance to prevent weird behaviour.
-    */
+
+    /** Checks if two pairs of side-lines from two hitboxes collide horizontally with a tolerance. */
     checkHorizontalCollide(leftLine1, rightLine1, leftLine2, rightLine2) {
         const tolerance = 5;
         if ((leftLine1.x1 < rightLine2.x2 + tolerance && leftLine1.x2 > rightLine2.x1 - tolerance && leftLine1.y1 < rightLine2.y2 + tolerance && leftLine1.y2 > rightLine2.y1 - tolerance) ||

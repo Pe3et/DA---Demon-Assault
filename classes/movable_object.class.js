@@ -14,6 +14,7 @@ class MovableObject {
     animationBlocker = false;
     currentSprite;
 
+    /** Initializes a new MovableObject instance with the specified position and dimensions. */
     constructor(x, y, width, height) {
         this.x = x;
         if (y) this.y = y;
@@ -87,10 +88,7 @@ class MovableObject {
         this.isMoving = false;
     }
 
-    /**
-     * Makes an object move to the right with the speed of that object.
-     * @param {Boolean} scrollX - to call the camera scroll, when magician is moving
-     */
+    /** Moves the object to the right with the specified speed and optional camera scrolling. */
     moveRight(scrollX = false) {
         this.stopMoving();
         this.isMoving = true;
@@ -102,10 +100,7 @@ class MovableObject {
         }, 1000 / 60);
     }
 
-    /**
-     * Makes an object move to the left with the speed of that object.
-     * @param {Boolean} scrollX - to call the camera scroll, when magician is moving
-     */
+    /** Moves the object to the left with the specified speed and optional camera scrolling. */
     moveLeft(scrollX = false) {
         this.stopMoving();
         this.isMoving = true;

@@ -8,6 +8,7 @@ class SpriteSheet {
     isLoop;
     isInterruptable;
 
+    /** Initializes a new instance of the SpriteSheet class. */
     constructor(src, totalFrames, isLoop = true, isInterruptable = true) {
         this.src = src;
         this.setSpriteWidths();
@@ -16,6 +17,7 @@ class SpriteSheet {
         this.isInterruptable = isInterruptable;
     }
 
+    /** Sets the sprite width and frame width based on the sprite sheet image. */
     setSpriteWidths() {
         const img = new Image();
         img.src = this.src;
@@ -27,6 +29,7 @@ class SpriteSheet {
         }
     }
 
+    /** Returns the x-coordinate of the next frame in the sprite sheet. */
     getNextFrameX() {
         this.x += this.frameWidth;
         if (this.x >= this.spriteWidth) {
@@ -35,6 +38,7 @@ class SpriteSheet {
         return this.x
     }
 
+    /** Resets the sprite sheet to its initial state. */
     reset() {
         this.x = 0;
     }
