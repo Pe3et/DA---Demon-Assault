@@ -79,7 +79,7 @@ class Zombie extends MovableObject {
         const attackLeftX = this.direction == 'left' ? zH.leftLine.x1 - this.attackRange : zH.rightLine.x1;
         const attackRightX = this.direction == 'left' ? zH.leftLine.x1 : zH.rightLine.x1 + this.attackRange;
         if (magicianMidX < attackRightX && magicianMidX > attackLeftX && mH.bottomLine.y1 > zH.topLine.y1) {
-            world.magician.takeDamage(this.attackDamage);
+            world.magician.updateHealth(-this.attackDamage);
         } 
     }
 

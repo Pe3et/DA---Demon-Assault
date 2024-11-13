@@ -87,7 +87,7 @@ class Magician extends MovableObject {
     }
 
     attack() {
-        if(!this.isJumping) {
+        if(!this.isJumping && this.mana >= 20) {
             const castDelay = 700;
             const castFrame = 7;
             this.isChargingAttack = true;
@@ -100,6 +100,7 @@ class Magician extends MovableObject {
     }
 
     castLightning() {
+        this.updateMana(-20);
         const lightning = new Lightning(this.x, this.direction);
         world.lightnings.push(lightning);
     }
@@ -127,11 +128,11 @@ class Magician extends MovableObject {
         return new Hitbox(this.x + this.width / 3, this.y + this.height / 2, this.width / 4, this.height / 2)
     }
 
-    takeDamage(dmgPercent) {
-        this.health -= dmgPercent;
+    updateHealth(percent) {
+        this.health += percent;
         if (this.health > 100) this.health = 100;
         if (this.health <= 0) this.dies();
-        if (this.health > 0 && dmgPercent > 0) this.hurt();
+        if (this.health > 0 && percent > 0) this.hurt();
         updateStatusBar('healthBar', this.health)
     }
 
@@ -147,8 +148,9 @@ class Magician extends MovableObject {
         }, 500)
     }
 
-    gainMana(percent) {
+    updateMana(percent) {
         this.mana += percent;
+        if (this.mana > 100) this.mana = 100;
         updateStatusBar('manaBar', this.mana)
     }
 

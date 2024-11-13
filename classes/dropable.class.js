@@ -1,8 +1,8 @@
 class Dropable {
     dropchances = {
         heart: 5,
-        progress: 10,
-        mana: 20
+        progress: 15,
+        mana: 35
     }
     x
     y = 190
@@ -36,10 +36,10 @@ class Dropable {
     isCollected() {
         switch (this.type.name) {
             case 'heart':
-                world.magician.takeDamage(-20);
+                world.magician.updateHealth(20);
                 break;
             case 'mana':
-                world.magician.gainMana(20);
+                world.magician.updateMana(20);
                 break;
             case 'progress':
                 world.magician.gainProgress(20);
