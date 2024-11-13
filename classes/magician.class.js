@@ -18,12 +18,12 @@ class Magician extends MovableObject {
     jumpInterval;
     isChargingAttack = false;
     attackChargeTimeout;
-    idleSprite = new SpriteSheet('assets/sprites/wanderer_magician/Idle.png', 896, 128);
-    runSprite = new SpriteSheet('assets/sprites/wanderer_magician/Run.png', 896, 128);
-    jumpSprite = new SpriteSheet('assets/sprites/wanderer_magician/Jump_short.png', 640, 128, false, false);
-    deadSprite = new SpriteSheet('assets/sprites/wanderer_magician/Dead.png', 512, 128, false, false);
-    hurtSprite = new SpriteSheet('assets/sprites/wanderer_magician/Hurt.png', 512, 128, false, false);
-    attackSprite = new SpriteSheet('assets/sprites/wanderer_magician/Attack_2.png', 1152, 128, false, true);
+    idleSprite = new SpriteSheet('assets/sprites/wanderer_magician/Idle.png', 8);
+    runSprite = new SpriteSheet('assets/sprites/wanderer_magician/Run.png', 8);
+    jumpSprite = new SpriteSheet('assets/sprites/wanderer_magician/Jump_short.png', 5, false, false);
+    deadSprite = new SpriteSheet('assets/sprites/wanderer_magician/Dead.png', 4, false, false);
+    hurtSprite = new SpriteSheet('assets/sprites/wanderer_magician/Hurt.png', 4, false, false);
+    attackSprite = new SpriteSheet('assets/sprites/wanderer_magician/Attack_2.png', 9, false, true);
     currentSprite = this.idleSprite;
 
     /** Initializes a new instance of the Magician class. Loads the idle sprite and sets the magician to an idle state. */
@@ -132,7 +132,7 @@ class Magician extends MovableObject {
         this.health += percent;
         if (this.health > 100) this.health = 100;
         if (this.health <= 0) this.dies();
-        if (this.health > 0 && percent > 0) this.hurt();
+        if (this.health > 0 && percent < 0) this.hurt();
         updateStatusBar('healthBar', this.health)
     }
 
@@ -160,8 +160,10 @@ class Magician extends MovableObject {
     }
 
     godmode() {
-        this.health = 100;
-        updateStatusBar('healthBar', this.health)
+        this.health = 50;
+        this.mana = 50;
+        updateStatusBar('healthBar', this.health);
+        updateStatusBar('manaBar', this.mana);
         requestAnimationFrame(()=>this.godmode())
     }
 }

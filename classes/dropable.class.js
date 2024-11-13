@@ -15,14 +15,13 @@ class Dropable {
     constructor(x) {
         this.x = x;
         this.type = this.getRandomType();
-        this.img = new Image();
-        this.img.src = this.type.imgSrc;
-        world.dropables.push(this);
+        if(this.type) {
+            this.img = new Image();
+            this.img.src = this.type.imgSrc;
+            world.dropables.push(this);
+        }
     }
 
-    /** Returns a random item from simple dropchance-treshholds.
-    *   My droptable means 40% progress, 40% mana and 20% heart. 
-    */
     getRandomType() {
         const randomizer = Math.random() * 100;
         if (randomizer <= this.dropchances.heart) return { name: 'heart', imgSrc: 'assets/sprites/objects/health_crystal_shiny.png' };

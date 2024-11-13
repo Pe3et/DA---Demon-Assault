@@ -2,7 +2,7 @@ class Zombie extends MovableObject {
     width = 128;
     height = 128;
     y = 132;
-    speed = 2 + Math.random()*2;
+    speed = 2 + Math.random() * 2;
     runningThreshhold = 2.25;
     sWidth = 96;
     direction = 'left';
@@ -11,20 +11,29 @@ class Zombie extends MovableObject {
     attackRange = 32;
     attackDamage = 20;
     isDead = false;
-    walkSprite = new SpriteSheet('assets/sprites/zombies/Zombie Man/Walk.png', 768, 96);
-    runSprite = new SpriteSheet('assets/sprites/zombies/Zombie Man/Run.png', 672, 96);
-    deadSprite = new SpriteSheet('assets/sprites/zombies/Zombie Man/Dead.png', 480, 96, false, false);
-    biteSprite = new SpriteSheet('assets/sprites/zombies/Zombie Man/Bite.png', 1056, 96, false, true);
-    attackSprites = [
-        new SpriteSheet('assets/sprites/zombies/Zombie Man/Attack_1.png', 480, 96, false, true),
-        new SpriteSheet('assets/sprites/zombies/Zombie Man/Attack_2.png', 384, 96, false, true),
-        new SpriteSheet('assets/sprites/zombies/Zombie Man/Attack_3.png', 480, 96, false, true)
-    ]
+    zombieType;
     currentSprite = this.walkSprite;
 
+    /** Initializes a new zombie object with a random type and sets its sprite sheets. */
     constructor(x) {
         super(x);
+        this.zombieType = Math.random() < 0.5 ? 'Zombie Man' : 'Zombie Woman';
+        this.setSpriteSheets();
         this.move();
+    }
+
+    /** Initializes the zombie's sprite sheets for walking, running, attacking, and dying. */
+    setSpriteSheets() {
+        const walkFrames = this.zombieType == 'Zombie Man' ? 8 : 7;
+        const atkFrames = this.zombieType == 'Zombie Man' ? [5, 4, 5] : [4, 4, 4];
+        this.walkSprite = new SpriteSheet(`assets/sprites/zombies/${this.zombieType}/Walk.png`, walkFrames);
+        this.runSprite = new SpriteSheet(`assets/sprites/zombies/${this.zombieType}/Run.png`, 7);
+        this.deadSprite = new SpriteSheet(`assets/sprites/zombies/${this.zombieType}/Dead.png`, 5, false, false);
+        this.attackSprites = [
+            new SpriteSheet(`assets/sprites/zombies/${this.zombieType}/Attack_1.png`, atkFrames[0], false, true),
+            new SpriteSheet(`assets/sprites/zombies/${this.zombieType}/Attack_2.png`, atkFrames[1], false, true),
+            new SpriteSheet(`assets/sprites/zombies/${this.zombieType}/Attack_3.png`, atkFrames[2], false, true)
+        ]
     }
 
     /** Zombie starts walking/running in the direction it has. */
@@ -33,14 +42,17 @@ class Zombie extends MovableObject {
         this.direction == 'left' ? this.moveLeft() : this.moveRight();
     }
 
+    /** Animates the zombie's walking sprite. */
     walk() {
         this.animate(this.walkSprite, 100);
     }
 
+    /** Animates the zombie's running sprite. */
     run() {
         this.animate(this.runSprite, 150);
     }
 
+    /** Moves the zombie towards the player, changing direction if necessary. */
     moveTowardsPlayer() {
         if (this.isAttacking == false && this.isDead == false) {
             const zH = this.getHitbox();
@@ -57,21 +69,23 @@ class Zombie extends MovableObject {
         }
     }
 
+    /** Initiates the zombie's attack animation and checks for collision with the magician. */
     attack() {
         if (this.isAttacking == false && this.isDead == false) {
             const attackSprite = this.getRandomAttackSprite();
-            const timeBetweenFrames = 100;
+            const timeBetweenFrames = 200;
             this.isAttacking = true;
             this.stopMoving();
             this.animate(attackSprite, timeBetweenFrames);
-            setTimeout(() => this.hitCheck(), this.biteSprite.totalFrames * timeBetweenFrames / 2);
+            setTimeout(() => this.hitCheck(), attackSprite.totalFrames * timeBetweenFrames / 2);
             setTimeout(() => {
                 this.isAttacking = false;
                 this.isDead == false && this.move();
-            }, this.biteSprite.totalFrames * timeBetweenFrames)
+            }, attackSprite.totalFrames * timeBetweenFrames)
         }
     }
 
+    /** Checks if the zombie's attack hits the magician. */
     hitCheck() {
         const zH = this.getHitbox();
         const mH = world.magician.getHitbox();
@@ -80,14 +94,16 @@ class Zombie extends MovableObject {
         const attackRightX = this.direction == 'left' ? zH.leftLine.x1 : zH.rightLine.x1 + this.attackRange;
         if (magicianMidX < attackRightX && magicianMidX > attackLeftX && mH.bottomLine.y1 > zH.topLine.y1) {
             world.magician.updateHealth(-this.attackDamage);
-        } 
+        }
     }
 
+    /** Returns a random attack sprite from the zombie's attack sprite array. */
     getRandomAttackSprite() {
         const attackSprite = this.attackSprites[Math.floor(Math.random() * this.attackSprites.length)];
         return attackSprite
     }
 
+    /** Kills the zombie, stopping its movement and playing the death animation. */
     die() {
         if (this.isDead == false) {
             this.stopMoving();
@@ -97,20 +113,14 @@ class Zombie extends MovableObject {
         }
     }
 
+    /** Drops an item at the zombie's position after it dies. */
     dropItem() {
         const zH = this.getHitbox();
         const dropX = zH.bottomLine.x1 - zH.width / 4;
         const droppedItem = new Dropable(dropX)
     }
 
-    /**
-     * Returns the hitbox of the zombie.
-     * 
-     * The hitbox is a rectangle that represents the area of the zombie that can be hit by attacks.
-     * It is calculated based on the zombie's position and size.
-     * 
-     * @returns {Hitbox} The hitbox of the zombie.
-     */
+    /** Returns the zombie's hitbox, a rectangle representing its hittable area. */
     getHitbox() {
         return new Hitbox(this.x + this.width / 3, this.y + this.height / 4, this.width / 4, this.height / 2)
     }
