@@ -96,6 +96,23 @@ canvas {
     width: 0%;
 }
 
-.bossbar {
+#bossbar {
+    position: absolute;
+    top: 16px;
+    right: 10%;
+    width: 50%;
+    height: 30px;
+    background: black;
+    box-shadow: inset 0px 0px 4px 2px lightgray;
+}
 
+#bossbar .innerbar {
+    margin-left: 0;
+    background: #FF2C2C;
+    box-shadow: inset 0px 0px 8px 4px black;
+    width: 80%
+}
+
+.d_none {
+    display: none;
 }

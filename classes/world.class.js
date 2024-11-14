@@ -209,16 +209,18 @@ class World {
 
     /** Handles lightning collision behaviour with zombies. */
     lightningCollisionBehaviour(lH, zHArray) {
-        const bH = this.boss.getHitbox();
+        if(this.boss) {
+            const bH = this.boss.getHitbox();
+            if(lH.checkHorizontalCollide(lH.leftLine, lH.rightLine, bH.leftLine, bH.rightLine)) {
+                this.boss.gotHit()
+            }
+        }
         zHArray.forEach((zH, index) => {
             if (lH.checkHorizontalCollide(lH.leftLine, lH.rightLine, zH.leftLine, zH.rightLine)) {
                 this.zombies[index].die();
                 setTimeout(() => this.zombies[index].removalFlag = true, 1000);
             }
         });
-        if(lH.checkHorizontalCollide(lH.leftLine, lH.rightLine, bH.leftLine, bH.rightLine)) {
-            this.boss.gotHit()
-        }
     }
 
     /** Handles zombie collision behaviour with the magician. */

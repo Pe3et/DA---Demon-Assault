@@ -9,6 +9,7 @@ class Demonboss extends MovableObject {
     direction = 'left'
     hp = 100
     idleTimeAtGround = 1000
+    isDead = false;
     idleSprite = new SpriteSheet('assets/sprites/demon_boss/idle.png', 4)
     flyingSprite = new SpriteSheet('assets/sprites/demon_boss/flying.png', 4)
     hurtSprite = new SpriteSheet('assets/sprites/demon_boss/hurt.png', 4)
@@ -33,7 +34,7 @@ class Demonboss extends MovableObject {
             this.direction = 'left';
             Math.random() < 0.5 ? this.flyDown() : this.moveLeft();
         }
-        requestAnimationFrame(() => this.isMoving && this.flyAround())
+        this.isDead ? this.dies() : requestAnimationFrame(() => this.isMoving && this.flyAround())
     }
 
     /** Checks if the demon boss is at the left visible side of the screen. */
@@ -109,7 +110,8 @@ class Demonboss extends MovableObject {
 
     gotHit() {
         this.hp -= 5;
-        this.hp <= 0 ? this.dies() : this.hurt();
+        updateStatusBar('bossbar', this.hp);
+        this.hp <= 0 ? this.isDead = true : this.hurt();
     }
 
     hurt() {
@@ -118,8 +120,9 @@ class Demonboss extends MovableObject {
     }
 
     dies() {
+        this.stopMoving();
         this.animate(this.deathSprite, 100);
-        //TODO: end game
+        //TODO: game end
         // setTimeout(() => this.remove(), 1000)
     }
 }
