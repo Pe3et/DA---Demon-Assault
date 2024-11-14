@@ -1,4 +1,4 @@
-class Lightning extends MovableObject {
+class Lightning extends Projectile {
     lightningSprite = new SpriteSheet('assets/sprites/wanderer_magician/Charge_2.png', 6, false)
     x
     y = 120
@@ -14,16 +14,6 @@ class Lightning extends MovableObject {
         this.direction = direction;
         this.animate(this.lightningSprite, 50)
         this.travel();
-    }
-
-    /** Updates the lightning object's position based on its direction and speed. */
-    travel() {
-        if (this.direction == 'right') {
-            this.x += this.speed;
-        } else if (this.direction == 'left') {
-            this.x -= this.speed;
-        };
-        requestAnimationFrame(() => this.travel())
     }
 
     /** Returns the hitbox of the lightning object. */

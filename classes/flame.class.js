@@ -28,15 +28,16 @@ class Flame {
     }
 
     /** Triggers an outburst animation, displaying a sequence of flame images before extinguishing all flames. */
-    flicker() {
-        for (let i = 0; i < this.flickerFrames; i++) {
+    outburst() {
+        this.isBursting = true;
+        for (let i = 0; i < this.outburstImgAmount; i++) {
             setTimeout(() => {
-                this.img.src = `assets/sprites/flame/flame_${i % 2 + 1}.png`;
+                this.img.src = `assets/sprites/flame/flame_${i + 1}.png`;
             }, this.flameSpeed * i);
         }
         setTimeout(() => {
-            this.outburst();
-        }, this.flameSpeed * this.flickerFrames);
+            this.extinguishAllFlames();
+        }, this.flameSpeed * this.outburstImgAmount);
     }
 
     /** Extinguishes all flames in the world. */

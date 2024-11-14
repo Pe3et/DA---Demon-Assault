@@ -1,0 +1,3 @@
+class Fireball extends Projectile {
+    
+}
