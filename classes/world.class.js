@@ -6,6 +6,7 @@ class World {
     dropables = [];
     lightnings = [];
     flames = [];
+    fireballs = [];
     canvas;
     ctx;
     wave = 1;
@@ -27,6 +28,7 @@ class World {
         this.drawDropables();
         this.drawLightnings();
         this.drawFlames();
+        this.drawFireballs();
         if (this.boss) this.drawBoss();
         this.collisionDetection();
         this.areAllZombiesDead() && this.nextWave();
@@ -90,6 +92,11 @@ class World {
     /** Draws all flames on the canvas. */
     drawFlames() {
         this.flames.forEach(f => this.drawObject(f))
+    }
+
+    /** Draws all fireballs on the canvas in the direction they are facing. */
+    drawFireballs() {
+        this.fireballs.forEach(f => this.drawObject(f))
     }
 
     /** Draws an object on the canvas in the direction it is facing. */

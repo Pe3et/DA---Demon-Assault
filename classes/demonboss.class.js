@@ -8,7 +8,7 @@ class Demonboss extends MovableObject {
     speed = world.magician.speed
     direction = 'left'
     hp = 100
-    idleTimeAtGround = 2000
+    idleTimeAtGround = 1000
     idleSprite = new SpriteSheet('assets/sprites/demon_boss/idle.png', 4)
     flyingSprite = new SpriteSheet('assets/sprites/demon_boss/flying.png', 4)
     hurtSprite = new SpriteSheet('assets/sprites/demon_boss/hurt.png', 4)
@@ -61,7 +61,7 @@ class Demonboss extends MovableObject {
     /** Initiates the demon boss's attack animation and summons or shoots flames based on its direction. */
     attack() {
         this.animate(this.attackSprite, 100);
-        this.direction == 'right' ? this.summonFlame() : this.shootFlame();
+        this.direction == 'right' ? this.summonFlame() : this.shootFireball();
     }
 
     summonFlame() {
@@ -73,9 +73,10 @@ class Demonboss extends MovableObject {
         setTimeout(() => this.flyUp(),1000)
     }
 
-    shootFlame() {
-        console.log('shoot flame');
-        this.flyUp()
+    shootFireball() {
+        const fireball = new Fireball();
+        world.fireballs.push(fireball);
+        setTimeout(() => this.flyUp(),1000)
     }
 
     /** Moves the demon boss upwards until it reaches the flight altitude. */
@@ -84,8 +85,11 @@ class Demonboss extends MovableObject {
         this.y--;
         if (this.y > this.flightY) {
             requestAnimationFrame(() => this.flyUp())
-        } else {
+        } else if (this.y == this.flightY) {
             this.flyAround();
+        } else if (this.y < this.flightY) {
+            this.y++;
+            requestAnimationFrame(() => this.flyUp())
         }
     }
 
