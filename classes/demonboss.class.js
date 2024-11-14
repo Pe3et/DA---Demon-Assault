@@ -51,29 +51,26 @@ class Demonboss extends MovableObject {
             this.x >= world.level.endPosX - world.magician.startPositionX - this.width
     }
 
-    /** Returns the hitbox of the demon boss. */
-    getHitbox() {
-        return new Hitbox(this.x, this.y, this.width, this.height)
-    }
-
-    gotHit() {
-        this.hp -= 10;
-        this.hp <= 0 && this.dies();
-    }
-
-    dies() {
-
-    }
-
     /** Enters the demon boss's idle state, stopping movement and animating the idle sprite. */
+    idle() {
+        this.stopMoving();
+        this.animate(this.idleSprite, 100);
+        if (this.y == this.groundY) setTimeout(() => this.flyUp(), this.idleTimeAtGround)
+    }
+
+    /** Initiates the demon boss's attack animation and summons or shoots flames based on its direction. */
     attack() {
         this.animate(this.attackSprite, 100);
         this.direction == 'right' ? this.summonFlame() : this.shootFlame();
     }
 
     summonFlame() {
-        console.log('summon flame');
-        this.flyUp()
+        const flamesAmount = 5;
+        for (let i = 0; i < flamesAmount; i++) {
+            const flame = new Flame();
+            world.flames.push(flame)
+        }
+        setTimeout(() => this.flyUp(),1000)
     }
 
     shootFlame() {
@@ -101,5 +98,19 @@ class Demonboss extends MovableObject {
         } else {
             Math.random() < 0.5 ? this.idle() : this.attack()
         }
+    }
+
+    /** Returns the hitbox of the demon boss. */
+    getHitbox() {
+        return new Hitbox(this.x, this.y, this.width, this.height)
+    }
+
+    gotHit() {
+        this.hp -= 10;
+        this.hp <= 0 && this.dies();
+    }
+
+    dies() {
+
     }
 }

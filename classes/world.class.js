@@ -5,6 +5,7 @@ class World {
     backgroundObjects = this.level.backgroundObjects;
     dropables = [];
     lightnings = [];
+    flames = [];
     canvas;
     ctx;
     wave = 1;
@@ -25,6 +26,7 @@ class World {
         this.drawZombies();
         this.drawDropables();
         this.drawLightnings();
+        this.drawFlames();
         if (this.boss) this.drawBoss();
         this.collisionDetection();
         this.areAllZombiesDead() && this.nextWave();
@@ -85,6 +87,11 @@ class World {
         this.drawInDirection(this.boss)
     }
 
+    /** Draws all flames on the canvas. */
+    drawFlames() {
+        this.flames.forEach(f => this.drawObject(f))
+    }
+
     /** Draws an object on the canvas in the direction it is facing. */
     drawInDirection(obj) {
         obj instanceof Demonboss ?
@@ -131,7 +138,9 @@ class World {
         const zombieHitboxArray = [];
         const dropableHitboxArray = [];
         const lightningHitboxArray = [];
-        this.bossCollision(magicianHitbox);
+        this.bossCollisionDetection(magicianHitbox);
+        this.flameCollisionDetection(magicianHitbox);
+
         this.zombies.forEach(zombie => zombieHitboxArray.push(zombie.getHitbox()));
         zombieHitboxArray.forEach((zH, index) => this.zombieCollisionBehaviour(zH, index, magicianHitbox));
         this.dropables.forEach(drop => dropableHitboxArray.push(drop.getHitbox()));
@@ -148,11 +157,17 @@ class World {
         lightningHitboxArray.forEach(l => this.drawHitboxForDebugging(l));
     }
 
-    bossCollision(mH) {
-        if(this.boss) {
-            const bossHitbox = this.boss.getHitbox(); 
+    bossCollisionDetection(mH) {
+        if (this.boss) {
+            const bossHitbox = this.boss.getHitbox();
             this.drawHitboxForDebugging(bossHitbox)
         }
+    }
+
+    flameCollisionDetection(mH) {
+        const flameHitboxArray = this.flames.map(f => f.getHitbox());
+        flameHitboxArray.forEach(fH => this.drawHitboxForDebugging(fH));
+        // if flame.isBursting ...
     }
 
     /** Removes dropables with the removalFlag set to true from the dropables array. */
