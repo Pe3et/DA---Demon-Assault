@@ -21,8 +21,9 @@ class Hitbox {
     }
 
 
-    /** Checks if the magician's jump has landed on the zombie's head or dropable within a given offset. */
-    magicianJumpedOnSomething(botLine, topLine, offset) {
+    /** Checks if the magician's jump has landed on something within a given offset. */
+    magicianJumpedOnSomething(botLine, topLine) {
+        const offset = world.magician.jumpYFactor;
         if (botLine.x1 < topLine.x2 + offset && botLine.x2 > topLine.x1 - offset && botLine.y1 < topLine.y2 + offset && botLine.y2 > topLine.y1 - offset) {
             return true;
         }

@@ -74,8 +74,7 @@ class Demonboss extends MovableObject {
     }
 
     shootFireball() {
-        const fireball = new Fireball();
-        world.fireballs.push(fireball);
+        world.fireball = new Fireball();
         setTimeout(() => this.flyUp(),1000)
     }
 

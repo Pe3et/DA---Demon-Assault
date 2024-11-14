@@ -6,7 +6,7 @@ class World {
     dropables = [];
     lightnings = [];
     flames = [];
-    fireballs = [];
+    fireball
     canvas;
     ctx;
     wave = 1;
@@ -28,7 +28,7 @@ class World {
         this.drawDropables();
         this.drawLightnings();
         this.drawFlames();
-        this.drawFireballs();
+        if (this.fireball) this.drawFireball();
         if (this.boss) this.drawBoss();
         this.collisionDetection();
         this.areAllZombiesDead() && this.nextWave();
@@ -95,8 +95,8 @@ class World {
     }
 
     /** Draws all fireballs on the canvas in the direction they are facing. */
-    drawFireballs() {
-        this.fireballs.forEach(f => this.drawObject(f))
+    drawFireball() {
+        this.drawObject(this.fireball)
     }
 
     /** Draws an object on the canvas in the direction it is facing. */
@@ -145,8 +145,9 @@ class World {
         const zombieHitboxArray = [];
         const dropableHitboxArray = [];
         const lightningHitboxArray = [];
-        this.bossCollisionDetection(magicianHitbox);
+        if (this.boss) this.bossCollisionDetection(magicianHitbox);
         this.flameCollisionDetection(magicianHitbox);
+        if (this.fireball) this.fireballCollisionDetection(magicianHitbox);
 
         this.zombies.forEach(zombie => zombieHitboxArray.push(zombie.getHitbox()));
         zombieHitboxArray.forEach((zH, index) => this.zombieCollisionBehaviour(zH, index, magicianHitbox));
@@ -165,16 +166,30 @@ class World {
     }
 
     bossCollisionDetection(mH) {
-        if (this.boss) {
-            const bossHitbox = this.boss.getHitbox();
-            this.drawHitboxForDebugging(bossHitbox)
-        }
+        const bossHitbox = this.boss.getHitbox();
+
+        //debug
+        this.drawHitboxForDebugging(bossHitbox)
     }
 
     flameCollisionDetection(mH) {
         const flameHitboxArray = this.flames.map(f => f.getHitbox());
+
+        //debug
         flameHitboxArray.forEach(fH => this.drawHitboxForDebugging(fH));
         // if flame.isBursting ...
+    }
+
+    fireballCollisionDetection(mH) {
+        const fH = this.fireball.getHitbox();
+        if(fH.checkHorizontalCollide(fH.leftLine, fH.rightLine, mH.leftLine, mH.rightLine) ||
+        mH.magicianJumpedOnSomething(mH.bottomLine, fH.topLine)) {
+            this.magician.updateHealth(-20);
+            this.fireball = null
+        }
+
+        //debug
+        this.drawHitboxForDebugging(fH)
     }
 
     /** Removes dropables with the removalFlag set to true from the dropables array. */
@@ -195,7 +210,7 @@ class World {
     /** Handles zombie collision behaviour with the magician. */
     zombieCollisionBehaviour(zH, index, mH) {
         if (this.magician.goingDownwards == true
-            && mH.magicianJumpedOnSomething(mH.bottomLine, zH.topLine, this.magician.jumpYFactor)) {
+            && mH.magicianJumpedOnSomething(mH.bottomLine, zH.topLine)) {
             this.zombies[index].die();
             setTimeout(() => this.zombies[index].removalFlag = true, 1000);
         } else if (
@@ -210,7 +225,7 @@ class World {
 
     /** Handles dropable collision behaviour with the magician. */
     dropableCollisionBehaviour(dH, index, mH) {
-        if (mH.magicianJumpedOnSomething(mH.bottomLine, dH.topLine, this.magician.jumpYFactor) ||
+        if (mH.magicianJumpedOnSomething(mH.bottomLine, dH.topLine) ||
             (dH.checkHorizontalCollide(dH.leftLine, dH.rightLine, mH.leftLine, mH.rightLine))) {
             this.dropables[index].isCollected();
         }
