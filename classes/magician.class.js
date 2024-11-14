@@ -30,7 +30,7 @@ class Magician extends MovableObject {
     constructor() {
         super().loadSprite(this.idleSprite);
         this.idle();
-        this.godmode();
+        // this.godmode();
     }
 
     /** Puts the magician in an idle state, stopping any movement and animating the idle sprite. */
@@ -133,11 +133,11 @@ class Magician extends MovableObject {
     }
 
     /** Updates the magician's health by the specified percentage, handling death and hurt states. */
-    updateHealth(percent) {
+    updateHealth(percent, disableRepeatedHurt = false) {
         this.health += percent;
         if (this.health > 100) this.health = 100;
         if (this.health <= 0) this.dies();
-        if (this.health > 0 && percent < 0) this.hurt();
+        if (this.health > 0 && percent < 0 && !disableRepeatedHurt) this.hurt();
         updateStatusBar('healthBar', this.health)
     }
 

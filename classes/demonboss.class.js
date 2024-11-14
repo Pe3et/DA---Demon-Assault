@@ -1,5 +1,5 @@
 class Demonboss extends MovableObject {
-    flightY = 90
+    flightY = 80
     groundY = 155
     x = world.level.endPosX
     y = this.flightY
