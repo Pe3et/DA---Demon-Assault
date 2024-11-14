@@ -44,8 +44,6 @@ class World {
     nextWave() {
         this.wave++;
         this.spawnNewZombies()
-
-        this.summonBoss()
     }
 
     /** Spawns a new wave of zombies, with the number of zombies increasing with each wave. */
@@ -211,12 +209,16 @@ class World {
 
     /** Handles lightning collision behaviour with zombies. */
     lightningCollisionBehaviour(lH, zHArray) {
+        const bH = this.boss.getHitbox();
         zHArray.forEach((zH, index) => {
             if (lH.checkHorizontalCollide(lH.leftLine, lH.rightLine, zH.leftLine, zH.rightLine)) {
                 this.zombies[index].die();
                 setTimeout(() => this.zombies[index].removalFlag = true, 1000);
             }
         });
+        if(lH.checkHorizontalCollide(lH.leftLine, lH.rightLine, bH.leftLine, bH.rightLine)) {
+            this.boss.gotHit()
+        }
     }
 
     /** Handles zombie collision behaviour with the magician. */

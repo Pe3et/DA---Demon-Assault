@@ -27,5 +27,5 @@ window.addEventListener('keyup', (e) => {
 /** Updates the referenced status bar's innerBar witdh to the given percent value. */
 function updateStatusBar(refID, percent) {
     const barRef = document.getElementById(refID);
-    barRef.querySelector('.innerBar').style.width = `${percent}%`
+    barRef.querySelector('.innerbar').style.width = `${percent}%`
 }

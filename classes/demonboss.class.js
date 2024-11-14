@@ -14,7 +14,6 @@ class Demonboss extends MovableObject {
     hurtSprite = new SpriteSheet('assets/sprites/demon_boss/hurt.png', 4)
     attackSprite = new SpriteSheet('assets/sprites/demon_boss/attack.png', 8, false)
     deathSprite = new SpriteSheet('assets/sprites/demon_boss/attack.png', 7)
-    attackTimer = 0
 
     /** Initializes the demon boss, starting its animation and flight pattern. */
     constructor() {
@@ -98,7 +97,7 @@ class Demonboss extends MovableObject {
         this.y++;
         if (this.y != this.groundY) {
             requestAnimationFrame(() => this.flyDown())
-        } else {
+        } else if (this.y == this.groundY) {
             Math.random() < 0.5 ? this.idle() : this.attack()
         }
     }
@@ -109,11 +108,18 @@ class Demonboss extends MovableObject {
     }
 
     gotHit() {
-        this.hp -= 10;
-        this.hp <= 0 && this.dies();
+        this.hp -= 5;
+        this.hp <= 0 ? this.dies() : this.hurt();
+    }
+
+    hurt() {
+        this.animate(this.hurtSprite, 100);
+        setTimeout(() => this.flyUp(), 400)
     }
 
     dies() {
-
+        this.animate(this.deathSprite, 100);
+        //TODO: end game
+        // setTimeout(() => this.remove(), 1000)
     }
 }

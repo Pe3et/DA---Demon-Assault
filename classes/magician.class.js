@@ -138,7 +138,7 @@ class Magician extends MovableObject {
         if (this.health > 100) this.health = 100;
         if (this.health <= 0) this.dies();
         if (this.health > 0 && percent < 0 && !disableRepeatedHurt) this.hurt();
-        updateStatusBar('healthBar', this.health)
+        updateStatusBar('healthbar', this.health)
     }
 
     /** Handles the magician's hurt state, stopping movement, resetting attack charge, and animating the hurt sprite. */
@@ -158,20 +158,22 @@ class Magician extends MovableObject {
     updateMana(percent) {
         this.mana += percent;
         if (this.mana > 100) this.mana = 100;
-        updateStatusBar('manaBar', this.mana)
+        updateStatusBar('manabar', this.mana)
     }
 
     /** Updates the magician's progress by the specified percentage. */
     gainProgress(percent) {
         this.progress += percent;
-        updateStatusBar('progressBar', this.progress)
+        updateStatusBar('progressbar', this.progress);
+        if(this.progress == 100) world.summonBoss()
+
     }
 
     godmode() {
         this.health = 50;
         this.mana = 50;
-        updateStatusBar('healthBar', this.health);
-        updateStatusBar('manaBar', this.mana);
+        updateStatusBar('healthbar', this.health);
+        updateStatusBar('manabar', this.mana);
         requestAnimationFrame(() => this.godmode())
     }
 }
