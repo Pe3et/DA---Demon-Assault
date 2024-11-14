@@ -178,6 +178,14 @@ class World {
 
     flameCollisionDetection(mH) {
         const flameHitboxArray = this.flames.map(f => f.getHitbox());
+        if(this.flames.every( f => f.isBursting)) {
+            flameHitboxArray.forEach(fH => {
+                if(fH.checkHorizontalCollide(fH.leftLine, fH.rightLine, mH.leftLine, mH.rightLine) ||
+                fH.botTopCollide(mH.bottomLine, fH.topLine)) {
+                    this.magician.updateHealth(-1, true)
+                }
+            })
+        }
 
         //debug
         flameHitboxArray.forEach(fH => this.drawHitboxForDebugging(fH));
