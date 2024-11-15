@@ -2,10 +2,11 @@ class AudioSpritesheet {
     startTimeArray
     audioSheet
     soundDurationMS
+    volume = 0.2
 
     constructor(src, soundDurationMS, startTimeArray) {
         this.audioSheet = new Audio(src);
-        this.audioSheet.volume = 0.2;
+        this.audioSheet.volume = this.volume;
         this.soundDurationMS = soundDurationMS;
         this.startTimeArray = startTimeArray;
     }

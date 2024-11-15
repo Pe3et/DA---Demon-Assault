@@ -33,6 +33,9 @@ class Magician extends MovableObject {
     ];
     audioJumpSpritesheet = new AudioSpritesheet('assets/audio/fx/jumps.mp3', 500,
         [1.2, 2.5, 3.5, 4.8, 6.1, 7.5, 8.5, 10.4, 12.1, 13.5]);
+    audioHurtSpritesheet = new AudioSpritesheet('assets/audio/fx/player_hurt.mp3', 900,
+        [0.4, 1.4, 3.2, 4.5, 5.5, 6.8, 8, 9.3, 10.9, 12, 13.2, 14.4, 15.7, 17, 18, 19, 20, 21.4,
+        22.4, 23.5, 24.7, 25.8, 27.1, 28.2, 30.1, 31, 32.3, 33.7, 35.2, 36.4, 37.8, 39, 40.2]);
 
     /** Initializes a new instance of the Magician class. Loads the idle sprite and sets the magician to an idle state. */
     constructor() {
@@ -171,6 +174,7 @@ class Magician extends MovableObject {
         this.resetAttackCharge();
         keyboard.keyboardBlock = true;
         this.animate(this.hurtSprite, 50);
+        this.audioHurtSpritesheet.playRandomSound();
         setTimeout(() => {
             this.animationBlocker = false;
             keyboard.keyboardBlock = false;
