@@ -25,6 +25,12 @@ class Magician extends MovableObject {
     hurtSprite = new SpriteSheet('assets/sprites/wanderer_magician/Hurt.png', 4, false, false);
     attackSprite = new SpriteSheet('assets/sprites/wanderer_magician/Attack_2.png', 9, false, true);
     currentSprite = this.idleSprite;
+    audioFootsteps = [
+        new Audio('assets/audio/fx/footsteps/FootstepsWetGravelStones1.ogg'),
+        new Audio('assets/audio/fx/footsteps/FootstepsWetGravelStones2.ogg'),
+        new Audio('assets/audio/fx/footsteps/FootstepsWetGravelStones3.ogg'),
+        new Audio('assets/audio/fx/footsteps/FootstepsWetGravelStones4.ogg')
+    ]
 
     /** Initializes a new instance of the Magician class. Loads the idle sprite and sets the magician to an idle state. */
     constructor() {
@@ -39,12 +45,27 @@ class Magician extends MovableObject {
         this.animate(this.idleSprite, 200);
     }
 
-    /** Makes the magician run in the specified direction. */
+    /** Animates the magician running in the specified direction. */
     run(direction) {
         this.animate(this.runSprite, 100);
         if (direction == 'right') this.moveRight(true);
         if (direction == 'left') this.moveLeft(true);
         this.direction = direction;
+        this.playFootstepsAudio()
+    }
+
+    /** Plays the footsteps audio when the magician is moving on the ground. */
+    playFootstepsAudio() {
+        if (this.y == this.startPositionY && this.isMoving && this.isJumping == false && !this.footstepsTimeout) {
+            const index = Math.floor(Math.random() * this.audioFootsteps.length);
+            this.audioFootsteps[index].volume = 0.2;
+            this.audioFootsteps[index].playbackRate = 2.5;
+            this.audioFootsteps[index].play();
+            this.footstepsTimeout = setTimeout(() => {
+                this.footstepsTimeout = null;
+                this.playFootstepsAudio();
+            }, 350);
+        }
     }
 
     /** Initiates the magician's jump action, animating the jump sprite and updating the jump state. */
@@ -106,9 +127,9 @@ class Magician extends MovableObject {
         this.updateMana(-20);
         const lightning = new Lightning(this.x, this.direction);
         world.lightnings.push(lightning);
-        setTimeout(()=> {
+        setTimeout(() => {
             this.currentSprite == this.attackSprite && this.resetAnimation()
-        }, 200); 
+        }, 200);
     }
 
     /** Resets the magician's attack charge state and clears the attack timeout. */
@@ -165,7 +186,7 @@ class Magician extends MovableObject {
     gainProgress(percent) {
         this.progress += percent;
         updateStatusBar('progressbar', this.progress);
-        if(this.progress == 100) world.summonBoss()
+        if (this.progress == 100) world.summonBoss()
 
     }
 

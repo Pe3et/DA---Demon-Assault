@@ -64,23 +64,25 @@ class Demonboss extends MovableObject {
         this.direction == 'right' ? this.summonFlame() : this.shootFireball();
     }
 
+    /** Summons a specified amount of flames and initiates the demon boss's upward flight after a short delay. */
     summonFlame() {
         const flamesAmount = 5;
         for (let i = 0; i < flamesAmount; i++) {
             const flame = new Flame();
             world.flames.push(flame)
         }
-        setTimeout(() => this.flyUp(),1000)
+        setTimeout(() => this.flyUp(), 1000)
     }
 
+    /** Shoots a fireball and initiates the demon boss's upward flight after a short delay. */
     shootFireball() {
         world.fireball = new Fireball();
-        setTimeout(() => this.flyUp(),1000)
+        setTimeout(() => this.flyUp(), 1000)
     }
 
     /** Moves the demon boss upwards until it reaches the flight altitude. */
     flyUp() {
-        if(!this.isDead) {
+        if (!this.isDead) {
             if (this.currentSprite != this.idleSprite) this.idle();
             this.y--;
             if (this.y > this.flightY) {
@@ -125,7 +127,7 @@ class Demonboss extends MovableObject {
 
     dies() {
         this.stopMoving();
-        this.animate(this.deathSprite, 200);
+        this.animate(this.deathSprite, 130);
         //TODO: game end
         // setTimeout(() => this.remove(), 1000)
     }
