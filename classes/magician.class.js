@@ -30,7 +30,9 @@ class Magician extends MovableObject {
         new Audio('assets/audio/fx/footsteps/FootstepsWetGravelStones2.ogg'),
         new Audio('assets/audio/fx/footsteps/FootstepsWetGravelStones3.ogg'),
         new Audio('assets/audio/fx/footsteps/FootstepsWetGravelStones4.ogg')
-    ]
+    ];
+    audioJumpSpritesheet = new AudioSpritesheet('assets/audio/fx/jumps.mp3', 500,
+        [1.2, 2.5, 3.5, 4.8, 6.1, 7.5, 8.5, 10.4, 12.1, 13.5]);
 
     /** Initializes a new instance of the Magician class. Loads the idle sprite and sets the magician to an idle state. */
     constructor() {
@@ -75,6 +77,7 @@ class Magician extends MovableObject {
             this.animate(this.jumpSprite, timeBetweenFrames);
             this.isJumping = true;
             this.jumpAnimation();
+            this.audioJumpSpritesheet.playRandomSound()
         }
     }
 
