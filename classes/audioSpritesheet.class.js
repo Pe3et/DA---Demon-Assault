@@ -12,7 +12,7 @@ class AudioSpritesheet {
     }
 
     playRandomSound() {
-        if (this.startTimeArray.length > 0) {
+        if (this.startTimeArray.length > 0 && this.audioSheet.paused) {
             const randomIndex = Math.floor(Math.random() * this.startTimeArray.length);
             this.audioSheet.currentTime = this.startTimeArray[randomIndex];
             this.audioSheet.play();

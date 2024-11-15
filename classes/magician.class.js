@@ -36,6 +36,7 @@ class Magician extends MovableObject {
     audioHurtSpritesheet = new AudioSpritesheet('assets/audio/fx/player_hurt.mp3', 900,
         [0.4, 1.4, 3.2, 4.5, 5.5, 6.8, 8, 9.3, 10.9, 12, 13.2, 14.4, 15.7, 17, 18, 19, 20, 21.4,
         22.4, 23.5, 24.7, 25.8, 27.1, 28.2, 30.1, 31, 32.3, 33.7, 35.2, 36.4, 37.8, 39, 40.2]);
+    audioLighning = new Audio('assets/audio/fx/lightning.wav');
 
     /** Initializes a new instance of the Magician class. Loads the idle sprite and sets the magician to an idle state. */
     constructor() {
@@ -122,6 +123,7 @@ class Magician extends MovableObject {
             this.isChargingAttack = true;
             this.stopMoving();
             this.animate(this.attackSprite, castDelay / castFrame);
+
             this.attackChargeTimeout = setTimeout(() => {
                 this.isChargingAttack && this.castLightning()
             }, castDelay);
@@ -133,6 +135,9 @@ class Magician extends MovableObject {
         this.updateMana(-20);
         const lightning = new Lightning(this.x, this.direction);
         world.lightnings.push(lightning);
+        this.audioLighning.play();
+        this.audioLighning.volume = 0.5;
+        this.audioLighning.playbackRate = 8;
         setTimeout(() => {
             this.currentSprite == this.attackSprite && this.resetAnimation()
         }, 200);
@@ -165,6 +170,7 @@ class Magician extends MovableObject {
         if (this.health > 100) this.health = 100;
         if (this.health <= 0) this.dies();
         if (this.health > 0 && percent < 0 && !disableRepeatedHurt) this.hurt();
+        if (percent < 0) this.audioHurtSpritesheet.playRandomSound();
         updateStatusBar('healthbar', this.health)
     }
 
@@ -174,7 +180,6 @@ class Magician extends MovableObject {
         this.resetAttackCharge();
         keyboard.keyboardBlock = true;
         this.animate(this.hurtSprite, 50);
-        this.audioHurtSpritesheet.playRandomSound();
         setTimeout(() => {
             this.animationBlocker = false;
             keyboard.keyboardBlock = false;
