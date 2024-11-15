@@ -135,8 +135,8 @@ class Magician extends MovableObject {
         const lightning = new Lightning(this.x, this.direction);
         world.lightnings.push(lightning);
         this.audioLighning.play();
-        this.audioLighning.volume = 0.5;
-        this.audioLighning.playbackRate = 8;
+        this.audioLighning.volume = 0.8;
+        this.audioLighning.playbackRate = 7;
         setTimeout(() => {
             this.currentSprite == this.attackSprite && this.resetAnimation()
         }, 200);

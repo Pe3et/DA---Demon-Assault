@@ -15,11 +15,17 @@ class Demonboss extends MovableObject {
     hurtSprite = new SpriteSheet('assets/sprites/demon_boss/hurt.png', 4)
     attackSprite = new SpriteSheet('assets/sprites/demon_boss/attack.png', 8, false)
     deathSprite = new SpriteSheet('assets/sprites/demon_boss/death.png', 7, false)
+    audioScreeches = new AudioSpritesheet('assets/audio/fx/boss_screech.ogg', 2100,
+        [0.1, 2.2, 4.4, 7.3, 10.1, 12.9, 15.4, 18.3, 21.4, 24.6, 27])
+    audioFireball = new Audio('assets/audio/fx/fireball.mp3')
+    audioFlame = new Audio('assets/audio/fx/fire.mp3')
+    audioExplosion = new Audio('assets/audio/fx/explosion.mp3')
 
     /** Initializes the demon boss, starting its animation and flight pattern. */
     constructor() {
         super();
         this.animate(this.flyingSprite, 100);
+        this.audioScreeches.playRandomSound();
         this.flyAround();
     }
 
@@ -66,6 +72,9 @@ class Demonboss extends MovableObject {
 
     /** Summons a specified amount of flames and initiates the demon boss's upward flight after a short delay. */
     summonFlame() {
+        this.audioFlame.volume = 0.5;
+        this.audioFlame.playbackRate = 0.5;
+        this.audioFlame.play();
         const flamesAmount = 5;
         for (let i = 0; i < flamesAmount; i++) {
             const flame = new Flame();
@@ -77,6 +86,8 @@ class Demonboss extends MovableObject {
     /** Shoots a fireball and initiates the demon boss's upward flight after a short delay. */
     shootFireball() {
         world.fireball = new Fireball();
+        this.audioFireball.volume = 0.5;
+        this.audioFireball.play();
         setTimeout(() => this.flyUp(), 1000)
     }
 
@@ -117,6 +128,7 @@ class Demonboss extends MovableObject {
     gotHit() {
         this.hp -= 5;
         updateStatusBar('bossbar', this.hp);
+        this.audioScreeches.playRandomSound();
         this.hp <= 0 ? this.isDead = true : this.hurt();
     }
 
@@ -127,6 +139,8 @@ class Demonboss extends MovableObject {
 
     dies() {
         this.stopMoving();
+        this.audioExplosion.volume = 0.5;
+        this.audioExplosion.play();
         this.animate(this.deathSprite, 130);
         //TODO: game end
         // setTimeout(() => this.remove(), 1000)
