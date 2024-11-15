@@ -77,6 +77,7 @@ class Zombie extends MovableObject {
             this.isAttacking = true;
             this.stopMoving();
             this.animate(attackSprite, timeBetweenFrames);
+            world.audioZombieAttacks.playRandomSound();
             setTimeout(() => this.hitCheck(), attackSprite.totalFrames * timeBetweenFrames / 2);
             setTimeout(() => {
                 this.isAttacking = false;

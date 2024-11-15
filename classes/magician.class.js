@@ -123,7 +123,6 @@ class Magician extends MovableObject {
             this.isChargingAttack = true;
             this.stopMoving();
             this.animate(this.attackSprite, castDelay / castFrame);
-
             this.attackChargeTimeout = setTimeout(() => {
                 this.isChargingAttack && this.castLightning()
             }, castDelay);

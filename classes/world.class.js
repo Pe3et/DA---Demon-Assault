@@ -11,6 +11,8 @@ class World {
     ctx;
     wave = 1;
     boss;
+    audioZombieAttacks = new AudioSpritesheet('assets/audio/fx/zombie_attacks.mp3', 2000,
+        [1.55, 5.1, 8.2, 11.7, 15.4, 19.7, 24.3, 27.6, 30, 37, 40.5]);
 
     /** Initializes the World class with a given canvas element. */
     constructor(canvas) {
