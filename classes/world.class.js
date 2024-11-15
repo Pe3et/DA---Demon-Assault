@@ -13,6 +13,16 @@ class World {
     boss;
     audioZombieAttacks = new AudioSpritesheet('assets/audio/fx/zombie_attacks.mp3', 2000,
         [1.55, 5.1, 8.2, 11.7, 15.4, 19.7, 24.3, 27.6, 30, 37, 40.5]);
+    audioZombieDeaths = [
+        new Audio('assets/audio/fx/bone_break/bb1.mp3'),
+        new Audio('assets/audio/fx/bone_break/bb2.mp3'),
+        new Audio('assets/audio/fx/bone_break/bb3.mp3'),
+        new Audio('assets/audio/fx/bone_break/bb4.mp3'),
+        new Audio('assets/audio/fx/bone_break/bb5.mp3'),
+        new Audio('assets/audio/fx/bone_break/bb6.mp3'),
+        new Audio('assets/audio/fx/bone_break/bb7.mp3'),
+        new Audio('assets/audio/fx/bone_break/bb8.mp3')
+    ];
 
     /** Initializes the World class with a given canvas element. */
     constructor(canvas) {
@@ -168,9 +178,9 @@ class World {
 
     bossCollisionDetection(mH) {
         const bH = this.boss.getHitbox();
-        if(bH.checkHorizontalCollide(bH.leftLine, bH.rightLine, mH.leftLine, mH.rightLine) ||
-        bH.botTopCollide(bH.bottomLine, mH.topLine) ||
-        bH.botTopCollide(bH.topLine, mH.bottomLine)) {
+        if (bH.checkHorizontalCollide(bH.leftLine, bH.rightLine, mH.leftLine, mH.rightLine) ||
+            bH.botTopCollide(bH.bottomLine, mH.topLine) ||
+            bH.botTopCollide(bH.topLine, mH.bottomLine)) {
             this.magician.updateHealth(-1, true)
         }
         //debug
@@ -179,10 +189,10 @@ class World {
 
     flameCollisionDetection(mH) {
         const flameHitboxArray = this.flames.map(f => f.getHitbox());
-        if(this.flames.every( f => f.isBursting)) {
+        if (this.flames.every(f => f.isBursting)) {
             flameHitboxArray.forEach(fH => {
-                if(fH.checkHorizontalCollide(fH.leftLine, fH.rightLine, mH.leftLine, mH.rightLine) ||
-                fH.botTopCollide(mH.bottomLine, fH.topLine)) {
+                if (fH.checkHorizontalCollide(fH.leftLine, fH.rightLine, mH.leftLine, mH.rightLine) ||
+                    fH.botTopCollide(mH.bottomLine, fH.topLine)) {
                     this.magician.updateHealth(-1, true)
                 }
             })
@@ -195,8 +205,8 @@ class World {
 
     fireballCollisionDetection(mH) {
         const fH = this.fireball.getHitbox();
-        if(fH.checkHorizontalCollide(fH.leftLine, fH.rightLine, mH.leftLine, mH.rightLine) ||
-        mH.botTopCollide(mH.bottomLine, fH.topLine)) {
+        if (fH.checkHorizontalCollide(fH.leftLine, fH.rightLine, mH.leftLine, mH.rightLine) ||
+            mH.botTopCollide(mH.bottomLine, fH.topLine)) {
             this.magician.updateHealth(-20);
             this.fireball = null
         }
@@ -212,9 +222,9 @@ class World {
 
     /** Handles lightning collision behaviour with zombies. */
     lightningCollisionBehaviour(lH, zHArray) {
-        if(this.boss) {
+        if (this.boss) {
             const bH = this.boss.getHitbox();
-            if(lH.checkHorizontalCollide(lH.leftLine, lH.rightLine, bH.leftLine, bH.rightLine)) {
+            if (lH.checkHorizontalCollide(lH.leftLine, lH.rightLine, bH.leftLine, bH.rightLine)) {
                 this.boss.gotHit()
             }
         }

@@ -109,9 +109,17 @@ class Zombie extends MovableObject {
         if (this.isDead == false) {
             this.stopMoving();
             this.animate(this.deadSprite, 100);
+            this.playRandomDeathSound();
             this.isDead = true;
             setTimeout(() => this.dropItem(), 1000);
         }
+    }
+
+    /** Plays a random death sound effect for the zombie. For perfamce reasons the sounds are in the world class */
+    playRandomDeathSound() {
+        const randomIndex = Math.floor(Math.random() * world.audioZombieDeaths.length);
+        world.audioZombieDeaths[randomIndex].volume = 0.2;
+        if(world.audioZombieDeaths[randomIndex].paused) world.audioZombieDeaths[randomIndex].play();
     }
 
     /** Drops an item at the zombie's position after it dies. */
