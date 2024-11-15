@@ -14,7 +14,7 @@ class Demonboss extends MovableObject {
     flyingSprite = new SpriteSheet('assets/sprites/demon_boss/flying.png', 4)
     hurtSprite = new SpriteSheet('assets/sprites/demon_boss/hurt.png', 4)
     attackSprite = new SpriteSheet('assets/sprites/demon_boss/attack.png', 8, false)
-    deathSprite = new SpriteSheet('assets/sprites/demon_boss/attack.png', 7)
+    deathSprite = new SpriteSheet('assets/sprites/demon_boss/death.png', 7, false)
 
     /** Initializes the demon boss, starting its animation and flight pattern. */
     constructor() {
@@ -80,15 +80,19 @@ class Demonboss extends MovableObject {
 
     /** Moves the demon boss upwards until it reaches the flight altitude. */
     flyUp() {
-        if (this.currentSprite != this.idleSprite) this.idle();
-        this.y--;
-        if (this.y > this.flightY) {
-            requestAnimationFrame(() => this.flyUp())
-        } else if (this.y == this.flightY) {
-            this.flyAround();
-        } else if (this.y < this.flightY) {
-            this.y++;
-            requestAnimationFrame(() => this.flyUp())
+        if(!this.isDead) {
+            if (this.currentSprite != this.idleSprite) this.idle();
+            this.y--;
+            if (this.y > this.flightY) {
+                requestAnimationFrame(() => this.flyUp())
+            } else if (this.y == this.flightY) {
+                this.flyAround();
+            } else if (this.y < this.flightY) {
+                this.y++;
+                requestAnimationFrame(() => this.flyUp())
+            }
+        } else {
+            this.dies()
         }
     }
 
@@ -121,7 +125,7 @@ class Demonboss extends MovableObject {
 
     dies() {
         this.stopMoving();
-        this.animate(this.deathSprite, 100);
+        this.animate(this.deathSprite, 200);
         //TODO: game end
         // setTimeout(() => this.remove(), 1000)
     }

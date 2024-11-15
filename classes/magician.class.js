@@ -30,7 +30,7 @@ class Magician extends MovableObject {
     constructor() {
         super().loadSprite(this.idleSprite);
         this.idle();
-        // this.godmode();
+        this.godmode();
     }
 
     /** Puts the magician in an idle state, stopping any movement and animating the idle sprite. */

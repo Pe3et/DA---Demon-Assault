@@ -136,6 +136,7 @@ class World {
     /** Summons the boss in the game world. */
     summonBoss() {
         this.boss = new Demonboss();
+        document.getElementById('bossbar').classList.toggle('d_none')
     }
 
     collisionDetection() {
