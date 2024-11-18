@@ -1,10 +1,12 @@
 let canvas;
 let world;
 let keyboard = new Keyboard();
+let muteFlag = true;
 
 function init(){
     canvas = document.getElementById('canvas');
     world = new World(canvas);
+    document.getElementById('muteIcon').addEventListener('click', () => muteAllAudio(muteFlag));
 }
 
 window.addEventListener('keydown', (e) => {
@@ -28,4 +30,17 @@ window.addEventListener('keyup', (e) => {
 function updateStatusBar(refID, percent) {
     const barRef = document.getElementById(refID);
     barRef.querySelector('.innerbar').style.width = `${percent}%`
+}
+
+/** Mutes or unmutes all audio elements on the page. */
+function muteAllAudio(mute = true) {
+    world.muteAllAudio(mute);
+    toggleMuteIcon(mute);
+    muteFlag = !muteFlag;
+}
+
+function toggleMuteIcon(mute) {
+    const muteIconImgRef = document.getElementById('muteIcon').querySelector('img');
+    const iconSrc = mute ? 'assets/sprites/UI/audio_muted.svg' : 'assets/sprites/UI/audio_unmuted.svg';
+    muteIconImgRef.src = iconSrc;
 }

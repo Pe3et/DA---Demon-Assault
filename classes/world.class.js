@@ -260,6 +260,14 @@ class World {
         }
     }
 
+    /** Mutes or unmutes all audio in the game world. */
+    muteAllAudio(mute = true) {
+        this.audioZombieAttacks.audioSheet.muted = mute;
+        this.audioZombieDeaths.forEach(audio => audio.muted = mute);
+        this.magician.muteAllMagicianAudio(mute);
+        if(this.boss) this.boss.muteAllBossAudio(mute)
+    }
+
     //for debugging
     drawHitboxForDebugging(hitbox) {
         this.ctx.beginPath();

@@ -21,10 +21,11 @@ class Demonboss extends MovableObject {
     audioFlame = new Audio('assets/audio/fx/fire.mp3')
     audioExplosion = new Audio('assets/audio/fx/explosion.mp3')
 
-    /** Initializes the demon boss, starting its animation and flight pattern. */
+    /** Initializes the demon boss, starting its animation and flight pattern. Also mutes audio if audio is already muted. */
     constructor() {
         super();
         this.animate(this.flyingSprite, 100);
+        if(muteFlag == false) this.muteAllBossAudio();
         this.audioScreeches.playRandomSound();
         this.flyAround();
     }
@@ -61,11 +62,15 @@ class Demonboss extends MovableObject {
     idle() {
         this.stopMoving();
         this.animate(this.idleSprite, 100);
-        if (this.y == this.groundY) setTimeout(() => this.flyUp(), this.idleTimeAtGround)
+        if (this.y == this.groundY) setTimeout(() => {
+            this.flyUp();
+            this.audioScreeches.playRandomSound()
+        }, this.idleTimeAtGround)
     }
 
     /** Initiates the demon boss's attack animation and summons or shoots flames based on its direction. */
     attack() {
+        this.audioScreeches.playRandomSound();
         this.animate(this.attackSprite, 100);
         this.direction == 'right' ? this.summonFlame() : this.shootFireball();
     }
@@ -144,5 +149,13 @@ class Demonboss extends MovableObject {
         this.animate(this.deathSprite, 130);
         //TODO: game end
         // setTimeout(() => this.remove(), 1000)
+    }
+
+    /** Mutes or unmutes all demon boss sounds. */
+    muteAllBossAudio(mute = true) {
+        this.audioScreeches.audioSheet.muted = mute;
+        this.audioFireball.muted = mute;
+        this.audioFlame.muted = mute;
+        this.audioExplosion.muted = mute
     }
 }
