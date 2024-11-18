@@ -23,6 +23,7 @@ class World {
         new Audio('assets/audio/fx/bone_break/bb7.mp3'),
         new Audio('assets/audio/fx/bone_break/bb8.mp3')
     ];
+    win = false;
 
     /** Initializes the World class with a given canvas element. */
     constructor(canvas) {
@@ -45,7 +46,7 @@ class World {
         if (this.boss) this.drawBoss();
         this.collisionDetection();
         this.areAllZombiesDead() && this.nextWave();
-        requestAnimationFrame(() => this.draw());
+        requestAnimationFrame(() => {if(this.win == false) this.draw()});
     }
 
     /** Checks if all zombies in the current wave are dead. */

@@ -206,3 +206,24 @@ h1 {
         opacity: 1;
     }
 }
+
+#winScreen {
+    text-shadow: 0px 1px 8px #000000;
+    background: transparent;
+    font-size: 48px;
+    animation: win 1s ease forwards;
+}
+
+@keyframes win {
+    0% {
+        font-size: 0px;
+    }
+
+    80% {
+        font-size: 64px;
+    }
+
+    100% {
+        font-size: 48px;
+    }
+}

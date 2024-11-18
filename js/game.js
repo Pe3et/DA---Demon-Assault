@@ -65,3 +65,7 @@ function toggleMuteIcon(mute) {
     const iconSrc = mute ? 'assets/sprites/UI/audio_muted.svg' : 'assets/sprites/UI/audio_unmuted.svg';
     muteIconImgRef.src = iconSrc;
 }
+
+function win() {
+    document.getElementById('winScreen').classList.remove('d_none');
+}

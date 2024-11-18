@@ -147,8 +147,13 @@ class Demonboss extends MovableObject {
         this.audioExplosion.volume = 0.5;
         this.audioExplosion.play();
         this.animate(this.deathSprite, 130);
-        //TODO: game end
-        // setTimeout(() => this.remove(), 1000)
+        setTimeout(() => {
+            world.win = true;
+            world.zombies.forEach(z => z.stopMoving());
+            world.magician.stopMoving();
+            world.boss = null;
+            win();
+        }, 2000)
     }
 
     /** Mutes or unmutes all demon boss sounds. */
