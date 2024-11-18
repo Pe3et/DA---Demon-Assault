@@ -131,7 +131,7 @@ class Demonboss extends MovableObject {
     }
 
     gotHit() {
-        this.hp -= 5;
+        this.hp -= 2;
         updateStatusBar('bossbar', this.hp);
         this.audioScreeches.playRandomSound();
         this.hp <= 0 ? this.isDead = true : this.hurt();

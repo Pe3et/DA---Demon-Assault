@@ -3,7 +3,7 @@ let world;
 let keyboard = new Keyboard();
 let muteFlag = true;
 let music = new Audio('assets/audio/menu_music.ogg');
-music.volume = 0.4;
+music.volume = 0.3;
 music.loop = true;
 
 /** Initializes the application by setting up event listeners for the go button and mute icon. */

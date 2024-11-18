@@ -148,6 +148,8 @@ class World {
 
     /** Summons the boss in the game world. */
     summonBoss() {
+        music.src = 'assets/audio/boss_music.ogg';
+        music.play();
         this.boss = new Demonboss();
         document.getElementById('bossbar').classList.toggle('d_none')
     }
