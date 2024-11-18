@@ -64,7 +64,7 @@ class Magician extends MovableObject {
     playFootstepsAudio() {
         if (this.y == this.startPositionY && this.isMoving && this.isJumping == false && !this.footstepsTimeout) {
             const index = Math.floor(Math.random() * this.audioFootsteps.length);
-            this.audioFootsteps[index].volume = 0.2;
+            this.audioFootsteps[index].volume = 0.3;
             this.audioFootsteps[index].playbackRate = 2.5;
             this.audioFootsteps[index].play();
             this.footstepsTimeout = setTimeout(() => {

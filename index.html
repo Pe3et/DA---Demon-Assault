@@ -4,12 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DA - Demon Assault</title>
+    <link rel="stylesheet" href="fonts/fonts.css">
     <link rel="stylesheet" href="style.css">
     <link rel="shortcut icon" href="assets/favicon.svg" type="image/x-icon">
 </head>
 
 <body onload="init()">
-    <div class="game_container">
+    <div id="goButton" class="button">Go</div>
+    <div id="gameContainer" class="d_none">
         <canvas id="canvas" width="640" height="288"></canvas>
         <div class="statusbar_container">
             <div id="healthbar" class="statusbar">
@@ -30,6 +32,19 @@
         </div>
         <div id="muteIcon">
             <img src="assets/sprites/UI/audio_unmuted.svg" alt="mute_icon">
+        </div>
+        <div id="startScreen" class="overlay">
+            <h1>DA - Demon Assault</h1>
+            <p>Use WASD or arrow keys to move and jump.</p>
+            <p><img src="assets/sprites/UI/dark_crystal.png" alt="dark crystal">
+                Collect dark crystals from zombie drops to summon the boss.</p>
+            <p><img src="assets/sprites/UI/lightning_crystal.png" alt="lightning crystal">
+                Get mana from lightning crystals to defeat the boss.</p>
+            <p>Hold Space to use mana and cast a lightning bolt.</p>
+            <div class="button" onclick="startGame()">Start Game</div>
+        </div>
+        <div id="endScreen" class="overlay d_none">
+
         </div>
     </div>
 

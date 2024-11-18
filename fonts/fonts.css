@@ -1,0 +1,17 @@
+/* creepster-regular - latin */
+@font-face {
+    font-display: swap;
+    font-family: 'Creepster';
+    font-style: normal;
+    font-weight: 400;
+    src: url('creepster-v13-latin-regular.woff2') format('woff2');
+}
+
+/* press-start-2p-regular - latin */
+@font-face {
+    font-display: swap;
+    font-family: 'Press Start 2P';
+    font-style: normal;
+    font-weight: 400;
+    src: url('press-start-2p-v15-latin-regular.woff2') format('woff2');
+  }

@@ -26,6 +26,7 @@ class World {
 
     /** Initializes the World class with a given canvas element. */
     constructor(canvas) {
+        if(muteFlag == false) this.muteAllAudio();
         this.canvas = canvas;
         this.ctx = canvas.getContext('2d');
         this.draw();
