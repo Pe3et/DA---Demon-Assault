@@ -121,7 +121,7 @@ class Demonboss extends MovableObject {
         if (this.y != this.groundY) {
             requestAnimationFrame(() => this.flyDown())
         } else if (this.y == this.groundY) {
-            Math.random() < 0.5 ? this.idle() : this.attack()
+            this.attack()
         }
     }
 

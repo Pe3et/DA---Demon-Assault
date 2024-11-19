@@ -68,4 +68,7 @@ function toggleMuteIcon(mute) {
 
 function win() {
     document.getElementById('winScreen').classList.remove('d_none');
+    music.src = 'assets/audio/win_music.ogg';
+    music.currentTime = 36.1;
+    setTimeout(() => music.play(), 1000);
 }

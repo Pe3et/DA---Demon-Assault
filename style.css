@@ -19,8 +19,18 @@ canvas {
     background-color: black;
 }
 
+@keyframes zoom {
+    0% {
+        scale: 0;
+    }
+    100% {
+        scale: 1;
+    }
+}
+
 #gameContainer {
     position: relative;
+    animation: zoom 1000ms ease-out;
 }
 
 .statusbar_container {

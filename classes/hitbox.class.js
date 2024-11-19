@@ -20,7 +20,6 @@ class Hitbox {
         this.leftLine = { x1: this.x, y1: this.y, x2: this.x, y2: this.y + this.height };
     }
 
-
     /** Checks if the magician's jump has landed on something within a given offset. */
     botTopCollide(botLine, topLine) {
         const offset = world.magician.jumpYFactor;
@@ -29,7 +28,6 @@ class Hitbox {
         }
         return false;
     }
-
 
     /** Checks if two pairs of side-lines from two hitboxes collide horizontally with a tolerance. */
     checkHorizontalCollide(leftLine1, rightLine1, leftLine2, rightLine2) {
