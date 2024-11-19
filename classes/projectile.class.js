@@ -13,6 +13,6 @@ class Projectile extends MovableObject {
         } else if (this.direction == 'left') {
             this.x -= this.speed;
         };
-        requestAnimationFrame(() => this.travel())
+        setTimeout(() => this.travel(), 1000/60)
     }
 }

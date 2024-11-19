@@ -41,7 +41,7 @@ class Demonboss extends MovableObject {
             this.direction = 'left';
             Math.random() < 0.5 ? this.flyDown() : this.moveLeft();
         }
-        this.isDead ? this.dies() : requestAnimationFrame(() => this.isMoving && this.flyAround())
+        this.isDead ? this.dies() : setTimeout(() => this.isMoving && this.flyAround(), 1000/60)
     }
 
     /** Checks if the demon boss is at the left visible side of the screen. */
@@ -102,12 +102,12 @@ class Demonboss extends MovableObject {
             if (this.currentSprite != this.idleSprite) this.idle();
             this.y--;
             if (this.y > this.flightY) {
-                requestAnimationFrame(() => this.flyUp())
+                setTimeout(() => this.flyUp(), 1000/60)
             } else if (this.y == this.flightY) {
                 this.flyAround();
             } else if (this.y < this.flightY) {
                 this.y++;
-                requestAnimationFrame(() => this.flyUp())
+                setTimeout(() => this.flyUp(), 1000/60)
             }
         } else {
             this.dies()
@@ -119,7 +119,7 @@ class Demonboss extends MovableObject {
         if (this.isMoving) this.idle();
         this.y++;
         if (this.y != this.groundY) {
-            requestAnimationFrame(() => this.flyDown())
+            setTimeout(() => this.flyDown(), 1000/60)
         } else if (this.y == this.groundY) {
             this.attack()
         }

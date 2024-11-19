@@ -92,7 +92,7 @@ class Magician extends MovableObject {
         if (this.y <= this.startPositionY - this.jumpMaxHeight) {
             this.fallToGround();
         } else {
-            requestAnimationFrame(() => this.jumpAnimation());
+            setTimeout(() => this.jumpAnimation(), 1000/60)
         }
     }
 
@@ -112,7 +112,7 @@ class Magician extends MovableObject {
             keyboard.keyAction();
         } else {
             this.y += this.jumpYFactor;
-            requestAnimationFrame(() => this.fallAnimation());
+            setTimeout(() => this.fallAnimation(), 1000/60)
         }
     }
 
