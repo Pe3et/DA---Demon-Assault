@@ -19,12 +19,12 @@ class Magician extends MovableObject {
     isDead = false;
     isChargingAttack = false;
     attackChargeTimeout;
-    idleSprite = new SpriteSheet('assets/sprites/wanderer_magician/Idle.png', 8);
-    runSprite = new SpriteSheet('assets/sprites/wanderer_magician/Run.png', 8);
-    jumpSprite = new SpriteSheet('assets/sprites/wanderer_magician/Jump_short.png', 5, false, false);
-    deadSprite = new SpriteSheet('assets/sprites/wanderer_magician/Dead.png', 4, false, false);
-    hurtSprite = new SpriteSheet('assets/sprites/wanderer_magician/Hurt.png', 4, false, false);
-    attackSprite = new SpriteSheet('assets/sprites/wanderer_magician/Attack_2.png', 9, false, true);
+    idleSprite = new SpriteSheet('assets/sprites/wanderer_magician/Idle.png', 8, 1024);
+    runSprite = new SpriteSheet('assets/sprites/wanderer_magician/Run.png', 8, 1024);
+    jumpSprite = new SpriteSheet('assets/sprites/wanderer_magician/Jump_short.png', 5, 640, false, false);
+    deadSprite = new SpriteSheet('assets/sprites/wanderer_magician/Dead.png', 4, 512, false, false);
+    hurtSprite = new SpriteSheet('assets/sprites/wanderer_magician/Hurt.png', 4, 512, false, false);
+    attackSprite = new SpriteSheet('assets/sprites/wanderer_magician/Attack_2.png', 9, 1152, false, true);
     currentSprite = this.idleSprite;
     audioFootsteps = [
         new Audio('assets/audio/fx/footsteps/FootstepsWetGravelStones1.ogg'),

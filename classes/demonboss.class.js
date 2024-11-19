@@ -10,11 +10,11 @@ class Demonboss extends MovableObject {
     hp = 100
     idleTimeAtGround = 1000
     isDead = false;
-    idleSprite = new SpriteSheet('assets/sprites/demon_boss/idle.png', 4)
-    flyingSprite = new SpriteSheet('assets/sprites/demon_boss/flying.png', 4)
-    hurtSprite = new SpriteSheet('assets/sprites/demon_boss/hurt.png', 4)
-    attackSprite = new SpriteSheet('assets/sprites/demon_boss/attack.png', 8, false)
-    deathSprite = new SpriteSheet('assets/sprites/demon_boss/death.png', 7, false)
+    idleSprite = new SpriteSheet('assets/sprites/demon_boss/idle.png', 4, 324)
+    flyingSprite = new SpriteSheet('assets/sprites/demon_boss/flying.png', 4, 324)
+    hurtSprite = new SpriteSheet('assets/sprites/demon_boss/hurt.png', 4, 324)
+    attackSprite = new SpriteSheet('assets/sprites/demon_boss/attack.png', 8, 648, false)
+    deathSprite = new SpriteSheet('assets/sprites/demon_boss/death.png', 7, 567, false)
     audioScreeches = new AudioSpritesheet('assets/audio/fx/boss_screech.ogg', 2100,
         [0.1, 2.2, 4.4, 7.3, 10.1, 12.9, 15.4, 18.3, 21.4, 24.6, 27])
     audioFireball = new Audio('assets/audio/fx/fireball.mp3')

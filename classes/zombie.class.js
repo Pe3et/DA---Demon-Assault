@@ -25,14 +25,16 @@ class Zombie extends MovableObject {
     /** Initializes the zombie's sprite sheets for walking, running, attacking, and dying. */
     setSpriteSheets() {
         const walkFrames = this.zombieType == 'Zombie Man' ? 8 : 7;
+        const walkWidth = this.zombieType == 'Zombie Man' ? 768 : 672;
         const atkFrames = this.zombieType == 'Zombie Man' ? [5, 4, 5] : [4, 4, 4];
-        this.walkSprite = new SpriteSheet(`assets/sprites/zombies/${this.zombieType}/Walk.png`, walkFrames);
-        this.runSprite = new SpriteSheet(`assets/sprites/zombies/${this.zombieType}/Run.png`, 7);
-        this.deadSprite = new SpriteSheet(`assets/sprites/zombies/${this.zombieType}/Dead.png`, 5, false, false);
+        const atkWidth = this.zombieType == 'Zombie Man' ? [480, 384, 480] : [384, 384, 384];
+        this.walkSprite = new SpriteSheet(`assets/sprites/zombies/${this.zombieType}/Walk.png`, walkFrames, walkWidth);
+        this.runSprite = new SpriteSheet(`assets/sprites/zombies/${this.zombieType}/Run.png`, 7, 672);
+        this.deadSprite = new SpriteSheet(`assets/sprites/zombies/${this.zombieType}/Dead.png`, 5, 480, false, false);
         this.attackSprites = [
-            new SpriteSheet(`assets/sprites/zombies/${this.zombieType}/Attack_1.png`, atkFrames[0], false, true),
-            new SpriteSheet(`assets/sprites/zombies/${this.zombieType}/Attack_2.png`, atkFrames[1], false, true),
-            new SpriteSheet(`assets/sprites/zombies/${this.zombieType}/Attack_3.png`, atkFrames[2], false, true)
+            new SpriteSheet(`assets/sprites/zombies/${this.zombieType}/Attack_1.png`, atkFrames[0], atkWidth[0], false, true),
+            new SpriteSheet(`assets/sprites/zombies/${this.zombieType}/Attack_2.png`, atkFrames[1], atkWidth[2], false, true),
+            new SpriteSheet(`assets/sprites/zombies/${this.zombieType}/Attack_3.png`, atkFrames[2], atkWidth[3], false, true)
         ]
     }
 
