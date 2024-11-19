@@ -1,7 +1,7 @@
 class MovableObject {
     x;
     y;
-    img;
+    img = new Image();
     width;
     height;
     sX = 0;
@@ -24,7 +24,6 @@ class MovableObject {
 
     /** To load a new image for the object. */
     loadImage(path) {
-        this.img = new Image();
         this.img.src = path;
     }
 
