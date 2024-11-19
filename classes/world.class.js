@@ -254,7 +254,7 @@ class World {
             || (this.zombies[index].direction == 'right' && zH.checkHorizontalCollide(zH.rightLine, zH.rightLine, mH.leftLine, mH.leftLine))
         ) {
             this.zombies[index].attack();
-        } else if (this.magician.sX) {
+        } else if(this.magician.isMoving) {
             this.zombies[index].moveTowardsPlayer();
         }
     }
