@@ -33,8 +33,8 @@ class Zombie extends MovableObject {
         this.deadSprite = new SpriteSheet(`assets/sprites/zombies/${this.zombieType}/Dead.png`, 5, 480, false, false);
         this.attackSprites = [
             new SpriteSheet(`assets/sprites/zombies/${this.zombieType}/Attack_1.png`, atkFrames[0], atkWidth[0], false, true),
-            new SpriteSheet(`assets/sprites/zombies/${this.zombieType}/Attack_2.png`, atkFrames[1], atkWidth[2], false, true),
-            new SpriteSheet(`assets/sprites/zombies/${this.zombieType}/Attack_3.png`, atkFrames[2], atkWidth[3], false, true)
+            new SpriteSheet(`assets/sprites/zombies/${this.zombieType}/Attack_2.png`, atkFrames[1], atkWidth[1], false, true),
+            new SpriteSheet(`assets/sprites/zombies/${this.zombieType}/Attack_3.png`, atkFrames[2], atkWidth[2], false, true)
         ]
     }
 
