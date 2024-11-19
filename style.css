@@ -217,14 +217,14 @@ h1 {
     }
 }
 
-#winScreen {
+.endscreen {
     text-shadow: 0px 1px 8px #000000;
     background: transparent;
     font-size: 48px;
-    animation: win 1s ease forwards;
+    animation: endscreen 1s ease forwards;
 }
 
-@keyframes win {
+@keyframes endscreen {
     0% {
         font-size: 0px;
     }
@@ -237,3 +237,4 @@ h1 {
         font-size: 48px;
     }
 }
+

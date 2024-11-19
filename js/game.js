@@ -72,3 +72,10 @@ function win() {
     music.currentTime = 36.1;
     setTimeout(() => music.play(), 1000);
 }
+
+function gameOver() {
+    document.getElementById('gameOverScreen').classList.remove('d_none');
+    music.src = 'assets/audio/game_over_piano.wav';
+    music.play();
+    setTimeout(() => music.pause(), 10000);
+}

@@ -25,7 +25,7 @@ class Demonboss extends MovableObject {
     constructor() {
         super();
         this.animate(this.flyingSprite, 100);
-        if(muteFlag == false) this.muteAllBossAudio();
+        if (muteFlag == false) this.muteAllBossAudio();
         this.audioScreeches.playRandomSound();
         this.flyAround();
     }
@@ -130,6 +130,7 @@ class Demonboss extends MovableObject {
         return new Hitbox(this.x, this.y, this.width, this.height)
     }
 
+    /** Handles the demon boss's hit event, updating its HP and triggering the hurt animation or death. */
     gotHit() {
         this.hp -= 2;
         updateStatusBar('bossbar', this.hp);
@@ -137,22 +138,22 @@ class Demonboss extends MovableObject {
         this.hp <= 0 ? this.isDead = true : this.hurt();
     }
 
+    /** Animates the demon boss's hurt sprite and initiates its upward flight after a short delay. */
     hurt() {
         this.animate(this.hurtSprite, 100);
         setTimeout(() => this.flyUp(), 400)
     }
 
+    /** Kills the demon boss, stopping its movement, playing an explosion sound, and animating its death sprite. */
     dies() {
+        this.isDead = true;
         this.stopMoving();
         this.audioExplosion.volume = 0.5;
         this.audioExplosion.play();
         this.animate(this.deathSprite, 130);
         setTimeout(() => {
             world.win = true;
-            world.zombies.forEach(z => z.stopMoving());
-            world.magician.stopMoving();
-            world.boss = null;
-            win();
+            world.end()
         }, 2000)
     }
 

@@ -27,7 +27,7 @@ class World {
 
     /** Initializes the World class with a given canvas element. */
     constructor(canvas) {
-        if(muteFlag == false) this.muteAllAudio();
+        if (muteFlag == false) this.muteAllAudio();
         this.canvas = canvas;
         this.ctx = canvas.getContext('2d');
         this.draw();
@@ -46,7 +46,11 @@ class World {
         if (this.boss) this.drawBoss();
         this.collisionDetection();
         this.areAllZombiesDead() && this.nextWave();
-        requestAnimationFrame(() => {if(this.win == false) this.draw()});
+        requestAnimationFrame(() => {
+            if (this.win == false && this.magician.isDead == false) {
+                this.draw()
+            }
+        });
     }
 
     /** Checks if all zombies in the current wave are dead. */
@@ -204,7 +208,6 @@ class World {
 
         //debug
         flameHitboxArray.forEach(fH => this.drawHitboxForDebugging(fH));
-        // if flame.isBursting ...
     }
 
     fireballCollisionDetection(mH) {
@@ -269,7 +272,21 @@ class World {
         this.audioZombieAttacks.audioSheet.muted = mute;
         this.audioZombieDeaths.forEach(audio => audio.muted = mute);
         this.magician.muteAllMagicianAudio(mute);
-        if(this.boss) this.boss.muteAllBossAudio(mute)
+        if (this.boss) this.boss.muteAllBossAudio(mute)
+    }
+
+    /** Ends the game, stopping all zombies and the magician, and handling game over or win conditions. */
+    end() {
+        console.log('called');
+        this.zombies.forEach(z => z.stopMoving());
+        this.magician.stopMoving();
+        if (this.magician.isDead) {
+            if (this.boss) this.boss.stopMoving();
+            gameOver()
+        } else if (this.boss.isDead) {
+            win()
+        }
+        this.boss = null;
     }
 
     //for debugging

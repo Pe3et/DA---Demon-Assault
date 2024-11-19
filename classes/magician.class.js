@@ -16,6 +16,7 @@ class Magician extends MovableObject {
     mana = 0;
     progress = 0;
     jumpInterval;
+    isDead = false;
     isChargingAttack = false;
     attackChargeTimeout;
     idleSprite = new SpriteSheet('assets/sprites/wanderer_magician/Idle.png', 8);
@@ -42,7 +43,7 @@ class Magician extends MovableObject {
     constructor() {
         super().loadSprite(this.idleSprite);
         this.idle();
-        this.godmode();
+        // this.godmode();
     }
 
     /** Puts the magician in an idle state, stopping any movement and animating the idle sprite. */
@@ -148,14 +149,17 @@ class Magician extends MovableObject {
         clearTimeout(this.attackChargeTimeout);
     }
 
-    sleep() {
-        //TODO:
-    }
-
+    /** Kills the magician, stopping movement, animating the death sprite, and ending the game after a delay. */
     dies() {
-        this.stopMoving();
-        this.animate(this.deadSprite, 300);
-        keyboard.keyboardBlock = true;
+        if (!keyboard.keyboardBlock) {
+            this.stopMoving();
+            this.animate(this.deadSprite, 300);
+            keyboard.keyboardBlock = true;
+            setTimeout(() => {
+                this.isDead = true;
+                world.end();
+            }, 2000)
+        }
     }
 
     /** Returns the hitbox of the Magician, a rectangle representing the area that can collide with other objects. */
