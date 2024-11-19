@@ -29,7 +29,7 @@ class MovableObject {
 
     /** To load a new spritesheet for the object. */
     loadSprite(sprite) {
-        this.loadImage(sprite.src);
+        this.img = sprite.img;
         this.currentSprite = sprite;
         sprite.reset();
     }
@@ -50,39 +50,32 @@ class MovableObject {
     /** Loops an animation. */
     loopAnimation(sprite, timeBetweenFrames) {
         this.loadSprite(sprite);
-        this.img.onload = () => {
-            this.resetAnimation();
-            this.animationInterval = setInterval(() => {
-                this.sX += sprite.frameWidth;
-                if (this.sX >= sprite.spriteWidth) this.sX = 0;
-            }, timeBetweenFrames);
-        }
+        this.resetAnimation();
+        this.animationInterval = setInterval(() => {
+            sprite.nextFrame();
+        }, timeBetweenFrames);
     }
 
     /** Plays a single animation.*/
     playSingleAnimation(sprite, timeBetweenFrames) {
         this.loadSprite(sprite);
-        this.img.onload = () => {
-            this.resetAnimation();
-            this.interruptableAnimation = sprite.isInterruptable;
-            let frameCount = 1;
-            this.animationInterval = setInterval(() => {
-                this.sX = sprite.x;
-                sprite.getNextFrameX();
-                frameCount++;
-                if (frameCount > sprite.totalFrames) {
-                    clearInterval(this.animationInterval);
-                    this.sX = sprite.spriteWidth - sprite.frameWidth;
-                }
-            }, timeBetweenFrames)
-        }
+        this.resetAnimation();
+        this.interruptableAnimation = sprite.isInterruptable;
+        let frameCount = 1;
+        this.animationInterval = setInterval(() => {
+            sprite.nextFrame();
+            frameCount++;
+            if (frameCount > sprite.totalFrames) {
+                clearInterval(this.animationInterval);
+                sprite.x = sprite.spriteWidth - sprite.frameWidth;
+            }
+        }, timeBetweenFrames)
     }
 
     /** Resets an animation. */
     resetAnimation() {
         clearInterval(this.animationInterval);
-        this.sX = 0;
-        this.sY = 0;
+        this.currentSprite.reset();
     }
 
     /** Stop the movement of an Object. */

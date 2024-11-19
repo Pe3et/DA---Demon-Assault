@@ -129,7 +129,7 @@ class World {
         this.ctx.scale(-1, 1);
         this.ctx.drawImage(
             obj.img,
-            obj.sX, 0, obj.currentSprite.frameWidth, obj.height,
+            obj.currentSprite.x, obj.currentSprite.y, obj.currentSprite.frameWidth, obj.height,
             -obj.width / 2, -obj.height / 2, obj.width, obj.height);
         this.ctx.restore();
     }
@@ -137,7 +137,7 @@ class World {
     /** Draws an object on the canvas. Works for spritesheets and single images. */
     drawObject(obj) {
         if (this.objWithSpriteSheet(obj)) {
-            this.ctx.drawImage(obj.img, obj.sX, obj.sY, obj.currentSprite.frameWidth, obj.height, obj.x, obj.y, obj.width, obj.height)
+            this.ctx.drawImage(obj.img, obj.currentSprite.x, obj.currentSprite.y, obj.currentSprite.frameWidth, obj.height, obj.x, obj.y, obj.width, obj.height)
         } else {
             this.ctx.drawImage(obj.img, obj.x, obj.y, obj.width, obj.height)
         }
