@@ -8,7 +8,7 @@ music.loop = true;
 
 /** Initializes the application by setting up event listeners for the go button and mute icon. */
 function init() {
-    document.getElementById('goButton').addEventListener('click',loadStartMenu);
+    document.getElementById('goButton').addEventListener('click', loadStartMenu);
     document.getElementById('muteIcon').addEventListener('click', () => muteAllAudio(muteFlag));
 }
 
@@ -53,7 +53,7 @@ function updateStatusBar(refID, percent) {
 
 /** Mutes or unmutes all audio elements on the page. */
 function muteAllAudio(mute = true) {
-    if(world) world.muteAllAudio(mute);
+    if (world) world.muteAllAudio(mute);
     music.muted = mute;
     toggleMuteIcon(mute);
     muteFlag = !muteFlag;
@@ -66,6 +66,7 @@ function toggleMuteIcon(mute) {
     muteIconImgRef.src = iconSrc;
 }
 
+/** Displays the win screen and plays the win music. */
 function win() {
     document.getElementById('winScreen').classList.remove('d_none');
     music.src = 'assets/audio/win_music.ogg';
@@ -73,6 +74,7 @@ function win() {
     setTimeout(() => music.play(), 1000);
 }
 
+/** Handles game over logic, displaying the game over screen and playing the game over music. */
 function gameOver() {
     document.getElementById('gameOverScreen').classList.remove('d_none');
     music.src = 'assets/audio/game_over_piano.wav';
@@ -80,11 +82,20 @@ function gameOver() {
     music.play();
 }
 
+/** Resets the game state to its initial values, hiding the game over and win screens, resetting the bossbar, and replaying the main music. */
 function replay() {
     document.getElementById('gameOverScreen').classList.add('d_none');
     document.getElementById('winScreen').classList.add('d_none');
+    resetBossbar();
     music.src = 'assets/audio/main_music.ogg';
     music.loop = true;
     music.play();
     world.reset();
+}
+
+/** Resets the bossbar to its initial state, hiding it and setting its width to 100%. */
+function resetBossbar() {
+    const bossbarRef = document.getElementById('bossbar');
+    bossbarRef.querySelector('.innerbar').style.width = '100%';
+    bossbarRef.classList.add('d_none');
 }
