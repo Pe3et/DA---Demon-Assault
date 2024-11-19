@@ -182,7 +182,7 @@ class Magician extends MovableObject {
         this.stopMoving();
         this.resetAttackCharge();
         keyboard.keyboardBlock = true;
-        this.animate(this.hurtSprite, 50);
+        if (this.currentSprite != this.hurtSprite) this.animate(this.hurtSprite, 50);
         setTimeout(() => {
             this.animationBlocker = false;
             keyboard.keyboardBlock = false;

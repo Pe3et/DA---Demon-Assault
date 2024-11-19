@@ -9,6 +9,7 @@ class Fireball extends Projectile {
 
     constructor() {
         super();
+        this.x = world.boss.x ?? 0;
         this.img.src = 'assets/sprites/demon_boss/projectile.png';
         this.travel()
     }
