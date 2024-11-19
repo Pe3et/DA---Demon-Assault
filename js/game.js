@@ -24,6 +24,7 @@ function startGame() {
     music.src = 'assets/audio/main_music.ogg';
     music.play();
     canvas = document.getElementById('canvas');
+    initLevel();
     world = new World(canvas);
     document.getElementById('startScreen').classList.add('d_none');
 }
