@@ -86,7 +86,7 @@ function gameOver() {
 function replay() {
     document.getElementById('gameOverScreen').classList.add('d_none');
     document.getElementById('winScreen').classList.add('d_none');
-    resetBossbar();
+    resetStatusbars();
     music.src = 'assets/audio/main_music.ogg';
     music.loop = true;
     music.play();
@@ -94,8 +94,10 @@ function replay() {
 }
 
 /** Resets the bossbar to its initial state, hiding it and setting its width to 100%. */
-function resetBossbar() {
-    const bossbarRef = document.getElementById('bossbar');
-    bossbarRef.querySelector('.innerbar').style.width = '100%';
-    bossbarRef.classList.add('d_none');
+function resetStatusbars() {
+    document.getElementById('bossbar').classList.add('d_none');
+    updateStatusBar('bossbar', 100);
+    updateStatusBar('healthbar', 100);
+    updateStatusBar('manabar', 0);
+    updateStatusBar('progressbar', 0);
 }

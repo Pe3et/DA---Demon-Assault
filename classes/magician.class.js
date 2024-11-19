@@ -225,9 +225,7 @@ class Magician extends MovableObject {
         this.isJumping = false;
         this.goingDownwards = false;
         this.animationBlocker = false;
-        updateStatusBar('healthbar', this.health);
-        updateStatusBar('manabar', this.mana);
-        updateStatusBar('progressbar', this.progress);
+        this.direction = 'right';
     }
 
     godmode() {
