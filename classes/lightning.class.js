@@ -1,5 +1,5 @@
 class Lightning extends Projectile {
-    lightningSprite = new SpriteSheet('assets/sprites/wanderer_magician/Charge_2.png', 6, false)
+    lightningSprite = new SpriteSheet('assets/sprites/wanderer_magician/Charge_2.png', 6, 384, false)
     x
     y = 120
     width = 200

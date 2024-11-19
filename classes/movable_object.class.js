@@ -49,29 +49,33 @@ class MovableObject {
 
     /** Loops an animation. */
     loopAnimation(sprite, timeBetweenFrames) {
-        this.resetAnimation();
         this.loadSprite(sprite);
-        this.animationInterval = setInterval(() => {
-            this.sX += sprite.frameWidth;
-            if (this.sX >= sprite.spriteWidth) this.sX = 0;
-        }, timeBetweenFrames);
+        this.img.onload = () => {
+            this.resetAnimation();
+            this.animationInterval = setInterval(() => {
+                this.sX += sprite.frameWidth;
+                if (this.sX >= sprite.spriteWidth) this.sX = 0;
+            }, timeBetweenFrames);
+        }
     }
 
     /** Plays a single animation.*/
     playSingleAnimation(sprite, timeBetweenFrames) {
-        this.resetAnimation();
-        this.interruptableAnimation = sprite.isInterruptable;
         this.loadSprite(sprite);
-        let frameCount = 1;
-        this.animationInterval = setInterval(() => {
-            this.sX = sprite.x;
-            sprite.getNextFrameX();
-            frameCount++;
-            if (frameCount > sprite.totalFrames) {
-                clearInterval(this.animationInterval);
-                this.sX = sprite.spriteWidth - sprite.frameWidth;
-            }
-        }, timeBetweenFrames)
+        this.img.onload = () => {
+            this.resetAnimation();
+            this.interruptableAnimation = sprite.isInterruptable;
+            let frameCount = 1;
+            this.animationInterval = setInterval(() => {
+                this.sX = sprite.x;
+                sprite.getNextFrameX();
+                frameCount++;
+                if (frameCount > sprite.totalFrames) {
+                    clearInterval(this.animationInterval);
+                    this.sX = sprite.spriteWidth - sprite.frameWidth;
+                }
+            }, timeBetweenFrames)
+        }
     }
 
     /** Resets an animation. */
