@@ -213,6 +213,23 @@ class Magician extends MovableObject {
         this.audioLighning.muted = mute
     }
 
+    reset() {
+        this.health = 100;
+        this.mana = 0;
+        this.progress = 0;
+        this.x = this.startPositionX;
+        this.y = this.startPositionY;
+        this.idle();
+        this.isDead = false;
+        this.isChargingAttack = false;
+        this.isJumping = false;
+        this.goingDownwards = false;
+        this.animationBlocker = false;
+        updateStatusBar('healthbar', this.health);
+        updateStatusBar('manabar', this.mana);
+        updateStatusBar('progressbar', this.progress);
+    }
+
     godmode() {
         this.health = 50;
         this.mana = 50;

@@ -238,3 +238,7 @@ h1 {
     }
 }
 
+.endscreen .button {
+    font-size: 24px;
+    text-shadow: none;
+}

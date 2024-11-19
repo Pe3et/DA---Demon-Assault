@@ -277,7 +277,6 @@ class World {
 
     /** Ends the game, stopping all zombies and the magician, and handling game over or win conditions. */
     end() {
-        console.log('called');
         this.zombies.forEach(z => z.stopMoving());
         this.magician.stopMoving();
         if (this.magician.isDead) {
@@ -287,6 +286,23 @@ class World {
             win()
         }
         this.boss = null;
+    }
+
+    reset() {
+        this.magician.reset();
+        this.zombies = [];
+        this.dropables = [];
+        this.lightnings = [];
+        this.flames = [];
+        this.boss = null;
+        this.wave = 1;
+        this.win = false;
+        resetLevel();
+        this.zombies = this.level.enemies;
+        keyboard.keyboardBlock = false;
+        this.ctx.setTransform(1, 0, 0, 1, 0, 0);
+        this.draw();
+        this.magician.idle();
     }
 
     //for debugging

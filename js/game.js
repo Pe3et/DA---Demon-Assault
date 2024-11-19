@@ -76,6 +76,15 @@ function win() {
 function gameOver() {
     document.getElementById('gameOverScreen').classList.remove('d_none');
     music.src = 'assets/audio/game_over_piano.wav';
+    music.loop = false;
     music.play();
-    setTimeout(() => music.pause(), 10000);
+}
+
+function replay() {
+    document.getElementById('gameOverScreen').classList.add('d_none');
+    document.getElementById('winScreen').classList.add('d_none');
+    music.src = 'assets/audio/main_music.ogg';
+    music.loop = true;
+    music.play();
+    world.reset();
 }

@@ -27,10 +27,18 @@ const backgroundObjects = [
     new BackgroundObject('assets/sprites/battleground/back_trees.png', 1919),
 ];
 
-const enemies = [
+let enemies = [
     new Zombie(1700),
     new Zombie(1800)
 ];
 
 const endPosX = 1920;
 const level1 = new Level(backgroundObjects, enemies, endPosX);
+
+function resetLevel() {
+    enemies = [
+        new Zombie(1700),
+        new Zombie(1800)
+    ];
+    world.level = new Level(backgroundObjects, enemies, endPosX);
+}
