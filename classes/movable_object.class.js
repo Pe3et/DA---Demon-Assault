@@ -36,7 +36,7 @@ class MovableObject {
 
     /** Animates a sprite, handling looping and single animations with interruptability. */
     animate(sprite, timeBetweenFrames) {
-        if (this.animationBlocker == false) {
+        if (this.animationBlocker == false && this.currentSprite != sprite) {
             this.animationBlocker = !sprite.isInterruptable;
             this.currentSprite = sprite;
             if (sprite.isLoop) {
