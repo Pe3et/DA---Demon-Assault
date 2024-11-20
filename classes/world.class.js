@@ -159,24 +159,29 @@ class World {
         document.getElementById('bossbar').classList.toggle('d_none')
     }
 
+    /** Handles collision detection between game objects in the world. */
     collisionDetection() {
         const magicianHitbox = this.magician.getHitbox();
-        const zombieHitboxArray = [];
-        const dropableHitboxArray = [];
-        const lightningHitboxArray = [];
+        const zombieHitboxArray = this.getHitboxArray(this.zombies);
+        const dropableHitboxArray = this.getHitboxArray(this.dropables);
+        const lightningHitboxArray = this.getHitboxArray(this.lightnings);
         if (this.boss) this.bossCollisionDetection(magicianHitbox);
-        this.flameCollisionDetection(magicianHitbox);
         if (this.fireball) this.fireballCollisionDetection(magicianHitbox);
-
-        this.zombies.forEach(zombie => zombieHitboxArray.push(zombie.getHitbox()));
+        this.flameCollisionDetection(magicianHitbox);
         zombieHitboxArray.forEach((zH, index) => this.zombieCollisionBehaviour(zH, index, magicianHitbox));
-        this.dropables.forEach(drop => dropableHitboxArray.push(drop.getHitbox()));
         dropableHitboxArray.forEach((dH, index) => this.dropableCollisionBehaviour(dH, index, magicianHitbox));
         this.cleanDropablesArray();
-        this.lightnings.forEach(lightning => lightningHitboxArray.push(lightning.getHitbox()));
-        lightningHitboxArray.forEach(lH => this.lightningCollisionBehaviour(lH, zombieHitboxArray));
+        lightningHitboxArray.forEach(lH => this.lightningCollisionDetection(lH, zombieHitboxArray));
     }
 
+    /** Retrieves an array of hitboxes from a given array of objects. */
+    getHitboxArray(objArray) {
+        const hitboxArray = [];
+        objArray.forEach(obj => hitboxArray.push(obj.getHitbox()));
+        return hitboxArray
+    }
+
+    /** Handles collision detection between the magician and the boss. */
     bossCollisionDetection(mH) {
         const bH = this.boss.getHitbox();
         if (bH.checkHorizontalCollide(bH.leftLine, bH.rightLine, mH.leftLine, mH.rightLine) ||
@@ -186,6 +191,7 @@ class World {
         }
     }
 
+    /** Handles flame collision detection with the magician. */
     flameCollisionDetection(mH) {
         const flameHitboxArray = this.flames.map(f => f.getHitbox());
         if (this.flames.every(f => f.isBursting)) {
@@ -198,6 +204,7 @@ class World {
         }
     }
 
+    /** Handles fireball collision detection with the magician. */
     fireballCollisionDetection(mH) {
         const fH = this.fireball.getHitbox();
         if (fH.checkHorizontalCollide(fH.leftLine, fH.rightLine, mH.leftLine, mH.rightLine) ||
@@ -213,7 +220,7 @@ class World {
     }
 
     /** Handles lightning collision behaviour with zombies. */
-    lightningCollisionBehaviour(lH, zHArray) {
+    lightningCollisionDetection(lH, zHArray) {
         if (this.boss) {
             const bH = this.boss.getHitbox();
             if (lH.checkHorizontalCollide(lH.leftLine, lH.rightLine, bH.leftLine, bH.rightLine)) {
