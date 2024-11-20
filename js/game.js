@@ -82,6 +82,7 @@ function replay() {
     document.getElementById('gameOverScreen').classList.add('d_none');
     document.getElementById('winScreen').classList.add('d_none');
     resetStatusbars();
+    highlightAttackButton(0);
     music.src = 'assets/audio/main_music.ogg';
     music.loop = true;
     music.play();
@@ -139,4 +140,9 @@ function toggleFullscreen() {
     } else {
         document.exitFullscreen();
     }
+}
+
+function highlightAttackButton(mana) {
+    const svgRef = document.getElementById('touchAttack').querySelector('svg');
+    svgRef.style.fill = mana >= 20 ? '#0072B8' : '#000000'
 }

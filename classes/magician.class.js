@@ -193,7 +193,8 @@ class Magician extends MovableObject {
     updateMana(percent) {
         this.mana += percent;
         if (this.mana > 100) this.mana = 100;
-        updateStatusBar('manabar', this.mana)
+        updateStatusBar('manabar', this.mana);
+        if(window.innerWidth <= 1024) highlightAttackButton(this.mana) 
     }
 
     /** Updates the magician's progress by the specified percentage. */

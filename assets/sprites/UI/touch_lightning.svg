@@ -1,10 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 16 16" shape-rendering="crispEdges">
-    <style>
-        .lightning {
-            fill: #000000;
-        }
-    </style>
-    <path class="lightning" d="
+    <path d="
         M8 2
         L9 6
         L12 6
