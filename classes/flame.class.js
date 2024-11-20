@@ -8,18 +8,35 @@ class Flame {
     flickerFrames = 12
     outburstImgAmount = 12
     isBursting = false
+    flickerImgs = []
+    outburstImgs = []
 
-    /** Initializes the flame object with a random x position and starts the flicker animation. */
+    /** Initializes the flame object with a random x position and preloads images. */
     constructor() {
         this.x = world.boss.x + world.boss.width / 2 + Math.random() * canvas.width;
+        this.preloadImages();
         this.flicker();
+    }
+
+    /** Preloads the flicker and outburst images for the flame animation. */
+    preloadImages() {
+        for (let i = 0; i < this.flickerFrames; i++) {
+            const img = new Image();
+            img.src = `assets/sprites/flame/flame_${i % 2 + 1}.png`;
+            this.flickerImgs.push(img);
+        }
+        for (let i = 0; i < this.outburstImgAmount; i++) {
+            const img = new Image();
+            img.src = `assets/sprites/flame/flame_${i + 1}.png`;
+            this.outburstImgs.push(img);
+        }
     }
 
     /** Animates the flame's flicker effect before triggering an outburst. */
     flicker() {
         for (let i = 0; i < this.flickerFrames; i++) {
             setTimeout(() => {
-                this.img.src = `assets/sprites/flame/flame_${i % 2 + 1}.png`;
+                this.img = this.flickerImgs[i % 2];
             }, this.flameSpeed * i);
         }
         setTimeout(() => {
@@ -27,12 +44,12 @@ class Flame {
         }, this.flameSpeed * this.flickerFrames);
     }
 
-    /** Triggers an outburst animation, displaying a sequence of flame images before extinguishing all flames. */
+    /** Triggers the flame's outburst animation and eventually extinguishes all flames. */
     outburst() {
         this.isBursting = true;
         for (let i = 0; i < this.outburstImgAmount; i++) {
             setTimeout(() => {
-                this.img.src = `assets/sprites/flame/flame_${i + 1}.png`;
+                this.img = this.outburstImgs[i];
             }, this.flameSpeed * i);
         }
         setTimeout(() => {
@@ -45,7 +62,7 @@ class Flame {
         world.flames = [];
     }
 
-    /** Returns the hitbox of the flame object. */
+    /** Returns the flame's hitbox for collision detection. */
     getHitbox() {
         return new Hitbox(this.x + this.width / 4, this.y + this.y / 8, this.width / 2, this.height / 2)
     }
