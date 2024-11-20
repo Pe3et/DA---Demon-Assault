@@ -120,7 +120,7 @@ class Demonboss extends MovableObject {
         this.y++;
         if (this.y != this.groundY) {
             setTimeout(() => this.flyDown(), 1000/60)
-        } else if (this.y == this.groundY) {
+        } else if (this.y == this.groundY && !gameOverFlag) {
             this.attack()
         }
     }
