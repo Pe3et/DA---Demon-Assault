@@ -168,6 +168,7 @@ h1 {
     text-shadow: -2px 3px 2px #B22222;
     font-size: 48px;
     text-align: center;
+    margin: 16px 0;
 }
 
 .overlay p {
@@ -177,6 +178,7 @@ h1 {
     margin: 0;
     color: white;
     padding: 8px;
+    line-height: 1.5;
 }
 
 .overlay img {
@@ -272,12 +274,24 @@ footer a:hover {
 
 #mobileScreen {
     display: none;
+    z-index: 1;
 }
 
-@media(max-width: 1024px) {
+#rotateInfo {
+    z-index: 2;
+    text-align: center;
+    display: none;
+}
+
+@media screen and (max-width: 1024px) and (orientation: portrait) {
+    #rotateInfo {
+        display: flex;
+    }
+}
+
+@media screen and (max-width: 1024px) {
     #mobileScreen {
         display: flex;
-        z-index: 1;
     }
 
     canvas {
@@ -286,7 +300,11 @@ footer a:hover {
 
     footer {
         z-index: 2;
-        right: 2%;
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        padding: 0px 16px;
+        box-sizing: border-box;
     }
 
     #mobileScreen .button {
@@ -296,7 +314,8 @@ footer a:hover {
         margin-top: 16px;
         padding: 8px;
         border-radius: 8px;
-        box-shadow: inset 0px 0px 4px #B22222;
+        border: 1px solid #B22222;
+        box-shadow: 0px 0px 4px #B22222;
         text-shadow: 0px 0px 8px #B22222;
         animation: flash 30s infinite ease-in-out;
     }
