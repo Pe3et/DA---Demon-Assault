@@ -9,7 +9,6 @@ music.loop = true;
 window.addEventListener('keydown', (e) => {
     if (e.code == 'ArrowUp' || e.code == 'KeyW') keyboard.keyPressed('UP');
     if (e.code == 'ArrowRight' || e.code == 'KeyD') keyboard.keyPressed('RIGHT');
-    if (e.code == 'ArrowDown' || e.code == 'KeyS') keyboard.DOWN = true;
     if (e.code == 'ArrowLeft' || e.code == 'KeyA') keyboard.keyPressed('LEFT');
     if (e.code == 'Space') keyboard.keyPressed('SPACE');
 });
@@ -17,7 +16,6 @@ window.addEventListener('keydown', (e) => {
 window.addEventListener('keyup', (e) => {
     if (e.code == 'ArrowUp' || e.code == 'KeyW') keyboard.UP = false;
     if (e.code == 'ArrowRight' || e.code == 'KeyD') keyboard.keyReleased('RIGHT');
-    if (e.code == 'ArrowDown' || e.code == 'KeyS') keyboard.DOWN = false;
     if (e.code == 'ArrowLeft' || e.code == 'KeyA') keyboard.keyReleased('LEFT');
     if (e.code == 'Space') keyboard.keyReleased('SPACE');
 });
@@ -26,6 +24,7 @@ window.addEventListener('keyup', (e) => {
 function init() {
     document.getElementById('goButton').addEventListener('click', loadStartMenu);
     document.getElementById('muteIcon').addEventListener('click', () => muteAllAudio(muteFlag));
+    addTouchListeners();
 }
 
 /** Loads the start menu by displaying the game container and hiding the go button, then plays the menu music. */
@@ -48,7 +47,7 @@ function startGame() {
 /** Hides the start screens and footer on smaller screens. */
 function hideStartScreens() {
     document.getElementById('startScreen').classList.add('d_none');
-    if(window.innerWidth <= 1024) document.querySelector('footer').classList.add('d_none');
+    if (window.innerWidth <= 1024) document.querySelector('footer').classList.add('d_none');
     document.getElementById('mobileScreen').classList.add('d_none');
 }
 
@@ -107,4 +106,21 @@ function resetStatusbars() {
     updateStatusBar('healthbar', 100);
     updateStatusBar('manabar', 0);
     updateStatusBar('progressbar', 0);
+}
+
+/** Adds touch event listeners to the game's touch controls, mapping them to keyboard inputs. */
+function addTouchListeners() {
+    const buttonIDs = ['touchLeft', 'touchRight', 'touchUp', 'touchAttack'];
+    const keys = ['LEFT', 'RIGHT', 'UP', 'SPACE'];
+
+    buttonIDs.forEach((buttonID, index) => {
+        document.getElementById(buttonID).addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            keyboard.keyPressed(keys[index])
+        });
+        document.getElementById(buttonID).addEventListener('touchend', (e) => {
+            e.preventDefault();
+            keyboard.keyReleased(keys[index])
+        })
+    });
 }

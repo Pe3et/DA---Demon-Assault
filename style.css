@@ -3,7 +3,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 100%;
+    height: 100svh;
     width: 100%;
     background-image: url('assets/sprites/background_page.jpg');
     background-repeat: no-repeat;
@@ -289,6 +289,11 @@ footer a:hover {
     position: absolute;
     display: flex;
     bottom: 4%;
+    user-select: none;
+}
+
+.touchbutton img {
+    user-select: none;
 }
 
 #touchLeft {
