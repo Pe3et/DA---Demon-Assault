@@ -283,6 +283,37 @@ footer a:hover {
     display: none;
 }
 
+.touchbutton {
+    width: 64px;
+    height: 64px;
+    position: absolute;
+    display: flex;
+    bottom: 4%;
+}
+
+#touchLeft {
+    left: 8%;
+}
+
+#touchRight {
+    left: 18%;
+}
+
+#touchUp {
+    right: 8%;
+}
+
+#touchAttack {
+    right: 18%;
+    scale: 1.5;
+}
+
+@media screen and (min-width: 1024px) {
+    .touchbutton {
+        display: none;
+    }
+}
+
 @media screen and (max-width: 1024px) and (orientation: portrait) {
     #rotateInfo {
         display: flex;
@@ -290,6 +321,10 @@ footer a:hover {
 }
 
 @media screen and (max-width: 1024px) {
+    #startScreen {
+        display: none;
+    }
+
     #mobileScreen {
         display: flex;
     }
@@ -311,7 +346,7 @@ footer a:hover {
         background-image: none;
         background: black;
         color: white;
-        margin-top: 16px;
+        margin-top: 0;
         padding: 8px;
         border-radius: 8px;
         border: 1px solid #B22222;
