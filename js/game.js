@@ -3,6 +3,7 @@ let world;
 let keyboard = new Keyboard();
 let muteFlag = true;
 let music = new Audio('assets/audio/menu_music.ogg');
+let gameOverFlag = false;
 music.volume = 0.3;
 music.loop = true;
 
@@ -86,6 +87,7 @@ function replay() {
     music.src = 'assets/audio/main_music.ogg';
     music.loop = true;
     music.play();
+    gameOverFlag = false;
     world.reset();
     if (window.innerWidth <= 1024) document.getElementById('gameContainer').requestFullscreen();
 }

@@ -105,10 +105,12 @@ class Magician extends MovableObject {
     fallAnimation() {
         if (this.y == this.startPositionY) {
             this.goingDownwards = false;
-            this.animationBlocker = false;
-            this.isJumping = false;
-            this.idle();
-            keyboard.keyAction();
+            if(!this.isDead) {
+                this.animationBlocker = false;
+                this.isJumping = false;
+                this.idle();
+                keyboard.keyAction();
+            }
         } else {
             this.y += this.jumpYFactor;
             setTimeout(() => this.fallAnimation(), 1000 / 60)
@@ -152,13 +154,15 @@ class Magician extends MovableObject {
     dies() {
         if (!keyboard.keyboardBlock || this.currentSprite == this.hurtSprite) {
             updateStatusBar('healthbar', 0);
-            this.stopMoving();
+            this.animationBlocker = false;
             this.animate(this.deadSprite, 300);
+            this.stopMoving();
+            gameOverFlag = true;
             keyboard.keyboardBlock = true;
             setTimeout(() => {
                 this.isDead = true;
                 world.end();
-            }, 2000)
+            }, 1200)
         }
     }
 
