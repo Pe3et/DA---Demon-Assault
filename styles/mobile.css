@@ -1,0 +1,195 @@
+#mobileScreen {
+    display: none;
+    z-index: 1;
+}
+
+#rotateInfo {
+    z-index: 2;
+    text-align: center;
+    display: none;
+}
+
+.touchbutton {
+    width: 60px;
+    height: 60px;
+    position: absolute;
+    display: flex;
+    bottom: 12px;
+    user-select: none;
+}
+
+.touchbutton img, .touchbutton svg {
+    user-select: none;
+}
+
+#touchLeft {
+    left: 30px;
+}
+
+#touchRight {
+    left: 110px;
+}
+
+#touchUp {
+    right: 30px;
+}
+
+#touchAttack {
+    right: 120px;
+    scale: 1.4;
+}
+
+@media screen and (min-width: 1024px) {
+    .touchbutton {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 1024px) and (orientation: portrait) {
+    #rotateInfo {
+        display: flex;
+    }
+}
+
+@media screen and (max-width: 1024px) {
+    #startScreen {
+        display: none;
+    }
+
+    #mobileScreen {
+        display: flex;
+    }
+
+    canvas {
+        height: 100svh
+    }
+
+    footer {
+        z-index: 2;
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        padding: 0px 16px;
+        box-sizing: border-box;
+    }
+
+    #mobileScreen .button {
+        background-image: none;
+        background: black;
+        color: white;
+        margin-top: 8px;
+        padding: 8px;
+        border-radius: 8px;
+        border: 1px solid #B22222;
+        box-shadow: 0px 0px 4px #B22222;
+        text-shadow: 0px 0px 8px #B22222;
+        animation: flash 30s infinite ease-in-out;
+    }
+
+    .overlay p {
+        height: 16px;
+        font-size: 10px;
+        text-align: center;
+    }
+
+    .statusbar_container {
+        gap: 16px;
+        top: 0;
+        padding: 8px;
+    }
+    
+    .statusbar {
+        height: 10px;
+        width: 150px;
+        border: 2px solid black;
+        box-shadow: inset 0px 0px 8px 4px black;
+        margin-left: 2%;
+    }
+    
+    .statusbar img {
+        width: 42px;
+        height: 42px;
+        position: absolute;
+        left: -10px;
+    }
+    
+    .innerbar {
+        margin-left: 6%;
+    }
+
+    #healthbar img {
+        left: -4px;
+    }
+
+    #manabar img {
+        bottom: 25px;
+        left: -18px;
+        width: 70px;
+        height: 50px;
+    }
+
+    #progressbar img {
+        width: 50px;
+        height: 50px;
+        left: -8px;
+    }
+
+    #bossbar {
+        top: 22px;
+        height: 16px;
+    }
+
+    .endscreen p {
+        font-size: 48px;
+    }
+
+    #fullscreenIcon {
+        display: flex;
+    }
+}
+
+@keyframes flash {
+    0% {
+        color: white;
+    }
+
+    10% {
+        color: #B22222;
+    }
+
+    20% {
+        color: white;
+    }
+
+    30% {
+        color: #B22222;
+    }
+
+    40% {
+        color: white;
+    }
+
+    50% {
+        color: #B22222;
+    }
+
+    60% {
+        color: white;
+    }
+
+    70% {
+        color: #B22222;
+    }
+
+    80% {
+        color: white;
+    }
+
+    90% {
+        color: #B22222;
+    }
+
+    100% {
+        color: white;
+    }
+}
