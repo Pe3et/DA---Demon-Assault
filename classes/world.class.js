@@ -175,13 +175,6 @@ class World {
         this.cleanDropablesArray();
         this.lightnings.forEach(lightning => lightningHitboxArray.push(lightning.getHitbox()));
         lightningHitboxArray.forEach(lH => this.lightningCollisionBehaviour(lH, zombieHitboxArray));
-
-
-        //for debugging
-        this.drawHitboxForDebugging(magicianHitbox)
-        zombieHitboxArray.forEach(z => this.drawHitboxForDebugging(z));
-        dropableHitboxArray.forEach(d => this.drawHitboxForDebugging(d));
-        lightningHitboxArray.forEach(l => this.drawHitboxForDebugging(l));
     }
 
     bossCollisionDetection(mH) {
@@ -191,8 +184,6 @@ class World {
             bH.botTopCollide(bH.topLine, mH.bottomLine)) {
             this.magician.updateHealth(-1, true)
         }
-        //debug
-        this.drawHitboxForDebugging(bH)
     }
 
     flameCollisionDetection(mH) {
@@ -205,9 +196,6 @@ class World {
                 }
             })
         }
-
-        //debug
-        flameHitboxArray.forEach(fH => this.drawHitboxForDebugging(fH));
     }
 
     fireballCollisionDetection(mH) {
@@ -217,9 +205,6 @@ class World {
             this.magician.updateHealth(-20);
             this.fireball = null
         }
-
-        //debug
-        this.drawHitboxForDebugging(fH)
     }
 
     /** Removes dropables with the removalFlag set to true from the dropables array. */
@@ -304,12 +289,5 @@ class World {
         this.ctx.setTransform(1, 0, 0, 1, 0, 0);
         this.draw();
         this.magician.idle();
-    }
-
-    //for debugging
-    drawHitboxForDebugging(hitbox) {
-        this.ctx.beginPath();
-        this.ctx.rect(hitbox.x, hitbox.y, hitbox.width, hitbox.height);
-        this.ctx.stroke();
     }
 }

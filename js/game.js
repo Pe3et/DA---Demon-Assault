@@ -134,6 +134,7 @@ function addTouchListeners() {
     });
 }
 
+/** Toggles the game between fullscreen and normal modes. */
 function toggleFullscreen() {
     if (!document.fullscreenElement) {
         document.getElementById('gameContainer').requestFullscreen();
@@ -142,6 +143,7 @@ function toggleFullscreen() {
     }
 }
 
+/** Highlights the attack button based on the player's current mana. */
 function highlightAttackButton(mana) {
     const svgRef = document.getElementById('touchAttack').querySelector('svg');
     svgRef.style.fill = mana >= 20 ? '#0072B8' : '#000000'

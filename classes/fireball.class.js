@@ -7,6 +7,7 @@ class Fireball extends Projectile {
     speed = 6.66
     direction = 'left'
 
+    /** Initializes the fireball's position and image. */
     constructor() {
         super();
         this.x = world.boss.x ?? 0;
@@ -14,7 +15,8 @@ class Fireball extends Projectile {
         this.travel()
     }
 
+    /** Returns the hitbox of the fireball. */
     getHitbox() {
-        return new Hitbox(this.x, this.y + this.height/4, this.width, this.height/2)
+        return new Hitbox(this.x, this.y + this.height / 4, this.width, this.height / 2)
     }
 }

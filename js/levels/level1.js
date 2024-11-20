@@ -31,16 +31,19 @@ let enemies = [];
 const endPosX = 1920;
 let level1;
 
+/** Initializes the game level by resetting enemies and creating a new level instance. */
 function initLevel() {
     resetEnemies();
     level1 = new Level(backgroundObjects, enemies, endPosX)
 }
 
+/** Resets the game level by reinitializing enemies and creating a new level instance. */
 function resetLevel() {
     resetEnemies()
     world.level = new Level(backgroundObjects, enemies, endPosX);
 }
 
+/** Resets the enemies array with a new set of enemies. */
 function resetEnemies() {
     enemies = [
         new Zombie(1700),
