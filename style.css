@@ -10,6 +10,7 @@ body {
     background-size: cover;
     background-position: center;
     font-family: 'Press Start 2P', sans-serif;
+    margin: 0;
 }
 
 canvas {
@@ -23,6 +24,7 @@ canvas {
     0% {
         scale: 0;
     }
+
     100% {
         scale: 1;
     }
@@ -156,6 +158,8 @@ canvas {
     flex-direction: column;
     background-color: #2c3e50;
     box-shadow: inset 0px 0px 256px 8px #5D3A91;
+    box-sizing: border-box;
+    padding: 32px;
 }
 
 h1 {
@@ -163,6 +167,7 @@ h1 {
     color: #000000;
     text-shadow: -2px 3px 2px #B22222;
     font-size: 48px;
+    text-align: center;
 }
 
 .overlay p {
@@ -171,6 +176,7 @@ h1 {
     height: 48px;
     margin: 0;
     color: white;
+    padding: 8px;
 }
 
 .overlay img {
@@ -204,13 +210,16 @@ h1 {
         transform: scale(0);
         opacity: 0;
     }
+
     50% {
         transform: scale(1.2);
         opacity: 1;
     }
+
     70% {
         transform: scale(0.9);
     }
+
     100% {
         transform: scale(1);
         opacity: 1;
@@ -259,4 +268,82 @@ footer a {
 footer a:hover {
     cursor: pointer;
     text-decoration: underline;
+}
+
+#mobileScreen {
+    display: none;
+}
+
+@media(max-width: 1024px) {
+    #mobileScreen {
+        display: flex;
+        z-index: 1;
+    }
+
+    canvas {
+        height: 100svh
+    }
+
+    footer {
+        z-index: 2;
+        right: 2%;
+    }
+
+    #mobileScreen .button {
+        background-image: none;
+        background: black;
+        color: white;
+        margin-top: 16px;
+        padding: 8px;
+        border-radius: 8px;
+        box-shadow: inset 0px 0px 4px #B22222;
+        text-shadow: 0px 0px 8px #B22222;
+        animation: flash 30s infinite ease-in-out;
+    }
+}
+
+@keyframes flash {
+    0% {
+        color: white;
+    }
+
+    10% {
+        color: #B22222;
+    }
+
+    20% {
+        color: white;
+    }
+
+    30% {
+        color: #B22222;
+    }
+
+    40% {
+        color: white;
+    }
+
+    50% {
+        color: #B22222;
+    }
+
+    60% {
+        color: white;
+    }
+
+    70% {
+        color: #B22222;
+    }
+
+    80% {
+        color: white;
+    }
+
+    90% {
+        color: #B22222;
+    }
+
+    100% {
+        color: white;
+    }
 }

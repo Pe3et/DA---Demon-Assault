@@ -6,6 +6,22 @@ let music = new Audio('assets/audio/menu_music.ogg');
 music.volume = 0.3;
 music.loop = true;
 
+window.addEventListener('keydown', (e) => {
+    if (e.code == 'ArrowUp' || e.code == 'KeyW') keyboard.keyPressed('UP');
+    if (e.code == 'ArrowRight' || e.code == 'KeyD') keyboard.keyPressed('RIGHT');
+    if (e.code == 'ArrowDown' || e.code == 'KeyS') keyboard.DOWN = true;
+    if (e.code == 'ArrowLeft' || e.code == 'KeyA') keyboard.keyPressed('LEFT');
+    if (e.code == 'Space') keyboard.keyPressed('SPACE');
+});
+
+window.addEventListener('keyup', (e) => {
+    if (e.code == 'ArrowUp' || e.code == 'KeyW') keyboard.UP = false;
+    if (e.code == 'ArrowRight' || e.code == 'KeyD') keyboard.keyReleased('RIGHT');
+    if (e.code == 'ArrowDown' || e.code == 'KeyS') keyboard.DOWN = false;
+    if (e.code == 'ArrowLeft' || e.code == 'KeyA') keyboard.keyReleased('LEFT');
+    if (e.code == 'Space') keyboard.keyReleased('SPACE');
+});
+
 /** Initializes the application by setting up event listeners for the go button and mute icon. */
 function init() {
     document.getElementById('goButton').addEventListener('click', loadStartMenu);
@@ -26,25 +42,15 @@ function startGame() {
     canvas = document.getElementById('canvas');
     initLevel();
     world = new World(canvas);
-    document.getElementById('startScreen').classList.add('d_none');
+    hideStartScreens();
 }
 
-window.addEventListener('keydown', (e) => {
-    if (e.code == 'ArrowUp' || e.code == 'KeyW') keyboard.keyPressed('UP');
-    if (e.code == 'ArrowRight' || e.code == 'KeyD') keyboard.keyPressed('RIGHT');
-    if (e.code == 'ArrowDown' || e.code == 'KeyS') keyboard.DOWN = true;
-    if (e.code == 'ArrowLeft' || e.code == 'KeyA') keyboard.keyPressed('LEFT');
-    if (e.code == 'Space') keyboard.keyPressed('SPACE');
-});
-
-window.addEventListener('keyup', (e) => {
-    if (e.code == 'ArrowUp' || e.code == 'KeyW') keyboard.UP = false;
-    if (e.code == 'ArrowRight' || e.code == 'KeyD') keyboard.keyReleased('RIGHT');
-    if (e.code == 'ArrowDown' || e.code == 'KeyS') keyboard.DOWN = false;
-    if (e.code == 'ArrowLeft' || e.code == 'KeyA') keyboard.keyReleased('LEFT');
-    if (e.code == 'Space') keyboard.keyReleased('SPACE');
-});
-
+/** Hides the start screens and footer on smaller screens. */
+function hideStartScreens() {
+    document.getElementById('startScreen').classList.add('d_none');
+    if(window.innerWidth <= 1024) document.querySelector('footer').classList.add('d_none');
+    document.getElementById('mobileScreen').classList.add('d_none');
+}
 
 /** Updates the referenced status bar's innerBar witdh to the given percent value. */
 function updateStatusBar(refID, percent) {

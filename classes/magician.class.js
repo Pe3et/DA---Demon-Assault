@@ -92,7 +92,7 @@ class Magician extends MovableObject {
         if (this.y <= this.startPositionY - this.jumpMaxHeight) {
             this.fallToGround();
         } else {
-            setTimeout(() => this.jumpAnimation(), 1000/60)
+            setTimeout(() => this.jumpAnimation(), 1000 / 60)
         }
     }
 
@@ -112,7 +112,7 @@ class Magician extends MovableObject {
             keyboard.keyAction();
         } else {
             this.y += this.jumpYFactor;
-            setTimeout(() => this.fallAnimation(), 1000/60)
+            setTimeout(() => this.fallAnimation(), 1000 / 60)
         }
     }
 
@@ -213,6 +213,7 @@ class Magician extends MovableObject {
         this.audioLighning.muted = mute
     }
 
+    /** Resets the magician's state to its initial values. */
     reset() {
         this.health = 100;
         this.mana = 0;

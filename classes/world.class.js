@@ -254,7 +254,7 @@ class World {
             || (this.zombies[index].direction == 'right' && zH.checkHorizontalCollide(zH.rightLine, zH.rightLine, mH.leftLine, mH.leftLine))
         ) {
             this.zombies[index].attack();
-        } else if(this.magician.isMoving) {
+        } else if (this.magician.isMoving) {
             this.zombies[index].moveTowardsPlayer();
         }
     }
@@ -288,6 +288,7 @@ class World {
         this.boss = null;
     }
 
+    /** Resets the game world to its initial state. */
     reset() {
         this.magician.reset();
         this.zombies = [];
