@@ -112,7 +112,7 @@ canvas {
 #bossbar {
     position: absolute;
     top: 16px;
-    right: 96px;
+    right: 116px;
     width: 50%;
     height: 32px;
     background: black;
@@ -126,20 +126,27 @@ canvas {
     width: 100%
 }
 
-#muteIcon {
+.ingameIcon {
     position: absolute;
-    top: 16px;
-    right: 32px;
     z-index: 3;
+    top: 16px;
 }
 
-#muteIcon:hover {
+.ingameIcon:hover {
     cursor: pointer;
 }
 
-#muteIcon img {
+.ingameIcon img {
     height: 32px;
     width: 32px;
+}
+
+#muteIcon {
+    right: 16px;
+}
+
+#fullscreenIcon {
+    right: 64px;
 }
 
 .d_none {
@@ -409,7 +416,7 @@ footer a:hover {
     }
 
     #bossbar {
-        top: 8px;
+        top: 22px;
         height: 16px;
     }
 

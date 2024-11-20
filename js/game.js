@@ -6,31 +6,19 @@ let music = new Audio('assets/audio/menu_music.ogg');
 music.volume = 0.3;
 music.loop = true;
 
-window.addEventListener('keydown', (e) => {
-    if (e.code == 'ArrowUp' || e.code == 'KeyW') keyboard.keyPressed('UP');
-    if (e.code == 'ArrowRight' || e.code == 'KeyD') keyboard.keyPressed('RIGHT');
-    if (e.code == 'ArrowLeft' || e.code == 'KeyA') keyboard.keyPressed('LEFT');
-    if (e.code == 'Space') keyboard.keyPressed('SPACE');
-});
-
-window.addEventListener('keyup', (e) => {
-    if (e.code == 'ArrowUp' || e.code == 'KeyW') keyboard.UP = false;
-    if (e.code == 'ArrowRight' || e.code == 'KeyD') keyboard.keyReleased('RIGHT');
-    if (e.code == 'ArrowLeft' || e.code == 'KeyA') keyboard.keyReleased('LEFT');
-    if (e.code == 'Space') keyboard.keyReleased('SPACE');
-});
-
 /** Initializes the application by setting up event listeners for the go button and mute icon. */
 function init() {
     document.getElementById('goButton').addEventListener('click', loadStartMenu);
     document.getElementById('muteIcon').addEventListener('click', () => muteAllAudio(muteFlag));
+    document.getElementById('fullscreenIcon').addEventListener('click', () => toggleFullscreen());
+    addKeyboardListeners();
     addTouchListeners();
 }
 
 /** Loads the start menu by displaying the game container and hiding the go button, then plays the menu music. */
 function loadStartMenu() {
     document.getElementById('gameContainer').classList.remove('d_none');
-    if (window.innerWidth < 1024) document.getElementById('gameContainer').requestFullscreen();
+    if (window.innerWidth <= 1024) document.getElementById('gameContainer').requestFullscreen();
     document.getElementById('goButton').classList.add('d_none');
     music.play();
 }
@@ -98,6 +86,7 @@ function replay() {
     music.loop = true;
     music.play();
     world.reset();
+    if (window.innerWidth <= 1024) document.getElementById('gameContainer').requestFullscreen();
 }
 
 /** Resets the bossbar to its initial state, hiding it and setting its width to 100%. */
@@ -108,6 +97,24 @@ function resetStatusbars() {
     updateStatusBar('manabar', 0);
     updateStatusBar('progressbar', 0);
 }
+
+/** Adds keyboard event listeners to handle player input. */
+function addKeyboardListeners() {
+    window.addEventListener('keydown', (e) => {
+        if (e.code == 'ArrowUp' || e.code == 'KeyW') keyboard.keyPressed('UP');
+        if (e.code == 'ArrowRight' || e.code == 'KeyD') keyboard.keyPressed('RIGHT');
+        if (e.code == 'ArrowLeft' || e.code == 'KeyA') keyboard.keyPressed('LEFT');
+        if (e.code == 'Space') keyboard.keyPressed('SPACE');
+    });
+
+    window.addEventListener('keyup', (e) => {
+        if (e.code == 'ArrowUp' || e.code == 'KeyW') keyboard.UP = false;
+        if (e.code == 'ArrowRight' || e.code == 'KeyD') keyboard.keyReleased('RIGHT');
+        if (e.code == 'ArrowLeft' || e.code == 'KeyA') keyboard.keyReleased('LEFT');
+        if (e.code == 'Space') keyboard.keyReleased('SPACE');
+    });
+}
+
 
 /** Adds touch event listeners to the game's touch controls, mapping them to keyboard inputs. */
 function addTouchListeners() {
@@ -124,4 +131,12 @@ function addTouchListeners() {
             keyboard.keyReleased(keys[index])
         })
     });
+}
+
+function toggleFullscreen() {
+    if (!document.fullscreenElement) {
+        document.getElementById('gameContainer').requestFullscreen();
+    } else {
+        document.exitFullscreen();
+    }
 }
