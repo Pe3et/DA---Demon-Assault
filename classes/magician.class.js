@@ -150,7 +150,8 @@ class Magician extends MovableObject {
 
     /** Kills the magician, stopping movement, animating the death sprite, and ending the game after a delay. */
     dies() {
-        if (!keyboard.keyboardBlock) {
+        if (!keyboard.keyboardBlock || this.currentSprite == this.hurtSprite) {
+            updateStatusBar('healthbar', 0);
             this.stopMoving();
             this.animate(this.deadSprite, 300);
             keyboard.keyboardBlock = true;
@@ -194,7 +195,7 @@ class Magician extends MovableObject {
         this.mana += percent;
         if (this.mana > 100) this.mana = 100;
         updateStatusBar('manabar', this.mana);
-        if(window.innerWidth <= 1024) highlightAttackButton(this.mana) 
+        if (window.innerWidth <= 1024) highlightAttackButton(this.mana)
     }
 
     /** Updates the magician's progress by the specified percentage. */
