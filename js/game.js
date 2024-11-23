@@ -19,7 +19,7 @@ function init() {
 /** Loads the start menu by displaying the game container and hiding the go button, then plays the menu music. */
 function loadStartMenu() {
     document.getElementById('gameContainer').classList.remove('d_none');
-    if (window.innerWidth <= 1024) document.getElementById('gameContainer').requestFullscreen();
+    if (window.innerWidth <= 1180) document.getElementById('gameContainer').requestFullscreen();
     document.getElementById('goButton').classList.add('d_none');
     music.play();
 }
@@ -37,7 +37,7 @@ function startGame() {
 /** Hides the start screens and footer on smaller screens. */
 function hideStartScreens() {
     document.getElementById('startScreen').classList.add('d_none');
-    if (window.innerWidth <= 1024) document.querySelector('footer').classList.add('d_none');
+    if (window.innerWidth <= 1180) document.querySelector('footer').classList.add('d_none');
     document.getElementById('mobileScreen').classList.add('d_none');
 }
 
@@ -89,7 +89,7 @@ function replay() {
     music.play();
     gameOverFlag = false;
     world.reset();
-    if (window.innerWidth <= 1024) document.getElementById('gameContainer').requestFullscreen();
+    if (window.innerWidth <= 1180) document.getElementById('gameContainer').requestFullscreen();
 }
 
 /** Resets the bossbar to its initial state, hiding it and setting its width to 100%. */

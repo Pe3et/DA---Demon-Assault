@@ -39,19 +39,19 @@
     scale: 1.4;
 }
 
-@media screen and (min-width: 1024px) {
+@media screen and (min-width: 1181px) {
     .touchbutton {
         display: none;
     }
 }
 
-@media screen and (max-width: 1024px) and (orientation: portrait) {
+@media screen and (max-width: 1180px) and (orientation: portrait) {
     #rotateInfo {
         display: flex;
     }
 }
 
-@media screen and (max-width: 1024px) {
+@media screen and (max-width: 1180px) {
     #startScreen {
         display: none;
     }
