@@ -17,18 +17,21 @@ class Projectile extends MovableObject {
         this.travelCheck()
     }
 
+    /** Checks if the projectile is out of the map and updates its removal flag accordingly. */
     travelCheck() {
-        if (this.isOutOfMap()){
+        if (this.isOutOfMap()) {
             this.removalFlag = true
-        }   else {
+        } else {
             this.contiueTravel()
         }
     }
 
+    /** Continues the projectile's travel after a short delay. */
     contiueTravel() {
-        setTimeout(() => this.travel(), 1000/60)
+        setTimeout(() => this.travel(), 1000 / 60)
     }
 
+    /** Checks if the projectile is outside the map boundaries. */
     isOutOfMap() {
         return this.x < -100 || this.x > world.level.endPosX + 100
     }
