@@ -124,14 +124,16 @@ class World {
 
     /** Draws an object on the canvas flipped in the other direction, than it is on the spritesheet */
     drawFlippedObj(obj) {
-        this.ctx.save();
-        this.ctx.translate(obj.x + obj.width / 2, obj.y + obj.height / 2);
-        this.ctx.scale(-1, 1);
-        this.ctx.drawImage(
-            obj.img,
-            obj.currentSprite.x, obj.currentSprite.y, obj.currentSprite.frameWidth, obj.height,
-            -obj.width / 2, -obj.height / 2, obj.width, obj.height);
-        this.ctx.restore();
+        if(obj.currentSprite) {
+            this.ctx.save();
+            this.ctx.translate(obj.x + obj.width / 2, obj.y + obj.height / 2);
+            this.ctx.scale(-1, 1);
+            this.ctx.drawImage(
+                obj.img,
+                obj.currentSprite.x, obj.currentSprite.y, obj.currentSprite.frameWidth, obj.height,
+                -obj.width / 2, -obj.height / 2, obj.width, obj.height);
+            this.ctx.restore();
+        }
     }
 
     /** Draws an object on the canvas. Works for spritesheets and single images. */
@@ -170,7 +172,7 @@ class World {
         this.flameCollisionDetection(magicianHitbox);
         zombieHitboxArray.forEach((zH, index) => this.zombieCollisionBehaviour(zH, index, magicianHitbox));
         dropableHitboxArray.forEach((dH, index) => this.dropableCollisionBehaviour(dH, index, magicianHitbox));
-        this.cleanDropablesArray();
+        this.cleanArraysWithRemovableObjects();
         lightningHitboxArray.forEach(lH => this.lightningCollisionDetection(lH, zombieHitboxArray));
     }
 
@@ -214,6 +216,17 @@ class World {
         }
     }
 
+    /** Cleans arrays containing removable objects, such as dropables and lightnings. */
+    cleanArraysWithRemovableObjects() {
+        this.cleanDropablesArray();
+        this.cleanLightningArray()
+    }
+
+    /** Removes lightnings with the removalFlag set to true from the lightnings array. */
+    cleanLightningArray() {
+        this.lightnings = this.lightnings.filter(lightning => !lightning.removalFlag)
+    }
+
     /** Removes dropables with the removalFlag set to true from the dropables array. */
     cleanDropablesArray() {
         this.dropables = this.dropables.filter(drop => !drop.removalFlag)
@@ -247,7 +260,7 @@ class World {
         ) {
             this.zombies[index].attack();
         } else {
-            setTimeout(()=> this.zombies[index].moveTowardsPlayer(), 10);
+            setTimeout(() => this.zombies[index].moveTowardsPlayer(), 10);
         }
     }
 

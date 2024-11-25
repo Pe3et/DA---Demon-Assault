@@ -16,6 +16,7 @@ class Lightning extends Projectile {
         this.travel();
     }
 
+
     /** Returns the hitbox of the lightning object. */
     getHitbox() {
         return new Hitbox(this.x + this.width / 3, this.y + this.height / 2 - 4, this.width / 2 - 10, this.height / 16)

@@ -23,21 +23,15 @@ class Hitbox {
     /** Checks if the magician's jump has landed on something within a given offset. */
     botTopCollide(botLine, topLine) {
         const offset = world.magician.jumpYFactor;
-        if (botLine.x1 < topLine.x2 + offset && botLine.x2 > topLine.x1 - offset && botLine.y1 < topLine.y2 + offset && botLine.y2 > topLine.y1 - offset) {
-            return true;
-        }
-        return false;
+        return botLine.x1 < topLine.x2 + offset && botLine.x2 > topLine.x1 - offset && botLine.y1 < topLine.y2 + offset && botLine.y2 > topLine.y1 - offset;
     }
 
     /** Checks if two pairs of side-lines from two hitboxes collide horizontally with a tolerance. */
     checkHorizontalCollide(leftLine1, rightLine1, leftLine2, rightLine2) {
         const tolerance = 5;
-        if ((leftLine1.x1 < rightLine2.x2 + tolerance && leftLine1.x2 > rightLine2.x1 - tolerance && leftLine1.y1 < rightLine2.y2 + tolerance && leftLine1.y2 > rightLine2.y1 - tolerance) ||
+        return (leftLine1.x1 < rightLine2.x2 + tolerance && leftLine1.x2 > rightLine2.x1 - tolerance && leftLine1.y1 < rightLine2.y2 + tolerance && leftLine1.y2 > rightLine2.y1 - tolerance) ||
             (leftLine1.x1 < leftLine2.x2 + tolerance && leftLine1.x2 > leftLine2.x1 - tolerance && leftLine1.y1 < leftLine2.y2 + tolerance && leftLine1.y2 > leftLine2.y1 - tolerance) ||
             (rightLine1.x1 < rightLine2.x2 + tolerance && rightLine1.x2 > rightLine2.x1 - tolerance && rightLine1.y1 < rightLine2.y2 + tolerance && rightLine1.y2 > rightLine2.y1 - tolerance) ||
-            (rightLine1.x1 < leftLine2.x2 + tolerance && rightLine1.x2 > leftLine2.x1 - tolerance && rightLine1.y1 < leftLine2.y2 + tolerance && rightLine1.y2 > leftLine2.y1 - tolerance)) {
-            return true;
-        }
-        return false;
+            (rightLine1.x1 < leftLine2.x2 + tolerance && rightLine1.x2 > leftLine2.x1 - tolerance && rightLine1.y1 < leftLine2.y2 + tolerance && rightLine1.y2 > leftLine2.y1 - tolerance);
     }
 }
