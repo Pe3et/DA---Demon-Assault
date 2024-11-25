@@ -10,6 +10,7 @@ class World {
     canvas;
     ctx;
     wave = 1;
+    newWaveFlag = false;
     boss;
     audioZombieAttacks = new AudioSpritesheet('assets/audio/fx/zombie_attacks.mp3', 2000,
         [1.55, 5.1, 8.2, 11.7, 15.4, 19.7, 24.3, 27.6, 30, 37, 40.5]);
@@ -58,10 +59,17 @@ class World {
         return this.zombies.every(zombie => zombie.isDead);
     }
 
-    /** Proceeds to the next wave of zombies, incrementing the wave number and spawning new zombies. */
+    /** Proceeds to the next wave of zombies, incrementing the wave number, deleting old zombie and spawning new zombies. */
     nextWave() {
-        this.wave++;
-        this.spawnNewZombies()
+        if(!this.newWaveFlag) {
+            this.newWaveFlag = true;
+            this.wave++;
+            setTimeout(() => {
+                this.zombies = [];
+                this.spawnNewZombies();
+                this.newWaveFlag = false;
+            }, 1000)
+        }
     }
 
     /** Spawns a new wave of zombies, with the number of zombies increasing with each wave. */
@@ -124,7 +132,7 @@ class World {
 
     /** Draws an object on the canvas flipped in the other direction, than it is on the spritesheet */
     drawFlippedObj(obj) {
-        if(obj.currentSprite) {
+        if (obj.currentSprite) {
             this.ctx.save();
             this.ctx.translate(obj.x + obj.width / 2, obj.y + obj.height / 2);
             this.ctx.scale(-1, 1);
@@ -163,6 +171,7 @@ class World {
 
     /** Handles collision detection between game objects in the world. */
     collisionDetection() {
+        this.cleanArraysWithRemovableObjects();
         const magicianHitbox = this.magician.getHitbox();
         const zombieHitboxArray = this.getHitboxArray(this.zombies);
         const dropableHitboxArray = this.getHitboxArray(this.dropables);
@@ -172,7 +181,6 @@ class World {
         this.flameCollisionDetection(magicianHitbox);
         zombieHitboxArray.forEach((zH, index) => this.zombieCollisionBehaviour(zH, index, magicianHitbox));
         dropableHitboxArray.forEach((dH, index) => this.dropableCollisionBehaviour(dH, index, magicianHitbox));
-        this.cleanArraysWithRemovableObjects();
         lightningHitboxArray.forEach(lH => this.lightningCollisionDetection(lH, zombieHitboxArray));
     }
 
@@ -216,10 +224,10 @@ class World {
         }
     }
 
-    /** Cleans arrays containing removable objects, such as dropables and lightnings. */
+    /** Cleans arrays containing removable objects, such as lightnings, dropables. */
     cleanArraysWithRemovableObjects() {
+        this.cleanLightningArray();
         this.cleanDropablesArray();
-        this.cleanLightningArray()
     }
 
     /** Removes lightnings with the removalFlag set to true from the lightnings array. */
@@ -243,7 +251,7 @@ class World {
         zHArray.forEach((zH, index) => {
             if (lH.checkHorizontalCollide(lH.leftLine, lH.rightLine, zH.leftLine, zH.rightLine)) {
                 this.zombies[index].die();
-                setTimeout(() => this.zombies[index].removalFlag = true, 1000);
+                setTimeout(() => this.zombies[index].removalFlag = true, 10000);
             }
         });
     }
@@ -253,7 +261,6 @@ class World {
         if (this.magician.goingDownwards == true
             && mH.botTopCollide(mH.bottomLine, zH.topLine)) {
             this.zombies[index].die();
-            setTimeout(() => this.zombies[index].removalFlag = true, 1000);
         } else if (
             (this.zombies[index].direction == 'left' && zH.checkHorizontalCollide(zH.leftLine, zH.leftLine, mH.rightLine, mH.rightLine))
             || (this.zombies[index].direction == 'right' && zH.checkHorizontalCollide(zH.rightLine, zH.rightLine, mH.leftLine, mH.leftLine))

@@ -121,7 +121,7 @@ class Zombie extends MovableObject {
     playRandomDeathSound() {
         const randomIndex = Math.floor(Math.random() * world.audioZombieDeaths.length);
         world.audioZombieDeaths[randomIndex].volume = 0.2;
-        if(world.audioZombieDeaths[randomIndex].paused) world.audioZombieDeaths[randomIndex].play();
+        if (world.audioZombieDeaths[randomIndex].paused) world.audioZombieDeaths[randomIndex].play();
     }
 
     /** Drops an item at the zombie's position after it dies. */
