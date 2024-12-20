@@ -193,22 +193,22 @@ class World {
     }
 
     /** Handles collision detection between the magician and the boss. */
-    bossCollisionDetection(mH) {
-        const bH = this.boss.getHitbox();
-        if (bH.checkHorizontalCollide(bH.leftLine, bH.rightLine, mH.leftLine, mH.rightLine) ||
-            bH.botTopCollide(bH.bottomLine, mH.topLine) ||
-            bH.botTopCollide(bH.topLine, mH.bottomLine)) {
+    bossCollisionDetection(magicicanHitbox) {
+        const bossHitbox = this.boss.getHitbox();
+        if (bossHitbox.checkHorizontalCollide(bossHitbox.leftLine, bossHitbox.rightLine, magicicanHitbox.leftLine, magicicanHitbox.rightLine) ||
+            bossHitbox.botTopCollide(bossHitbox.bottomLine, magicicanHitbox.topLine) ||
+            bossHitbox.botTopCollide(bossHitbox.topLine, magicicanHitbox.bottomLine)) {
             this.magician.updateHealth(-1, true)
         }
     }
 
     /** Handles flame collision detection with the magician. */
-    flameCollisionDetection(mH) {
+    flameCollisionDetection(magicianHitbox) {
         const flameHitboxArray = this.flames.map(f => f.getHitbox());
         if (this.flames.every(f => f.isBursting)) {
             flameHitboxArray.forEach(fH => {
-                if (fH.checkHorizontalCollide(fH.leftLine, fH.rightLine, mH.leftLine, mH.rightLine) ||
-                    fH.botTopCollide(mH.bottomLine, fH.topLine)) {
+                if (fH.checkHorizontalCollide(fH.leftLine, fH.rightLine, magicianHitbox.leftLine, magicianHitbox.rightLine) ||
+                    fH.botTopCollide(magicianHitbox.bottomLine, fH.topLine)) {
                     this.magician.updateHealth(-1, true)
                 }
             })
@@ -216,10 +216,10 @@ class World {
     }
 
     /** Handles fireball collision detection with the magician. */
-    fireballCollisionDetection(mH) {
-        const fH = this.fireball.getHitbox();
-        if (fH.checkHorizontalCollide(fH.leftLine, fH.rightLine, mH.leftLine, mH.rightLine) ||
-            mH.botTopCollide(mH.bottomLine, fH.topLine)) {
+    fireballCollisionDetection(magicianHitbox) {
+        const fireballHitbox = this.fireball.getHitbox();
+        if (fireballHitbox.checkHorizontalCollide(fireballHitbox.leftLine, fireballHitbox.rightLine, magicianHitbox.leftLine, magicianHitbox.rightLine) ||
+            magicianHitbox.botTopCollide(magicianHitbox.bottomLine, fireballHitbox.topLine)) {
             this.magician.updateHealth(-20);
             this.fireball = null
         }
@@ -242,15 +242,15 @@ class World {
     }
 
     /** Handles lightning collision behaviour with zombies. */
-    lightningCollisionDetection(lH, zHArray) {
+    lightningCollisionDetection(lightningHitbox, zHArray) {
         if (this.boss) {
-            const bH = this.boss.getHitbox();
-            if (lH.checkHorizontalCollide(lH.leftLine, lH.rightLine, bH.leftLine, bH.rightLine)) {
+            const bossHitbox = this.boss.getHitbox();
+            if (lightningHitbox.checkHorizontalCollide(lightningHitbox.leftLine, lightningHitbox.rightLine, bossHitbox.leftLine, bossHitbox.rightLine)) {
                 this.boss.gotHit()
             }
         }
-        zHArray.forEach((zH, index) => {
-            if (lH.checkHorizontalCollide(lH.leftLine, lH.rightLine, zH.leftLine, zH.rightLine)) {
+        zHArray.forEach((zombieHitbox, index) => {
+            if (lightningHitbox.checkHorizontalCollide(lightningHitbox.leftLine, lightningHitbox.rightLine, zombieHitbox.leftLine, zombieHitbox.rightLine)) {
                 this.zombies[index].die();
                 if(this.zombies[index]) setTimeout(() => {
                     if(this.zombies[index]) this.zombies[index].removalFlag = true
@@ -260,13 +260,13 @@ class World {
     }
 
     /** Handles zombie collision behaviour with the magician. */
-    zombieCollisionBehaviour(zH, index, mH) {
+    zombieCollisionBehaviour(zombieHitbox, index, magicianHitbox) {
         if (this.magician.goingDownwards == true
-            && mH.botTopCollide(mH.bottomLine, zH.topLine)) {
+            && magicianHitbox.botTopCollide(magicianHitbox.bottomLine, zombieHitbox.topLine)) {
             this.zombies[index].die();
         } else if (
-            (this.zombies[index].direction == 'left' && zH.checkHorizontalCollide(zH.leftLine, zH.leftLine, mH.rightLine, mH.rightLine))
-            || (this.zombies[index].direction == 'right' && zH.checkHorizontalCollide(zH.rightLine, zH.rightLine, mH.leftLine, mH.leftLine))
+            (this.zombies[index].direction == 'left' && zombieHitbox.checkHorizontalCollide(zombieHitbox.leftLine, zombieHitbox.leftLine, magicianHitbox.rightLine, magicianHitbox.rightLine))
+            || (this.zombies[index].direction == 'right' && zombieHitbox.checkHorizontalCollide(zombieHitbox.rightLine, zombieHitbox.rightLine, magicianHitbox.leftLine, magicianHitbox.leftLine))
         ) {
             this.zombies[index].attack();
         } else {
@@ -275,9 +275,9 @@ class World {
     }
 
     /** Handles dropable collision behaviour with the magician. */
-    dropableCollisionBehaviour(dH, index, mH) {
-        if (mH.botTopCollide(mH.bottomLine, dH.topLine) ||
-            (dH.checkHorizontalCollide(dH.leftLine, dH.rightLine, mH.leftLine, mH.rightLine))) {
+    dropableCollisionBehaviour(dropableHitbox, index, magicianHitbox) {
+        if (magicianHitbox.botTopCollide(magicianHitbox.bottomLine, dropableHitbox.topLine) ||
+            (dropableHitbox.checkHorizontalCollide(dropableHitbox.leftLine, dropableHitbox.rightLine, magicianHitbox.leftLine, magicianHitbox.rightLine))) {
             this.dropables[index].isCollected();
         }
     }
