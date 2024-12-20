@@ -24,19 +24,22 @@
 
 #touchLeft {
     left: 30px;
+    scale: 1.2;
 }
 
 #touchRight {
-    left: 110px;
+    left: 130px;
+    scale: 1.2;
 }
 
 #touchUp {
     right: 30px;
+    scale: 1.2;
 }
 
 #touchAttack {
     right: 120px;
-    scale: 1.4;
+    scale: 1.5;
 }
 
 @media screen and (min-width: 1181px) and (hover: hover) {
