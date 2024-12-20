@@ -25,6 +25,7 @@ class World {
         new Audio('assets/audio/fx/bone_break/bb8.mp3')
     ];
     win = false;
+    gameIsOver = false
 
     /** Initializes the World class with a given canvas element. */
     constructor(canvas) {
@@ -295,7 +296,8 @@ class World {
         this.magician.stopMoving();
         if (this.magician.isDead) {
             if (this.boss) this.boss.stopMoving();
-            gameOver()
+            if(!this.gameIsOver)gameOver();
+            this.gameIsOver = true
         } else if (this.boss.isDead) {
             win()
         }
@@ -318,5 +320,6 @@ class World {
         this.ctx.setTransform(1, 0, 0, 1, 0, 0);
         this.draw();
         this.magician.idle();
+        this.gameIsOver = false
     }
 }
