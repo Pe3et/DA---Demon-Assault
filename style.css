@@ -68,6 +68,7 @@ canvas {
     border-radius: 0 5px 5px 0;
     box-shadow: inset 0px 0px 4px 2px lightgray;
     margin-left: 9%;
+    transition: all 125ms
 }
 
 #healthbar {
