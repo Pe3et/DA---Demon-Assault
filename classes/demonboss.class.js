@@ -137,9 +137,7 @@ class Demonboss extends MovableObject {
 
     /** Handles the demon boss's hit event, updating its HP and triggering the hurt animation or death. */
     gotHit() {
-        console.log('gotHit');
         if(!this.wasJustHitted) {
-            console.log('hitCount');
             this.wasJustHitted = true;
             setTimeout(()=> this.wasJustHitted = false, 1000)
             this.hp -= 20;
