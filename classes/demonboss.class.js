@@ -71,9 +71,7 @@ class Demonboss extends MovableObject {
             }, this.idleTimeAtGround)
         } else if (this.y == this.flightY) {
             this.flyAround();
-        } else if (!this.isFlyingUp) {
-            this.flyDown();
-        }
+        } 
     }
 
     /** Initiates the demon boss's attack animation and summons or shoots flames based on its direction. */
@@ -155,7 +153,7 @@ class Demonboss extends MovableObject {
     /** Animates the demon boss's hurt sprite and initiates its upward flight after a short delay. */
     hurt() {
         this.animate(this.hurtSprite, 100);
-        setTimeout(() => this.flyUp(), 500)
+        setTimeout(() => this.flyUp(), 800)
     }
 
     /** Kills the demon boss, stopping its movement, playing an explosion sound, and animating its death sprite. */
