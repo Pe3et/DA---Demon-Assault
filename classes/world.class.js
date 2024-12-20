@@ -251,7 +251,7 @@ class World {
         zHArray.forEach((zH, index) => {
             if (lH.checkHorizontalCollide(lH.leftLine, lH.rightLine, zH.leftLine, zH.rightLine)) {
                 this.zombies[index].die();
-                setTimeout(() => this.zombies[index].removalFlag = true, 10000);
+                if(this.zombies[index]) setTimeout(() => this.zombies[index].removalFlag = true, 10000);
             }
         });
     }
