@@ -10,6 +10,7 @@ class Demonboss extends MovableObject {
     hp = 100
     idleTimeAtGround = 1000
     wasJustHitted = false
+    isFlyingUp = false
     isDead = false;
     idleSprite = new SpriteSheet('assets/sprites/demon_boss/idle.png', 4, 324)
     flyingSprite = new SpriteSheet('assets/sprites/demon_boss/flying.png', 4, 324)
@@ -70,6 +71,8 @@ class Demonboss extends MovableObject {
             }, this.idleTimeAtGround)
         } else if (this.y == this.flightY) {
             this.flyAround();
+        } else if (!this.isFlyingUp) {
+            this.flyDown();
         }
     }
 
@@ -104,11 +107,13 @@ class Demonboss extends MovableObject {
     /** Moves the demon boss upwards until it reaches the flight altitude. */
     flyUp() {
         if (!this.isDead) {
+            this.isFlyingUp = true;
             if (this.currentSprite != this.idleSprite) this.idle();
             this.y--;
             if (this.y > this.flightY) {
                 setTimeout(() => this.flyUp(), 1000 / 60)
             } else if (this.y == this.flightY) {
+                this.isFlyingUp = true;
                 this.flyAround();
             } else if (this.y < this.flightY) {
                 this.y++;
