@@ -39,7 +39,7 @@
     scale: 1.4;
 }
 
-@media screen and (min-width: 1181px) {
+@media screen and (min-width: 1181px) and (hover: hover) {
     .touchbutton {
         display: none;
     }
