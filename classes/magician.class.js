@@ -152,7 +152,7 @@ class Magician extends MovableObject {
 
     /** Kills the magician, stopping movement, animating the death sprite, and ending the game after a delay. */
     dies() {
-        if ((!keyboard.keyboardBlock || this.currentSprite == this.hurtSprite) && !world.win) {
+        if (!keyboard.keyboardBlock || this.currentSprite == this.hurtSprite) {
             updateStatusBar('healthbar', 0);
             this.animationBlocker = false;
             this.animate(this.deadSprite, 300);

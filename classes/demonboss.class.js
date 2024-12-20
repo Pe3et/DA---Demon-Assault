@@ -161,7 +161,7 @@ class Demonboss extends MovableObject {
         this.audioExplosion.play();
         this.animate(this.deathSprite, 130);
         setTimeout(() => {
-            world.win = true;
+            if (!world.magician.isDead) world.win = true;
             world.end()
         }, 2000)
     }
