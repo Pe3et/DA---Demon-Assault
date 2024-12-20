@@ -1,8 +1,8 @@
 class Dropable {
     dropchances = {
         heart: 5,
-        progress: 15,
-        mana: 35
+        mana: 40,
+        progress: 75,
     }
     x
     y = 190
@@ -27,8 +27,8 @@ class Dropable {
     getRandomType() {
         const randomizer = Math.random() * 100;
         if (randomizer <= this.dropchances.heart) return { name: 'heart', imgSrc: 'assets/sprites/objects/health_crystal_shiny.png' };
-        if (randomizer <= this.dropchances.progress) return { name: 'progress', imgSrc: 'assets/sprites/objects/dark_crystal_shiny.png' };
         if (randomizer <= this.dropchances.mana) return { name: 'mana', imgSrc: 'assets/sprites/objects/lightning_crystal_shiny.png' };
+        if (randomizer <= this.dropchances.progress) return { name: 'progress', imgSrc: 'assets/sprites/objects/dark_crystal_shiny.png' };
     }
 
     /** Performs an action if item is collected, updating magician's health, mana, or progress based on the dropable type. */

@@ -9,6 +9,7 @@ class Demonboss extends MovableObject {
     direction = 'left'
     hp = 100
     idleTimeAtGround = 1000
+    wasJustHitted = false
     isDead = false;
     idleSprite = new SpriteSheet('assets/sprites/demon_boss/idle.png', 4, 324)
     flyingSprite = new SpriteSheet('assets/sprites/demon_boss/flying.png', 4, 324)
@@ -136,10 +137,16 @@ class Demonboss extends MovableObject {
 
     /** Handles the demon boss's hit event, updating its HP and triggering the hurt animation or death. */
     gotHit() {
-        this.hp -= 2;
-        updateStatusBar('bossbar', this.hp);
-        this.audioScreeches.playRandomSound();
-        this.hp <= 0 ? this.isDead = true : this.hurt();
+        console.log('gotHit');
+        if(!this.wasJustHitted) {
+            console.log('hitCount');
+            this.wasJustHitted = true;
+            setTimeout(()=> this.wasJustHitted = false, 1000)
+            this.hp -= 20;
+            updateStatusBar('bossbar', this.hp);
+            this.audioScreeches.playRandomSound();
+            this.hp <= 0 ? this.isDead = true : this.hurt();
+        }
     }
 
     /** Animates the demon boss's hurt sprite and initiates its upward flight after a short delay. */
