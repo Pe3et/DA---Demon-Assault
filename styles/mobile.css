@@ -51,6 +51,12 @@
     }
 }
 
+@media screen and (max-width: 1180px) and (orientation: landscape) {
+    #fullscreenIcon {
+        display: flex;
+    }
+}
+
 @media screen and (max-width: 1180px) {
     #startScreen {
         display: none;
@@ -141,10 +147,6 @@
 
     .endscreen p {
         font-size: 48px;
-    }
-
-    #fullscreenIcon {
-        display: flex;
     }
 }
 

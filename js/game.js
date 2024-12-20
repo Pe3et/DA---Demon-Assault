@@ -19,7 +19,7 @@ function init() {
 /** Loads the start menu by displaying the game container and hiding the go button, then plays the menu music. */
 function loadStartMenu() {
     document.getElementById('gameContainer').classList.remove('d_none');
-    if (window.innerWidth <= 1180) document.getElementById('gameContainer').requestFullscreen();
+    if (window.innerWidth <= 768) document.getElementById('gameContainer').requestFullscreen();
     document.getElementById('goButton').classList.add('d_none');
     music.play();
 }
